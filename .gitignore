@@ -1,0 +1,8 @@
+*.DS_Store
+*.xcuserstate
+*.xcuserstate
+
+.DS_Store
+
+*.xcworkspacedata
+.swiftpm
