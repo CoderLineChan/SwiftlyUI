@@ -1,20 +1,24 @@
 # SwiftlyUI 🚀
-**SwiftUI 风格的 UIKit 极速开发框架,通过重新设计 UIKit 的 API 边界， 采用 Swift 原生链式调用，实现「零转换成本」的 SwiftUI 式开发体验.**
+**UIKit 的 SwiftUI 式极速开发框架** | **SwiftUI-style Rapid Development Framework for UIKit**  
+通过重新设计 UIKit 的 API 边界，采用 Swift 原生链式调用，实现「零转换成本」的 SwiftUI 式开发体验。  
+Redesigning UIKit's API boundaries with native Swift chaining calls to achieve zero-conversion-cost SwiftUI-style development experience.
 
 [![CocoaPods](https://img.shields.io/cocoapods/v/SwiftlyUI)](https://cocoapods.org/pods/SwiftlyUI)
 [![SPM](https://img.shields.io/badge/SPM-supported-green)](https://swift.org/package-manager/)
 
-## 快速导航 🗺️
-- [安装指南](#安装指南)
-- [使用示例](#使用示例导航)
-- [选择 SwiftlyUI](#技术优势全景图)
-- [功能特性](#功能特性)
+## 快速导航 🗺️ | Quick Navigation
+- [安装指南 | Installation](#安装指南)
+- [使用示例 | Examples](#使用示例导航)
+- [核心优势 | Advantages](#技术优势全景图)
+- [功能特性 | Features](#功能特性)
 
-## 安装指南 📦<a name="安装指南"></a>
+## 安装指南 📦| Installation <a name="安装指南"></a>
 ### CocoaPods
 ```ruby
-pod 'SwiftlyUI'  # 核心组件
-pod 'SwiftlyUI/SnapKitExt'  # 包含 SnapKit 扩展
+# 核心组件 | Core components
+pod 'SwiftlyUI'
+# SnapKit 扩展 | SnapKit extensions
+pod 'SwiftlyUI/SnapKitExt'
 ```
 
 ### Swift Package Manager
@@ -25,7 +29,7 @@ dependencies: [
 ]
 ```
 
-## 使用示例导航 🔍 <a name="使用示例导航"></a>
+## 使用示例导航 🔍 | Examples <a name="使用示例导航"></a>
 - [UIView Build](#UIView-Build)
 - [UIStackView Build](#UIStackView-Build)
 - [UITextView Build](#UITextView-Build)
@@ -37,17 +41,25 @@ dependencies: [
 
 
 
-## 为什么选择 SwiftlyUI？📊 <a name="技术优势全景图"></a>
-✅ 存量 UIKit 项目的现代化改造  
-✅ 在 UIKit 基础上获得 SwiftUI 的开发体验  
-✅ 需要 UIKit 完全掌控力的复杂界面开发  
-✅ 与现有 Objective-C/Swift 代码深度整合  
-✅ 渐进式改造而非全盘重写 
-✅ 企业级适配 无缝接入现有非SwiftUI项目
+## 核心优势 📊 | Advantages <a name="技术优势全景图"></a>
+✅ **存量项目现代化** (Modernize Legacy Projects)  
+  渐进式改造现有 UIKit 代码 | Progressive refactoring for existing UIKit code
+  
+✅ **开发体验革新** (Development Revolution)  
+  在 UIKit 上获得 SwiftUI 的开发效率 | SwiftUI-like efficiency on UIKit foundation
+  
+✅ **完全掌控力** (Full Control)  
+  保留 UIKit 的底层控制能力 | Maintain UIKit's low-level control capabilities
+  
+✅ **深度整合** (Deep Integration)  
+  无缝兼容 Objective-C/Swift 代码 | Seamless compatibility with Objective-C/Swift
+  
+✅ **企业级适配** (Enterprise Ready)  
+  非 SwiftUI 项目的完美解决方案 | Perfect solution for non-SwiftUI projects
 
 
-## 功能特性 ✨ <a name="功能特性"></a>
-### 🌟 链式语法革命
+## 功能特性 ✨ | Features <a name="功能特性"></a>
+### 🌟 链式语法革命 | Fluent Syntax Revolution
 ```swift
 let stackView = UIStackView()
     .axis(.vertical)
@@ -58,14 +70,8 @@ let stackView = UIStackView()
     .separator(color: .red, size: CGSize(width: 20, height: 2))
 ```
 
-### 🧩 全组件覆盖
-- 基础视图：UIView 支持边框/圆角/阴影/动画一站式配置
-- 布局体系：UIStackView 支持智能边距与分隔线配置, UIVIew 支持添加父控件之前布局
-- 文本控件：UITextView/UILabel 内置 placeholder 等实用扩展, 支持智能边距
-- 交互元素：UIControl 强化事件处理，UIView 智能手势
 
-### 🎮 手势与动画
-- 智能手势系统
+### 🎮 智能手势系统 | Smart Gesture System
 ```
 let view = UIView()
   .onGesture(.doubleTap) { _ in print("双击触发") }
@@ -77,24 +83,23 @@ withAnimation(.spring(duration: 0.8)) {
     view.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
 } completion: { _ in /* 动画收尾逻辑 */ }
 ```
-### 📐 布局革命
-- 多模式布局方案自由选择
+### 📐 多模式布局 | Multi-Layout Modes
 ```
-// layout自动布局
+// 自动布局 | Auto Layout
 .frame(width: 100, minHeight: 200)
 
-// SnapKit 集成
+// SnapKit 
 .snp { make in
     make.with.height.equalTo(30)
 }
 
-// 添加父控件之前布局
+// 父控件前布局 | Pre-Superview Layout
 UIView().left(to: superView.leftAnchor, offset: 30)
         .top(to: superView, offset: 30)
         .fill(to: superView)
 ```
 
-
+## 组件构建示例 | Component Build Examples
 
 ### UIView Build<a name="UIView-Build"></a>
 Basics
@@ -121,7 +126,7 @@ and more ...
 
 - Layout
 ```swift
-//正常布局方式
+//自动布局 | Auto Layout
 let brother = UIView()
     .frame(width: 100, height: 200)
     .frame(width: 20)
@@ -133,12 +138,12 @@ let brother = UIView()
         make.height.equalTo(200)
     }
 
-//未添加进父控件之前也可布局约束
+//父控件前布局 | Pre-Superview Layout
 let view = UIView()
     .left(to: superView.leftAnchor, offset: 30)
     .top(to: superView, offset: 30)
     .fill(to: superView)
-    .fill(to: brother, uiEdgeInsets: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+    .fill(to: brother, UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
     .leading(to: superView)
     .bottom(to: superView)
     .width(20)
