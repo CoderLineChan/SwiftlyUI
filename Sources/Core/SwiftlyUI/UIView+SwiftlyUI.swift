@@ -57,13 +57,38 @@ public extension UIView {
     }
     
     @discardableResult
+    func radius(_ radius: CGFloat) -> Self {
+        self.layer.cornerRadius = radius
+        self.layer.masksToBounds = true
+        return self
+    }
+    
+    @discardableResult
     func backgroundColor(_ color: UIColor) -> Self {
         self.backgroundColor = color
         return self
     }
     
     @discardableResult
+    func background(_ color: UIColor) -> Self {
+        self.backgroundColor = color
+        return self
+    }
+    
+    @discardableResult
     func backgroundView(_ view: @escaping () -> UIView?) -> Self {
+        subviews.forEach({ if $0.tag == backgroundViewTag { $0.removeFromSuperview() } })
+        if let subview = view() {
+            subview.isUserInteractionEnabled = false
+            subview.tag = backgroundViewTag
+            insertSubview(subview, at: 0)
+            subview.fillSuperview()
+        }
+        return self
+    }
+    
+    @discardableResult
+    func background(_ view: @escaping () -> UIView?) -> Self {
         subviews.forEach({ if $0.tag == backgroundViewTag { $0.removeFromSuperview() } })
         if let subview = view() {
             subview.isUserInteractionEnabled = false
@@ -506,6 +531,15 @@ private func withAnimation<Result>(
 
 // MARK: - Gesture
 public extension UIView {
+    
+    @discardableResult
+    func onGesture(_ type: GestureType, action: @escaping () -> Void) -> Self {
+        onGesture(type) { _ in
+            action()
+        }
+        return self
+    }
+    
     @discardableResult
     func onGesture<T: UIGestureRecognizer>(_ type: GestureType, action: @escaping (T) -> Void) -> Self {
         isUserInteractionEnabled = true

@@ -54,4 +54,14 @@ public extension UIColor {
         return UIColor(red: r, green: g, blue: b, alpha: alpha)
     }
     
+    func image(withSize size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 1
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        
+        return renderer.image { context in
+            self.setFill()
+            context.fill(CGRect(origin: .zero, size: size))
+        }
+    }
 }

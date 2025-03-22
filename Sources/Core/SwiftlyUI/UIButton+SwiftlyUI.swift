@@ -40,6 +40,12 @@ public extension UIButton {
     }
     
     @discardableResult
+    func backgroundColor(_ color: UIColor?, state: UIControl.State = .normal) -> Self {
+        self.setBackgroundImage(color?.image(), for: state)
+        return self
+    }
+    
+    @discardableResult
     func title(_ title: String, state: UIControl.State = .normal) -> Self {
         self.setTitle(title, for: state)
         return self
@@ -53,6 +59,12 @@ public extension UIButton {
     
     @discardableResult
     func textColor(_ color: UIColor, state: UIControl.State = .normal) -> Self {
+        self.setTitleColor(color, for: state)
+        return self
+    }
+    
+    @discardableResult
+    func foregroundColor(_ color: UIColor, state: UIControl.State = .normal) -> Self {
         self.setTitleColor(color, for: state)
         return self
     }
