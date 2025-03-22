@@ -1,15 +1,13 @@
 # SwiftlyUI 🚀
-**UIKit 的 SwiftUI 式极速开发框架** | **SwiftUI-style Rapid Development Framework for UIKit**  
-通过重新设计 UIKit 的 API 边界，采用 Swift 原生链式调用，实现「零转换成本」的 SwiftUI 式开发体验。  
-Redesigning UIKit's API boundaries with native Swift chaining calls to achieve zero-conversion-cost SwiftUI-style development experience.
+**为 UIKit 注入 SwiftUI 的开发效率**  
+通过链式语法和现代化 API 设计，让 UIKit 开发更简洁高效，同时保持完整控制权，实现「零转换成本」的 SwiftUI 式开发体验。  
 
 [![CocoaPods](https://img.shields.io/cocoapods/v/SwiftlyUI)](https://cocoapods.org/pods/SwiftlyUI)
 [![SPM](https://img.shields.io/badge/SPM-supported-green)](https://swift.org/package-manager/)
 
 ## 快速导航 🗺️ | Quick Navigation
 - [安装指南 | Installation](#安装指南)
-- [使用示例 | Examples](#使用示例导航)
-- [核心优势 | Advantages](#技术优势全景图)
+- [为什么选择 SwiftlyUI？](#技术优势全景图)
 - [功能特性 | Features](#功能特性)
 
 ## 安装指南 📦| Installation <a name="安装指南"></a>
@@ -29,6 +27,158 @@ dependencies: [
 ]
 ```
 
+
+## 为什么选择 SwiftlyUI？ <a name="技术优势全景图"></a>
+✅ **渐进式迁移** 无需重写现有代码，可逐步改造 UIKit 项目
+  
+✅ **Swift 原生支持** 专为 Swift 设计的链式语法，类型安全且 IDE 友好
+  
+✅ **完整 UIKit 能力** 保留底层控件操作能力，不引入额外抽象层
+  
+✅ **企业级兼容** 支持 iOS 11+，完美适配存量项目
+
+
+## 功能特性 ✨ | Features <a name="功能特性"></a>
+### 🌪️ 链式语法：属性设置增强
+- 极简代码：比原生代码减少 60% 的冗余字符
+- 内边距精准设置,支持单边/全局/横向/纵向
+- 内置分割线系统，一行代码设置分割线，子视图增删/隐藏/显示时自动更新分隔线
+```swift
+let stackView = UIStackView()
+    .axis(.vertical)
+    .spacing(10)
+    .alignment(.center)
+    .distribution(.fillEqually)
+    .padding(.top, 20)
+    .padding(.left, 20)
+    .padding(.horizontal, 16)
+    .padding(16)
+    .separator(color: .red, size: CGSize(width: 20, height: 2))
+```
+
+- 链式基础样式配置，告别碎片化的属性设置
+- 扩展SwiftUI语法配置：(.border);(.radius);(.background)
+```swift
+let view = UIView()
+    .backgroundColor(.clear)
+    .border(.orange)
+    .border(.black, 2)
+    .cornerRadius(8)
+    .alpha(0.5)
+    .opacity(0.5)
+    .hidden(false)
+    .hidden()
+    .tag(100)
+    .userInteractionEnabled(false)
+    .userInteractionEnabled()
+    .shadow(color: .black, radius: 3, opacity: 0.3, offset: .zero)
+    .background {
+        UIImageView()// 嵌入式背景视图
+            .imageName("icon")
+            .contentMode(.scaleAspectFill)
+    }
+```
+
+### 现代化交互封装：手势识别事件简化
+支持UIKit所有手势类型：(.tap);(.doubleTap);(.longPress);(.pan);(.swipe);(.pinch);(.rotation)
+```swift
+//SwiftlyUI
+let view = UIView()
+  .onGesture(.tap) { _ in print("tapAction") }
+  .onGesture(.tap, action: tapAction)
+
+//UIKit
+let view = UIView()
+view.isUserInteractionEnabled = true
+let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+view.addGestureRecognizer(tap)
+
+@objc func tapAction() {
+    print("tapAction")
+}
+```
+### 声明式动画引擎：像 SwiftUI 一样驱动 UIKit
+```swift
+// SwiftlyUI
+withAnimation(.easeInOut) {
+    self.view.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+} completion: { _ in print("animation completed") }
+
+// UIKit
+UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
+    self.view.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+} completion: { _ in
+    print("animation completed")
+}
+
+```
+### 智能布局系统 Auto Layout ：前置约束 + 自适应布局
+- 添加父控件前约束，打破相对布局限制
+```swift
+let view = UIView()
+    .frame(width: 20)//the same as .width()
+    .frame(height: 100)//the same as .height()
+    .frame(minWidth: 50)
+    .frame(maxWidth: 200)
+    .left(to: superView.leftAnchor, offset: 30)//添加父控件前
+    .top(to: superView, offset: 30)//Before adding superView
+    .fill(to: superView)
+    .fill(to: brother, UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+    .leading(to: superView)//Before adding superView
+    .bottom(to: superView)//添加父控件前
+    .width(20)//the same as .frame(width: 20)
+    .width(to: view, multiplier: 1.2)
+```
+
+### UIControl & UIButton 多状态增强
+- 高质量 Action 封装，告别 告别 Target-Action 的原始时代
+```swift
+let contorl = UIControl()
+    .onAction { print("click") }
+    .onAction(for: .touchUpInside, action: { print("click") })
+```
+
+```swift
+let button = UIButton()
+    .font(.bold(16))
+    .title("title", state: .normal)
+    .titleColor(.black, state: .normal)
+    .foregroundColor(.black, state: .normal)
+    .image(UIImage(named: "image"), state: .normal)
+    .imageName("local_imageName", state: .selected)
+    .backgroundColor(.red, state: .normal)
+    .backgroundImage(UIImage.gradient(colors: [.red, .green], direction: .leftToRight, size: CGSize(width: 100, height: 100)))
+    .backgroundImageName("local_imageName", state: .normal)
+    .cornerRadius(20)
+    .onAction{ print("action") }
+```
+
+### UITextView & UITextField：输入控件增强，比原生更易用的文本处理
+- 一行代码实现 Placeholder
+- Padding 精准设置内边距
+- 控件事件简化监听文本变化
+```swift
+let textView = UITextView()//or
+let textField = UITextField()
+    .font(.regular(16))
+    .textColor(.black)
+    .foregroundColor(.black)
+    .alignment(.left)
+    .keyboardType(.numberPad)
+    .text("input text")
+    .placeholder("placeholder", color: .placeholderText)
+    .editable(true)
+    .maxLength(50)
+    .padding()
+    .padding(.horizontal, 10)
+    .padding(.vertical, 10)
+    .onTextChange{ print("onTextChange: \($0)") }
+    .onTextChange{ print("onTextChange: \($0.text)") }
+    .onBeginEditing(onBeginEditingAction)
+    .onEndEditing(onEndEditingAction)
+```
+
+
 ## 使用示例导航 🔍 | Examples <a name="使用示例导航"></a>
 - [UIView Build](#UIView-Build)
 - [UIStackView Build](#UIStackView-Build)
@@ -38,69 +188,6 @@ dependencies: [
 - [UIControl Build](#UIControl-Build)
 - [UIButton Build](#UIButton-Build)
 
-
-
-
-## 核心优势 📊 | Advantages <a name="技术优势全景图"></a>
-✅ **存量项目现代化** (Modernize Legacy Projects)  
-  渐进式改造现有 UIKit 代码 | Progressive refactoring for existing UIKit code
-  
-✅ **开发体验革新** (Development Revolution)  
-  在 UIKit 上获得 SwiftUI 的开发效率 | SwiftUI-like efficiency on UIKit foundation
-  
-✅ **完全掌控力** (Full Control)  
-  保留 UIKit 的底层控制能力 | Maintain UIKit's low-level control capabilities
-  
-✅ **深度整合** (Deep Integration)  
-  无缝兼容 Objective-C/Swift 代码 | Seamless compatibility with Objective-C/Swift
-  
-✅ **企业级适配** (Enterprise Ready)  
-  非 SwiftUI 项目的完美解决方案 | Perfect solution for non-SwiftUI projects
-
-
-## 功能特性 ✨ | Features <a name="功能特性"></a>
-### 🌟 链式语法革命 | Fluent Syntax Revolution
-```swift
-let stackView = UIStackView()
-    .axis(.vertical)
-    .spacing(10)
-    .alignment(.center)
-    .distribution(.fillEqually)
-    .padding()
-    .separator(color: .red, size: CGSize(width: 20, height: 2))
-```
-
-
-### 🎮 智能手势系统 | Smart Gesture System
-```
-let view = UIView()
-  .onGesture(.doubleTap) { _ in print("双击触发") }
-  .onGesture(.swipe(.up)) { _ in showMenu() }
-```
-- 声明式动画引擎
-```
-withAnimation(.spring(duration: 0.8)) {
-    view.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-} completion: { _ in /* 动画收尾逻辑 */ }
-```
-### 📐 让 Auto Layout 像呼吸一样自然！全能布局，覆盖一切场景
-厌倦了冗长的 NSLayoutAnchor 代码？受够了在添加父控件后才能写约束的繁琐？SwiftlyUI 为你重新定义 iOS 界面布局——更简洁、更自由、更强大！
-```
-// 链式语法，极致简洁
-UIView()
-    .frame(width: 20)
-    .frame(minHeight: 50)
-    .left(to: superView.leftAnchor, offset: 30)
-    .top(to: superView, offset: 30)
-    .fill(to: superView, insets: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
-    .width(20)
-
-// 前置约束，打破限制
-UIView()
-    .left(to: superView.leftAnchor, offset: 30)
-    .top(to: superView, offset: 30)
-    .fill(to: superView)
-```
 
 ## 组件构建示例 | Component Build Examples
 
