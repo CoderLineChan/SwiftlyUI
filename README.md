@@ -83,20 +83,23 @@ withAnimation(.spring(duration: 0.8)) {
     view.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
 } completion: { _ in /* 动画收尾逻辑 */ }
 ```
-### 📐 多模式布局 | Multi-Layout Modes
+### 📐 让 Auto Layout 像呼吸一样自然！全能布局，覆盖一切场景
+厌倦了冗长的 NSLayoutAnchor 代码？受够了在添加父控件后才能写约束的繁琐？SwiftlyUI 为你重新定义 iOS 界面布局——更简洁、更自由、更强大！
 ```
-// 自动布局 | Auto Layout
-.frame(width: 100, minHeight: 200)
+// 链式语法，极致简洁
+UIView()
+    .frame(width: 20)
+    .frame(minHeight: 50)
+    .left(to: superView.leftAnchor, offset: 30)
+    .top(to: superView, offset: 30)
+    .fill(to: superView, insets: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+    .width(20)
 
-// SnapKit 
-.snp { make in
-    make.with.height.equalTo(30)
-}
-
-// 父控件前布局 | Pre-Superview Layout
-UIView().left(to: superView.leftAnchor, offset: 30)
-        .top(to: superView, offset: 30)
-        .fill(to: superView)
+// 前置约束，打破限制
+UIView()
+    .left(to: superView.leftAnchor, offset: 30)
+    .top(to: superView, offset: 30)
+    .fill(to: superView)
 ```
 
 ## 组件构建示例 | Component Build Examples
@@ -126,27 +129,28 @@ and more ...
 
 - Layout
 ```swift
-//自动布局 | Auto Layout
+//SnapKit Layout
 let brother = UIView()
-    .frame(width: 100, height: 200)
-    .frame(width: 20)
-    .frame(height: 100)
-    .frame(minWidth: 50)
-    .frame(maxWidth: 200)
     .snp { make in // if Import SnapKit
         make.width.equalTo(100)
         make.height.equalTo(200)
+        //make.left.equalTo(self.view);//cannot
     }
 
-//父控件前布局 | Pre-Superview Layout
+//添加父控件前布局 | Before adding superView
 let view = UIView()
-    .left(to: superView.leftAnchor, offset: 30)
-    .top(to: superView, offset: 30)
+    .frame(width: 100, height: 200)
+    .frame(width: 20)//the same as .width()
+    .frame(height: 100)//the same as .height()
+    .frame(minWidth: 50)
+    .frame(maxWidth: 200)
+    .left(to: superView.leftAnchor, offset: 30)//添加父控件前
+    .top(to: superView, offset: 30)//Before adding superView
     .fill(to: superView)
     .fill(to: brother, UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
-    .leading(to: superView)
-    .bottom(to: superView)
-    .width(20)
+    .leading(to: superView)//Before adding superView
+    .bottom(to: superView)//添加父控件前
+    .width(20)//the same as .frame(width: 20)
     .width(to: view, multiplier: 1.2)
 
 superView.addSubview(brother)     
