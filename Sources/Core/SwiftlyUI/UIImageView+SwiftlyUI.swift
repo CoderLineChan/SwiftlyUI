@@ -9,6 +9,7 @@ import UIKit
 
 // MARK: - basics
 public extension UIImageView {
+    @available(iOS 13.0, *)
     @discardableResult
     func systemImage(_ systemName: String) -> Self {
         self.image = UIImage(systemName: systemName)

@@ -69,10 +69,16 @@ public extension UITextView {
     }
     
     @discardableResult
-    func placeholder(_ text: String, color: UIColor = .placeholderText) -> Self {
+    func placeholder(_ text: String, color: UIColor? = nil) -> Self {
         let placeholderLabel = getOrCreatePlaceholderLabel()
         placeholderLabel.text = text
-        placeholderLabel.textColor = color
+        placeholderLabel.textColor = color ?? {
+            if #available(iOS 13.0, *) {
+                return .placeholderText
+            } else {
+                return .lightGray
+            }
+        }()
         placeholderLabel.isHidden = !self.text.isEmpty
         return self
     }

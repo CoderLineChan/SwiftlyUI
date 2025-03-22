@@ -119,6 +119,7 @@ public extension UIButton {
         case top
         case bottom
         
+        @available(iOS 13.0, *)
         var direction: NSDirectionalRectEdge {
             switch self {
             case .left: return .leading
