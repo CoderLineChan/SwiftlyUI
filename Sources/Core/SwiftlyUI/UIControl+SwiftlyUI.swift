@@ -56,7 +56,7 @@ private class ClosureWrapper<T: UIControl>: NSObject {
 
 private extension UIControl {
     struct AssociatedKeys {
-        static var actionClosuresKey: Void?
+        nonisolated(unsafe) static var actionClosuresKey: Void?
     }
     private var actionClosures: [UInt: Any] {
         get {

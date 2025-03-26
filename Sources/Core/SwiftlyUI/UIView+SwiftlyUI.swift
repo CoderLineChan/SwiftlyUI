@@ -207,6 +207,36 @@ public extension UIView {
     }
     
     @discardableResult
+    func top(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        top(greaterThanOrEqualTo: view.topAnchor)
+        return self
+    }
+    
+    @discardableResult
+    func top(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            topAnchor.constraint(greaterThanOrEqualTo: anchor, constant: offset),
+            type: .top
+        )
+        return self
+    }
+    
+    @discardableResult
+    func top(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        top(lessThanOrEqualTo: view.topAnchor, offset: offset)
+        return self
+    }
+    
+    @discardableResult
+    func top(lessThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            topAnchor.constraint(lessThanOrEqualTo: anchor, constant: offset),
+            type: .top
+        )
+        return self
+    }
+    
+    @discardableResult
     func left(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         addConstraint(
             leftAnchor.constraint(equalTo: anchor, constant: offset),
@@ -218,6 +248,36 @@ public extension UIView {
     @discardableResult
     func left(to view: UIView, offset: CGFloat = 0) -> Self {
         left(to: view.leftAnchor, offset: offset)
+    }
+    
+    @discardableResult
+    func left(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        left(greaterThanOrEqualTo: view.leftAnchor)
+        return self
+    }
+    
+    @discardableResult
+    func left(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            leftAnchor.constraint(greaterThanOrEqualTo: anchor, constant: offset),
+            type: .left
+        )
+        return self
+    }
+    
+    @discardableResult
+    func left(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        left(lessThanOrEqualTo: view.leftAnchor, offset: offset)
+        return self
+    }
+    
+    @discardableResult
+    func left(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            leftAnchor.constraint(lessThanOrEqualTo: anchor, constant: offset),
+            type: .left
+        )
+        return self
     }
     
     @discardableResult
@@ -235,6 +295,36 @@ public extension UIView {
     }
     
     @discardableResult
+    func leading(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        leading(greaterThanOrEqualTo: view.leadingAnchor)
+        return self
+    }
+    
+    @discardableResult
+    func leading(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            leadingAnchor.constraint(greaterThanOrEqualTo: anchor, constant: offset),
+            type: .leading
+        )
+        return self
+    }
+    
+    @discardableResult
+    func leading(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        leading(lessThanOrEqualTo: view.leadingAnchor, offset: offset)
+        return self
+    }
+    
+    @discardableResult
+    func leading(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            leadingAnchor.constraint(lessThanOrEqualTo: anchor, constant: offset),
+            type: .leading
+        )
+        return self
+    }
+    
+    @discardableResult
     func bottom(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         addConstraint(
             bottomAnchor.constraint(equalTo: anchor, constant: -offset),
@@ -246,6 +336,36 @@ public extension UIView {
     @discardableResult
     func bottom(to view: UIView, offset: CGFloat = 0) -> Self {
         bottom(to: view.bottomAnchor, offset: offset)
+    }
+    
+    @discardableResult
+    func bottom(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        bottom(greaterThanOrEqualTo: view.bottomAnchor)
+        return self
+    }
+    
+    @discardableResult
+    func bottom(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            topAnchor.constraint(greaterThanOrEqualTo: anchor, constant: offset),
+            type: .bottom
+        )
+        return self
+    }
+    
+    @discardableResult
+    func bottom(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        bottom(lessThanOrEqualTo: view.bottomAnchor, offset: offset)
+        return self
+    }
+    
+    @discardableResult
+    func bottom(lessThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            topAnchor.constraint(lessThanOrEqualTo: anchor, constant: offset),
+            type: .bottom
+        )
+        return self
     }
     
     @discardableResult
@@ -263,6 +383,36 @@ public extension UIView {
     }
     
     @discardableResult
+    func right(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        right(greaterThanOrEqualTo: view.rightAnchor)
+        return self
+    }
+    
+    @discardableResult
+    func right(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            rightAnchor.constraint(greaterThanOrEqualTo: anchor, constant: offset),
+            type: .right
+        )
+        return self
+    }
+    
+    @discardableResult
+    func right(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        right(lessThanOrEqualTo: view.rightAnchor, offset: offset)
+        return self
+    }
+    
+    @discardableResult
+    func right(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            rightAnchor.constraint(lessThanOrEqualTo: anchor, constant: offset),
+            type: .right
+        )
+        return self
+    }
+    
+    @discardableResult
     func trailing(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         addConstraint(
             trailingAnchor.constraint(equalTo: anchor, constant: -offset),
@@ -274,6 +424,36 @@ public extension UIView {
     @discardableResult
     func trailing(to view: UIView, offset: CGFloat = 0) -> Self {
         trailing(to: view.trailingAnchor, offset: offset)
+    }
+    
+    @discardableResult
+    func trailing(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        trailing(greaterThanOrEqualTo: view.trailingAnchor)
+        return self
+    }
+    
+    @discardableResult
+    func trailing(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            trailingAnchor.constraint(greaterThanOrEqualTo: anchor, constant: offset),
+            type: .trailing
+        )
+        return self
+    }
+    
+    @discardableResult
+    func trailing(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+        trailing(lessThanOrEqualTo: view.trailingAnchor, offset: offset)
+        return self
+    }
+    
+    @discardableResult
+    func trailing(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        addConstraint(
+            trailingAnchor.constraint(lessThanOrEqualTo: anchor, constant: offset),
+            type: .trailing
+        )
+        return self
     }
     
     @discardableResult
@@ -481,6 +661,7 @@ extension UIView {
 }
 
 // MARK: - Animation
+@MainActor
 @discardableResult
 func withAnimation<Result>(
     _ animation: UIKitAnimation = .default,
@@ -488,7 +669,8 @@ func withAnimation<Result>(
 ) rethrows -> Result {
     return try withAnimation(animation: animation, body: body, completion: nil)
 }
-
+@MainActor
+@discardableResult
 func withAnimation<Result>(
     _ animation: UIKitAnimation = .default,
     _ body: () throws -> Result,
@@ -496,7 +678,8 @@ func withAnimation<Result>(
 ) rethrows -> Result {
     return try withAnimation(animation: animation, body: body, completion: completion)
 }
-
+@MainActor
+@discardableResult
 func withAnimation<Result>(
     _ animation: UIKitAnimation = .default,
     completion: ((Bool) -> Void)? = nil,
@@ -505,7 +688,7 @@ func withAnimation<Result>(
     return try withAnimation(animation: animation, body: body, completion: completion)
 }
 
-@discardableResult
+@MainActor @discardableResult
 private func withAnimation<Result>(
     animation: UIKitAnimation = .default,
     body: () throws -> Result,

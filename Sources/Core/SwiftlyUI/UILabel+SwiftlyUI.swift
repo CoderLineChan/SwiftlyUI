@@ -9,6 +9,12 @@ import UIKit
 
 // MARK: - basics
 public extension UILabel {
+    
+    convenience init(_ text: String) {
+        self.init()
+        self.text = text
+    }
+    
     @discardableResult
     func font(_ font: UIFont) -> Self {
         self.font = font

@@ -177,11 +177,11 @@ public extension UITextView {
 // MARK: - private
 private extension UITextView {
     struct AssociatedKeys {
-        static var placeholderLabel: Void?
-        static var maxLengthKey: Void?
-        static var textDidChangeKey: Void?
-        static var textDidBeginEditingKey: Void?
-        static var textDidEndEditingKey: Void?
+        nonisolated(unsafe) static var placeholderLabel: Void?
+        nonisolated(unsafe) static var maxLengthKey: Void?
+        nonisolated(unsafe) static var textDidChangeKey: Void?
+        nonisolated(unsafe) static var textDidBeginEditingKey: Void?
+        nonisolated(unsafe) static var textDidEndEditingKey: Void?
         
     }
     
@@ -246,7 +246,7 @@ private extension UITextView {
         updatePlaceholderMaxLayoutWidth()
     }
 }
-
+@MainActor
 private struct __UITextViewDisposableClass {
     private static var hasExecuted = false
     static func runOnce(block: () -> Void) {

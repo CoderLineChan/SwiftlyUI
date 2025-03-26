@@ -26,6 +26,7 @@
 		142696432D89C3B300BA6373 /* UITextView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142696322D89C3B300BA6373 /* UITextView+SwiftlyUI.swift */; };
 		142696442D89C3B300BA6373 /* UIView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142696332D89C3B300BA6373 /* UIView+SwiftlyUI.swift */; };
 		142696452D89C3B300BA6373 /* UIViewSnapKitExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142696362D89C3B300BA6373 /* UIViewSnapKitExt.swift */; };
+		14999CF52D93FA6200A79154 /* UISpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14999CF42D93FA5E00A79154 /* UISpacer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		142696322D89C3B300BA6373 /* UITextView+SwiftlyUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextView+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		142696332D89C3B300BA6373 /* UIView+SwiftlyUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		142696362D89C3B300BA6373 /* UIViewSnapKitExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewSnapKitExt.swift; sourceTree = "<group>"; };
+		14999CF42D93FA5E00A79154 /* UISpacer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISpacer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 		142696292D89C3B300BA6373 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				14999CF42D93FA5E00A79154 /* UISpacer.swift */,
 				142696272D89C3B300BA6373 /* UIImageExtension.swift */,
 				142696282D89C3B300BA6373 /* UIViewExtensions.swift */,
 			);
@@ -220,6 +223,7 @@
 			files = (
 				1426963D2D89C3B300BA6373 /* UIControl+SwiftlyUI.swift in Sources */,
 				142696182D89C26400BA6373 /* ViewController.swift in Sources */,
+				14999CF52D93FA6200A79154 /* UISpacer.swift in Sources */,
 				1426963A2D89C3B300BA6373 /* UIViewExtensions.swift in Sources */,
 				1426963B2D89C3B300BA6373 /* UIButton+SwiftlyUI.swift in Sources */,
 				142696442D89C3B300BA6373 /* UIView+SwiftlyUI.swift in Sources */,
@@ -393,7 +397,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -422,7 +426,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

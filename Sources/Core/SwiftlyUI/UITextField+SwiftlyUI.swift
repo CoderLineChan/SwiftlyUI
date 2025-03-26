@@ -188,12 +188,12 @@ extension UITextField {
 // MARK: - private
 private extension UITextField {
     struct AssociatedKeys {
-        static var paddingKey: Void?
-        static var placeholderLabelKey: Void?
-        static var maxLengthKey: Void?
-        static var textChangeActionKey: Void?
-        static var beginEditingActionKey: Void?
-        static var endEditingActionKey: Void?
+        nonisolated(unsafe) static var paddingKey: Void?
+        nonisolated(unsafe) static var placeholderLabelKey: Void?
+        nonisolated(unsafe) static var maxLengthKey: Void?
+        nonisolated(unsafe) static var textChangeActionKey: Void?
+        nonisolated(unsafe) static var beginEditingActionKey: Void?
+        nonisolated(unsafe) static var endEditingActionKey: Void?
     }
     
     var paddingInsets: UIEdgeInsets {
@@ -290,7 +290,7 @@ private extension UITextField {
         return originalRect.inset(by: paddingInsets)
     }
 }
-
+@MainActor
 private struct __UITextFieldDisposableClass {
     private static var hasExecuted = false
     static func runOnce(block: () -> Void) {

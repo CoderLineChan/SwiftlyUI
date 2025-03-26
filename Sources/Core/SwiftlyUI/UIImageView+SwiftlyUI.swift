@@ -7,8 +7,23 @@
 
 import UIKit
 
+typealias ImageView = UIImageView
+
 // MARK: - basics
 public extension UIImageView {
+    
+    convenience init(_ imageName: String) {
+        self.init(image: UIImage(named: imageName))
+    }
+    
+    convenience init(imageName: String) {
+        self.init(image: UIImage(named: imageName))
+    }
+    
+    convenience init(systemName: String) {
+        self.init(image: UIImage(systemName: systemName))
+    }
+    
     @available(iOS 13.0, *)
     @discardableResult
     func systemImage(_ systemName: String) -> Self {

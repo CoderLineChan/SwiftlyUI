@@ -7,7 +7,7 @@
 
 import UIKit
 
-public struct EdgeSet : OptionSet {
+public struct EdgeSet : OptionSet, Sendable {
     public let rawValue: Int
     public init(rawValue: Int) {
         self.rawValue = rawValue
@@ -204,33 +204,33 @@ extension UIView {
 
 extension UIView {
     private struct AssociatedKeys {
-        static var tapActionKey: UInt8 = 0
-        static var doubleTapActionKey: UInt8 = 0
-        static var longPressActionKey: UInt8 = 0
-        static var panActionKey: UInt8 = 0
-        static var swipeActionKey: UInt8 = 0
-        static var pinchActionKey: UInt8 = 0
-        static var rotationActionKey: UInt8 = 0
+        nonisolated(unsafe) static var tapActionKey: UInt8 = 0
+        nonisolated(unsafe) static var doubleTapActionKey: UInt8 = 0
+        nonisolated(unsafe) static var longPressActionKey: UInt8 = 0
+        nonisolated(unsafe) static var panActionKey: UInt8 = 0
+        nonisolated(unsafe) static var swipeActionKey: UInt8 = 0
+        nonisolated(unsafe) static var pinchActionKey: UInt8 = 0
+        nonisolated(unsafe) static var rotationActionKey: UInt8 = 0
         
-        static let tapActionKeyPtr: UnsafeRawPointer = {
+        nonisolated(unsafe) static let tapActionKeyPtr: UnsafeRawPointer = {
             withUnsafePointer(to: &tapActionKey) { UnsafeRawPointer($0) }
         }()
-        static let doubleTapActionKeyPtr: UnsafeRawPointer = {
+        nonisolated(unsafe) static let doubleTapActionKeyPtr: UnsafeRawPointer = {
             withUnsafePointer(to: &doubleTapActionKey) { UnsafeRawPointer($0) }
         }()
-        static let longPressActionKeyPtr: UnsafeRawPointer = {
+        nonisolated(unsafe) static let longPressActionKeyPtr: UnsafeRawPointer = {
             withUnsafePointer(to: &longPressActionKey) { UnsafeRawPointer($0) }
         }()
-        static let panActionKeyPtr: UnsafeRawPointer = {
+        nonisolated(unsafe) static let panActionKeyPtr: UnsafeRawPointer = {
             withUnsafePointer(to: &panActionKey) { UnsafeRawPointer($0) }
         }()
-        static let swipeActionKeyPtr: UnsafeRawPointer = {
+        nonisolated(unsafe) static let swipeActionKeyPtr: UnsafeRawPointer = {
             withUnsafePointer(to: &swipeActionKey) { UnsafeRawPointer($0) }
         }()
-        static let pinchActionKeyPtr: UnsafeRawPointer = {
+        nonisolated(unsafe) static let pinchActionKeyPtr: UnsafeRawPointer = {
             withUnsafePointer(to: &pinchActionKey) { UnsafeRawPointer($0) }
         }()
-        static let rotationActionKeyPtr: UnsafeRawPointer = {
+        nonisolated(unsafe) static let rotationActionKeyPtr: UnsafeRawPointer = {
             withUnsafePointer(to: &rotationActionKey) { UnsafeRawPointer($0) }
         }()
     }
@@ -255,7 +255,7 @@ class ViewGestureActionClosure<T: UIGestureRecognizer> {
     init(action: @escaping (T) -> Void) {
         self.action = action
     }
-    @objc func invoke(_ gesture: UIGestureRecognizer) {
+    @MainActor @objc func invoke(_ gesture: UIGestureRecognizer) {
         switch gesture {
         case is UITapGestureRecognizer:
             guard gesture.state == .ended else { return }
@@ -270,7 +270,7 @@ class ViewGestureActionClosure<T: UIGestureRecognizer> {
                
 extension UIGestureRecognizer {
     private struct AssociatedKeys {
-        static var gestureTypeKey: Void?
+        nonisolated(unsafe) static var gestureTypeKey: Void?
     }
     
     var gestureType: UIView.GestureType? {
@@ -289,8 +289,8 @@ extension UIGestureRecognizer {
 }
 
 struct __UIViewDisposableClass {
-    private static var hasExecuted = false
-    static func runOnce(block: () -> Void) {
+    @MainActor private static var hasExecuted = false
+    @MainActor static func runOnce(block: () -> Void) {
         guard !hasExecuted else { return }
         block()
         hasExecuted = true

@@ -64,4 +64,9 @@ public extension UIColor {
             context.fill(CGRect(origin: .zero, size: size))
         }
     }
+    
+    func opacity(_ value: CGFloat) -> UIColor {
+        let alpha = max(0, min(value, 1))
+        return withAlphaComponent(alpha)
+    }
 }
