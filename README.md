@@ -9,6 +9,7 @@
 - [安装指南 | Installation](#安装指南)
 - [为什么选择 SwiftlyUI？](#技术优势全景图)
 - [功能特性 | Features](#功能特性)
+- [使用示例](#使用示例)
 
 ## 安装指南 📦| Installation <a name="安装指南"></a>
 ### CocoaPods
@@ -178,7 +179,7 @@ let textField = UITextField()
     .onEndEditing(onEndEditingAction)
 ```
 
-### 使用示例
+### 使用示例 <a name="使用示例"></a>
 ![WX20250326-111439](https://github.com/user-attachments/assets/1fcfe6ad-3890-4979-8b50-13f664b0b216)
 ![WX20250326-172247](https://github.com/user-attachments/assets/3ce96ed8-ed5c-45c9-aae7-80b4260bc29f)
 
