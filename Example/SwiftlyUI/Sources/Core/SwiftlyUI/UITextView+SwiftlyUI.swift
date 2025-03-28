@@ -251,7 +251,7 @@ private extension UITextView {
 @MainActor
 private struct __UITextViewDisposableClass {
     private static var hasExecuted = false
-    static func runOnce(block: () -> Void) {
+    static func runOnce(block: @escaping () -> Void) {
         guard !hasExecuted else { return }
         block()
         hasExecuted = true
