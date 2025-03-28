@@ -146,6 +146,7 @@ public extension UITextField {
 
 // MARK: - Action
 extension UITextField {
+    @MainActor
     @discardableResult
     func onTextChange(_ action: @escaping (String) -> Void) -> Self {
         return onTextChange { textF in

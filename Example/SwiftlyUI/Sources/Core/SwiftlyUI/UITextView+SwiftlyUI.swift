@@ -114,7 +114,7 @@ public extension UITextView {
 // MARK: - Action
 public extension UITextView {
     @discardableResult
-    func onTextChange(_ action: @escaping (String) -> Void) -> Self {
+    func onTextChange(_ action: @escaping @Sendable (String) -> Void) -> Self {
         onTextChange { textView in
             action(textView.text)
         }
