@@ -40,7 +40,58 @@ dependencies: [
 
 
 ## 功能特性 ✨ | Features <a name="功能特性"></a>
-### 🌪️ 链式语法：属性设置增强
+
+### 使用@resultBuilder新特性为 UIView和UIStackView容器增强
+- 多容器嵌套+布局完美复刻SwiftUI
+```swift
+ZStackView == UIView
+HStackView == UIStackView
+VStackView == UIStackView
+```
+```swift
+let zView = ZStackView {// == UIView
+    UIView()
+        .frame(width: 300, height: 200)
+        .backgroundColor(.red.opacity(0.5))
+        .fillSuperMargins()
+    
+    VStackView(spacing: 10) {
+        HStackView(spacing: 10) {
+            Label("ACC:")
+                .font(.medium(14))
+                .width(50)
+            
+            UITextField("input ACC")
+                .height(35)
+                .width(180)
+            
+        }
+            .border(.orange)
+            .cornerRadius(5)
+        
+        HStackView(spacing: 10) {
+            Label("PWD:")
+                .font(.medium(14))
+                .width(50)
+            
+            UITextField("input PWD")
+                .height(35)
+                .width(180)
+        }
+            .border(.orange)
+            .cornerRadius(5)
+    }
+    .distribution(.fillEqually)
+    .centerToSuper()
+}
+    .backgroundColor(.blue.opacity(0.5))
+    .padding(10)
+    .center(to: view)
+
+view.addSubview(zView)
+```
+
+### 链式语法：属性设置增强
 - 极简代码：比原生代码减少 60% 的冗余字符
 - 内边距精准设置,支持单边/全局/横向/纵向
 - 内置分割线系统，一行代码设置分割线，子视图增删/隐藏/显示时自动更新分隔线
@@ -182,6 +233,7 @@ let textField = UITextField()
 ### 使用示例 <a name="使用示例"></a>
 ![WX20250326-111439](https://github.com/user-attachments/assets/1fcfe6ad-3890-4979-8b50-13f664b0b216)
 ![WX20250326-172247](https://github.com/user-attachments/assets/3ce96ed8-ed5c-45c9-aae7-80b4260bc29f)
+![WX20250328-190206](https://github.com/user-attachments/assets/eded9064-d3f8-4a27-bbc9-5c1c7018613e)
 
 
 
