@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'SwiftlyUI'
-  s.version          = '1.0.1'
+  s.version          = '1.0.2'
   s.summary          = 'Swift-style declarative UIKit framework'
   s.homepage         = 'https://github.com/CoderLineChan/SwiftlyUI'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
@@ -15,12 +15,12 @@ Pod::Spec.new do |s|
     core.source_files = 'Sources/Core/**/*.swift'
   end
   
-  # SnapKit 扩展
-  s.subspec 'SnapKitExt' do |ext|
-    ext.source_files = 'Sources/SnapKitExt/**/*.swift'
-    ext.dependency 'SwiftlyUI/Core'
-    ext.dependency 'SnapKit'
-  end
+  # # SnapKit 扩展
+  # s.subspec 'SnapKitExt' do |ext|
+  #   ext.source_files = 'Sources/SnapKitExt/**/*.swift'
+  #   ext.dependency 'SwiftlyUI/Core'
+  #   ext.dependency 'SnapKit'
+  # end
   
   # 默认安装核心模块
   s.default_subspec = 'Core'
