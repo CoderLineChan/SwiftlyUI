@@ -11,8 +11,57 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        print("viewDidLoad")
+
+        let zView = ZStackView {// == UIView
+            UIView()
+                .frame(width: 300, height: 200)
+                .backgroundColor(.red.opacity(0.5))
+                .fillSuperMargins()
+            
+            VStackView(spacing: 10) {
+                HStackView(spacing: 10) {
+                    Label("ACC:")
+                        .font(.medium(14))
+                        .width(50)
+                    
+                    UITextField("input ACC")
+                        .height(35)
+                        .width(180)
+                    
+                }
+                    .border(.orange)
+                    .cornerRadius(5)
+                
+                HStackView(spacing: 10) {
+                    Label("PWD:")
+                        .font(.medium(14))
+                        .width(50)
+                    
+                    UITextField("input PWD")
+                        .height(35)
+                        .width(180)
+                }
+                    .border(.orange)
+                    .cornerRadius(5)
+            }
+            .distribution(.fillEqually)
+            .centerToSuper()
+        }
+            .backgroundColor(.blue.opacity(0.5))
+            .padding(10)
+            .center(to: view)
+        
+        view.addSubview(zView)
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    func test1() {
         let stackView = HStackView {
             ImageView("avatar")
                 .frame(width: 50, height: 50)
@@ -44,12 +93,16 @@ class ViewController: UIViewController {
             .frame(width: UIScreen.main.bounds.width)
             .padding(.horizontal)
             .padding(.vertical, 5)
-            .background(.darkGray.opacity(0.3))
+            .backgroundColor(.darkGray.opacity(0.3))
             .center(to: view)
             .alignment(.center)
             .distribution(.fill)
         view.addSubview(stackView)
     }
     
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 }
 

@@ -8,29 +8,11 @@
 import UIKit
 
 // MARK: - Layout
-private let defaultPadding: CGFloat = 16
+
 public extension UITextView {
     @discardableResult
-    func padding(_ margin: CGFloat? = nil) -> Self {
-        padding(.all, margin ?? defaultPadding)
-        return self
-    }
-    
-    @discardableResult
-    func padding(_ edge: EdgeSet = .all, _ length: CGFloat? = nil) -> Self {
-        let margin = length ?? defaultPadding
-        let insets = UIEdgeInsets(
-            top: edge.contains(.top) ? margin : layoutMargins.top,
-            left: edge.contains(.left) ? margin : layoutMargins.left,
-            bottom: edge.contains(.bottom) ? margin : layoutMargins.bottom,
-            right: edge.contains(.right) ? margin : layoutMargins.right
-        )
-        padding(insets)
-        return self
-    }
-    
-    @discardableResult
-    func padding(_ edge: UIEdgeInsets) -> Self {
+    override func padding(_ edge: UIEdgeInsets) -> Self {
+        super.padding(edge)
         self.textContainerInset = edge
         return self
     }
@@ -38,6 +20,12 @@ public extension UITextView {
 
 // MARK: - basics
 public extension UITextView {
+    
+    convenience init(_ placeholder: String) {
+        self.init()
+        self.placeholder(placeholder, color: nil)
+    }
+    
     @discardableResult
     func font(_ font: UIFont) -> Self {
         self.font = font
@@ -80,6 +68,20 @@ public extension UITextView {
             }
         }()
         placeholderLabel.isHidden = !self.text.isEmpty
+        return self
+    }
+    
+    @discardableResult
+    func placeholderColor(_ color: UIColor? = nil) -> Self {
+        let placeholderLabel = getOrCreatePlaceholderLabel()
+        placeholderLabel.textColor = color ?? {
+            if #available(iOS 13.0, *) {
+                return .placeholderText
+            } else {
+                return .lightGray
+            }
+        }()
+        placeholderLabel.isHidden = !(self.text?.isEmpty ?? true)
         return self
     }
     

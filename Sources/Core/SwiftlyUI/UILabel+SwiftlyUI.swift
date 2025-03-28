@@ -7,6 +7,25 @@
 
 import UIKit
 
+
+public final class Label: UILabel {
+    public override func padding(_ edge: UIEdgeInsets) -> Self {
+        return super.padding(edge)
+    }
+    
+    public override func drawText(in rect: CGRect) {
+        super.drawText(in: rect.inset(by: layoutMargins))
+    }
+    
+    public override var intrinsicContentSize: CGSize {
+        let size = super.intrinsicContentSize
+        return CGSize(
+            width: size.width + layoutMargins.left + layoutMargins.right,
+            height: size.height + layoutMargins.top + layoutMargins.bottom
+        )
+    }
+}
+
 // MARK: - basics
 public extension UILabel {
     

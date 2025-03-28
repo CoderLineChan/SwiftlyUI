@@ -11,24 +11,8 @@ import UIKit
 private let defaultPadding: CGFloat = 16
 public extension UITextField {
     @discardableResult
-    func padding(_ margin: CGFloat? = nil) -> Self {
-        padding(.all, margin ?? defaultPadding)
-        return self
-    }
-    
-    @discardableResult
-    func padding(_ edge: EdgeSet = .all, _ length: CGFloat? = nil) -> Self {
-        let margin = length ?? defaultPadding
-        var insets = UIEdgeInsets()
-        insets.top = edge.contains(.top) ? margin : paddingInsets.top
-        insets.left = edge.contains(.left) ? margin : paddingInsets.left
-        insets.bottom = edge.contains(.bottom) ? margin : paddingInsets.bottom
-        insets.right = edge.contains(.right) ? margin : paddingInsets.right
-        return padding(insets)
-    }
-    
-    @discardableResult
-    func padding(_ edge: UIEdgeInsets) -> Self {
+    override func padding(_ edge: UIEdgeInsets) -> Self {
+        super.padding(edge)
         paddingInsets = edge
         __UITextFieldDisposableClass.runOnce(block: UITextField.once)
         return self
@@ -37,6 +21,12 @@ public extension UITextField {
 
 // MARK: - basics
 public extension UITextField {
+    
+    convenience init(_ placeholder: String) {
+        self.init()
+        self.placeholder(placeholder, color: nil)
+    }
+    
     @discardableResult
     func cursorColor(_ color: UIColor) -> Self {
         tintColor = color
@@ -86,6 +76,20 @@ public extension UITextField {
     func placeholder(_ text: String, color: UIColor? = nil) -> Self {
         let placeholderLabel = getOrCreatePlaceholderLabel()
         placeholderLabel.text = text
+        placeholderLabel.textColor = color ?? {
+            if #available(iOS 13.0, *) {
+                return .placeholderText
+            } else {
+                return .lightGray
+            }
+        }()
+        placeholderLabel.isHidden = !(self.text?.isEmpty ?? true)
+        return self
+    }
+    
+    @discardableResult
+    func placeholderColor(_ color: UIColor? = nil) -> Self {
+        let placeholderLabel = getOrCreatePlaceholderLabel()
         placeholderLabel.textColor = color ?? {
             if #available(iOS 13.0, *) {
                 return .placeholderText

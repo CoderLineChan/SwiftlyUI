@@ -7,6 +7,16 @@
 
 import UIKit
 
+// MARK: - ViewBuilder
+@resultBuilder
+struct ViewBuilder {
+    static func buildBlock(_ components: UIView...) -> [UIView] { components }
+    static func buildOptional(_ component: [UIView]?) -> [UIView] { component ?? [] }
+    static func buildArray(_ components: [[UIView]]) -> [UIView] { components.flatMap { $0 } }
+    static func buildEither(first: [UIView]) -> [UIView] { first }
+    static func buildEither(second: [UIView]) -> [UIView] { second }
+}
+
 public struct EdgeSet : OptionSet, Sendable {
     public let rawValue: Int
     public init(rawValue: Int) {

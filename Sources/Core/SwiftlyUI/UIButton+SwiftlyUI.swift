@@ -9,6 +9,12 @@ import UIKit
 
 // MARK: - basics
 public extension UIButton {
+    
+    convenience init(_ text: String) {
+        self.init()
+        self.title(text)
+    }
+    
     @discardableResult
     func font(_ font: UIFont) -> Self {
         self.titleLabel?.font = font

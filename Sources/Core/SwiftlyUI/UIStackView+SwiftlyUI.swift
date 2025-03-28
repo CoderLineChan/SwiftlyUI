@@ -13,7 +13,7 @@ public extension UIStackView {
     convenience init(
         axis: NSLayoutConstraint.Axis,
         spacing: CGFloat = 0,
-        @StackBuilder content: () -> [UIView]) {
+        @ViewBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
         self.axis = axis
         self.spacing = spacing
@@ -28,7 +28,7 @@ public final class VStackView: UIStackView {
     }
     
     @discardableResult
-    convenience init(spacing: CGFloat = 0, @StackBuilder content: () -> [UIView]) {
+    convenience init(spacing: CGFloat = 0, @ViewBuilder content: () -> [UIView]) {
         self.init(axis: .vertical, spacing: spacing, content: content)
     }
     
@@ -56,7 +56,7 @@ public final class HStackView: UIStackView {
     }
     
     @discardableResult
-    convenience init(spacing: CGFloat = 0, @StackBuilder content: () -> [UIView]) {
+    convenience init(spacing: CGFloat = 0, @ViewBuilder content: () -> [UIView]) {
         self.init(axis: .horizontal, spacing: spacing, content: content)
     }
     
@@ -77,160 +77,18 @@ public final class HStackView: UIStackView {
 
 }
 
-private final class ZStackView: UIView {
-    enum Alignment {
-        case center
-        case top
-        case bottom
-        case leading
-        case trailing
-        case topLeading
-        case topTrailing
-        case bottomLeading
-        case bottomTrailing
-    }
-    private let alignment: Alignment
-    private let contentViews: [UIView]
-    private var edgeInsets: UIEdgeInsets = .zero
-    
-    @discardableResult
-    init(alignment: Alignment = .center, @StackBuilder content: () -> [UIView]) {
-        self.alignment = alignment
-        self.contentViews = content()
-        super.init(frame: .zero)
-        insetsLayoutMarginsFromSafeArea = false
-        preservesSuperviewLayoutMargins = false
-        setupViews()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    @discardableResult
-    func padding(_ edge: UIEdgeInsets) -> Self {
-        edgeInsets = edge
-        layoutMargins = edge
-        updateConstraintsForAllSubviews()
-        setNeedsUpdateConstraints()
-        return self
-    }
-    
-    public override var layoutMargins: UIEdgeInsets {
-        get { edgeInsets }
-        set {
-            edgeInsets = newValue
-            super.layoutMargins = newValue
-        }
-    }
-}
-
-private extension ZStackView {
-    private func setupViews() {
-            contentViews.forEach { addSubview($0) }
-            activateAllConstraints()
-        }
-        
-        private func updateConstraintsForAllSubviews() {
-            contentViews.forEach { $0.removeFromSuperview() }
-            contentViews.forEach { addSubview($0) }
-            activateAllConstraints()
-        }
-        
-        private func activateAllConstraints() {
-            contentViews.forEach { view in
-                applyAlignmentConstraints(for: view)
-                applyEdgeConstraints(for: view)
-            }
-        }
-    
-    private func applyAlignmentConstraints(for view: UIView) {
-        let guide = self
-        switch alignment {
-        case .center:
-            view.centerX(to: guide.centerXAnchor)
-            view.centerY(to: guide.centerYAnchor)
-        case .top:
-            view.top(to: guide.topAnchor)
-            view.centerX(to: guide.centerXAnchor)
-        case .bottom:
-            view.bottom(to: guide.bottomAnchor)
-            view.centerX(to: guide.centerXAnchor)
-        case .leading:
-            view.centerY(to: guide.centerYAnchor)
-            view.leading(to: guide.leadingAnchor)
-        case .trailing:
-            view.centerY(to: guide.centerYAnchor)
-            view.trailing(to: guide.trailingAnchor)
-        case .topLeading:
-            view.top(to: guide.topAnchor)
-            view.leading(to: guide.leadingAnchor)
-        case .topTrailing:
-            view.top(to: guide.topAnchor)
-            view.trailing(to: guide.trailingAnchor)
-        case .bottomLeading:
-            view.bottom(to: guide.bottomAnchor)
-            view.leading(to: guide.leadingAnchor)
-        case .bottomTrailing:
-            view.bottom(to: guide.bottomAnchor)
-            view.trailing(to: guide.trailingAnchor)
-        }
-    }
-    
-    private func applyEdgeConstraints(for view: UIView) {
-        print("layoutMargins:\(layoutMargins)")
-        let guide = self.layoutMarginsGuide
-        NSLayoutConstraint.activate([
-//        view.leadingAnchor.constraint(greaterThanOrEqualToSystemSpacingAfter: guide.leadingAnchor, multiplier: 1.0),
-//        view.trailingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: guide.trailingAnchor, multiplier: 1.0),
-//        view.topAnchor.constraint(greaterThanOrEqualToSystemSpacingBelow: guide.topAnchor, multiplier: 1.0),
-//        view.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: guide.bottomAnchor, multiplier: 1.0),
-        
-        view.leadingAnchor.constraint(greaterThanOrEqualTo: self.leadingAnchor, constant: edgeInsets.left),
-        view.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -edgeInsets.right),
-        view.topAnchor.constraint(greaterThanOrEqualTo: self.topAnchor, constant: edgeInsets.top),
-        view.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -edgeInsets.bottom)
-        
-        ])
-    }
-}
 
 
-// MARK: - ViewBuilder
-@resultBuilder
-struct StackBuilder {
-    static func buildBlock(_ components: UIView...) -> [UIView] { components }
-}
 #endif
 
 
 
 // MARK: - Layout
-private let defaultPadding: CGFloat = 16
 public extension UIStackView {
-    @discardableResult
-    func padding(_ margin: CGFloat? = nil) -> Self {
-        padding(.all, margin ?? defaultPadding)
-        return self
-    }
     
     @discardableResult
-    func padding(_ edge: EdgeSet = .all, _ length: CGFloat? = nil) -> Self {
-        let margin = length ?? defaultPadding
-        let insets = UIEdgeInsets(
-            top: edge.contains(.top) ? margin : layoutMargins.top,
-            left: edge.contains(.left) ? margin : layoutMargins.left,
-            bottom: edge.contains(.bottom) ? margin : layoutMargins.bottom,
-            right: edge.contains(.right) ? margin : layoutMargins.right
-        )
-        padding(insets)
-        return self
-    }
-    
-    @discardableResult
-    func padding(_ edge: UIEdgeInsets) -> Self {
-        translatesAutoresizingMaskIntoConstraints = false
-        layoutMargins = edge
+    override func padding(_ edge: UIEdgeInsets) -> Self {
+        super.padding(edge)
         isLayoutMarginsRelativeArrangement = true
         return self
     }
@@ -309,7 +167,9 @@ private extension UIStackView {
         let originalSelector = #selector(layoutSubviews)
         let swizzledSelector = #selector(swizzled_layoutSubviews)
         UIView.swizzleMethod(clas: UIStackView.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+        
     }
+    
     
     @objc func swizzled_layoutSubviews() {
         swizzled_layoutSubviews()
