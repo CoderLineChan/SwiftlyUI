@@ -8,7 +8,6 @@
 import UIKit
 
 // MARK: - Layout
-
 public extension UITextView {
     @discardableResult
     override func padding(_ edge: UIEdgeInsets) -> Self {
@@ -109,12 +108,18 @@ public extension UITextView {
         return self
     }
     
+    @discardableResult
+    func maxLength(_ length: Int) -> Self {
+        objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, length, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        return self
+    }
+    
 }
 
 // MARK: - Action
 public extension UITextView {
     @discardableResult
-    func onTextChange(_ action: @escaping @Sendable (String) -> Void) -> Self {
+    func onTextChange(_ action: @escaping (String) -> Void) -> Self {
         onTextChange { textView in
             action(textView.text)
         }
@@ -123,56 +128,41 @@ public extension UITextView {
     
     @discardableResult
     func onTextChange(_ action: @escaping (UITextView) -> Void) -> Self {
-        let observer = __UITextViewBlockObserver(
-            notificationName: UITextView.textDidChangeNotification,
-            object: self
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            if let maxLength = objc_getAssociatedObject(self, &AssociatedKeys.maxLengthKey) as? Int ,maxLength > 0 {
-                if self.text.count > maxLength {
-                    self.text = String(self.text.prefix(maxLength))
-                }
-            }
-            action(self)
-            self.updatePlaceholderVisibility()
-        }
         objc_setAssociatedObject(self, &AssociatedKeys.textDidChangeKey, observer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        textChangeObserver()
+        return self
+    }
+    
+    @discardableResult
+    func onBeginEditing(_ action: @escaping () -> Void) -> Self {
+        onBeginEditing { _ in
+            action()
+        }
         return self
     }
     
     @discardableResult
     func onBeginEditing(_ action: @escaping (UITextView) -> Void) -> Self {
-        let observer = __UITextViewBlockObserver(
-            notificationName: UITextView.textDidBeginEditingNotification,
-            object: self
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            action(self)
-            self.updatePlaceholderVisibility()
-        }
         objc_setAssociatedObject(self, &AssociatedKeys.textDidBeginEditingKey, observer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        textFieldDidBeginEditingObserver()
+        return self
+    }
+    
+    @discardableResult
+    func onEndEditing(_ action: @escaping () -> Void) -> Self {
+        onEndEditing { _ in
+            action()
+        }
         return self
     }
     
     @discardableResult
     func onEndEditing(_ action: @escaping (UITextView) -> Void) -> Self {
-        let observer = __UITextViewBlockObserver(
-            notificationName: UITextView.textDidEndEditingNotification,
-            object: self
-        ) { [weak self] _ in
-            guard let self = self else { return }
-            action(self)
-            self.updatePlaceholderVisibility()
-        }
         objc_setAssociatedObject(self, &AssociatedKeys.textDidEndEditingKey, observer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        textFieldDidEndEditingObserver()
         return self
     }
     
-    @discardableResult
-    func maxLength(_ length: Int) -> Self {
-        objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, length, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        return self
-    }
 }
 
 
@@ -184,7 +174,9 @@ private extension UITextView {
         nonisolated(unsafe) static var textDidChangeKey: Void?
         nonisolated(unsafe) static var textDidBeginEditingKey: Void?
         nonisolated(unsafe) static var textDidEndEditingKey: Void?
-        
+        nonisolated(unsafe) static var observerKey: Void?
+        nonisolated(unsafe) static var endEditingObserverKey: Void?
+        nonisolated(unsafe) static var beginEditingObserverKey: Void?
     }
     
     var placeholderLabel: UILabel? {
@@ -197,6 +189,20 @@ private extension UITextView {
                 .OBJC_ASSOCIATION_RETAIN_NONATOMIC
             )
         }
+    }
+    var observer: __UITextViewBlockObserver? {
+        get { objc_getAssociatedObject(self, &AssociatedKeys.observerKey) as? __UITextViewBlockObserver }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.observerKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
+    var beginEditingObserver: __UITextViewBlockObserver? {
+        get { objc_getAssociatedObject(self, &AssociatedKeys.beginEditingObserverKey) as? __UITextViewBlockObserver }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.beginEditingObserverKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
+    var endEditingObserver: __UITextViewBlockObserver? {
+        get { objc_getAssociatedObject(self, &AssociatedKeys.endEditingObserverKey) as? __UITextViewBlockObserver }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.endEditingObserverKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
     
     func getOrCreatePlaceholderLabel() -> UILabel {
@@ -211,17 +217,76 @@ private extension UITextView {
         label.textAlignment = self.textAlignment
         label.isUserInteractionEnabled = false
         addSubview(label)
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: textContainer.lineFragmentPadding + textContainerInset.left),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -(textContainer.lineFragmentPadding + textContainerInset.right)),
-            label.topAnchor.constraint(equalTo: topAnchor, constant: textContainerInset.top),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -textContainerInset.bottom)
-        ])
+        label.leftToSuper(isMargins: false, offset: textContainer.lineFragmentPadding + textContainerInset.left)
+        label.rightToSuper(isMargins: false, offset: -(textContainer.lineFragmentPadding + textContainerInset.right))
+        label.topToSuper(isMargins: false, offset: textContainerInset.top)
+        label.bottomToSuper(isMargins: false, offset: -textContainerInset.bottom)
+
         placeholderLabel = label
+        textChangeObserver()
+        updatePlaceholderVisibility()
         __UITextViewDisposableClass.runOnce {
             UITextView.once()
         }
         return label
+    }
+    
+    func textChangeObserver() {
+        if observer != nil {
+            return
+        }
+        observer = __UITextViewBlockObserver(
+            notificationName: UITextView.textDidChangeNotification,
+            object: self
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.handleMaxLength()
+            self.updatePlaceholderVisibility()
+            if let action = objc_getAssociatedObject(self, &AssociatedKeys.textDidChangeKey) as? (UITextView) -> Void {
+                action(self)
+            }
+        }
+    }
+    
+    func textFieldDidBeginEditingObserver() {
+        if beginEditingObserver != nil {
+            return
+        }
+        beginEditingObserver = __UITextViewBlockObserver(
+            notificationName: UITextView.textDidBeginEditingNotification,
+            object: self
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.updatePlaceholderVisibility()
+            if let action = objc_getAssociatedObject(self, &AssociatedKeys.textDidBeginEditingKey) as? (UITextView) -> Void {
+                action(self)
+            }
+        }
+    }
+    
+    func textFieldDidEndEditingObserver() {
+        if endEditingObserver != nil {
+            return
+        }
+        endEditingObserver = __UITextViewBlockObserver(
+            notificationName: UITextView.textDidEndEditingNotification,
+            object: self
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.updatePlaceholderVisibility()
+            if let action = objc_getAssociatedObject(self, &AssociatedKeys.textDidEndEditingKey) as? (UITextView) -> Void {
+                action(self)
+            }
+        }
+    }
+    
+    func handleMaxLength() {
+        guard let maxLength = objc_getAssociatedObject(self, &AssociatedKeys.maxLengthKey) as? Int,
+              maxLength > 0,
+              let text = self.text,
+              text.count > maxLength else { return }
+        
+        self.text = String(text.prefix(maxLength))
     }
     
     func updatePlaceholderVisibility() {
@@ -233,6 +298,11 @@ private extension UITextView {
             return
         }
         let availableWidth = self.bounds.width - (self.textContainer.lineFragmentPadding + self.textContainerInset.left + self.textContainer.lineFragmentPadding + self.textContainerInset.right)
+        placeholderLabel?.leftToSuper(isMargins: false, offset: textContainer.lineFragmentPadding + textContainerInset.left)
+        placeholderLabel?.rightToSuper(isMargins: false, offset: -(textContainer.lineFragmentPadding + textContainerInset.right))
+        placeholderLabel?.topToSuper(isMargins: false, offset: textContainerInset.top)
+        placeholderLabel?.bottomToSuper(isMargins: false, offset: -textContainerInset.bottom)
+        
         placeholderLabel?.preferredMaxLayoutWidth = availableWidth
     }
     

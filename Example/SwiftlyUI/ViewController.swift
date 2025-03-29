@@ -12,6 +12,32 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print("viewDidLoad")
+        let textF = UITextField("123452123213123123231232131236")
+            .backgroundColor(.red.opacity(0.2))
+            .padding(.horizontal, 00)
+            .frame(width: 200, height: 60)
+            .maxLength(5)
+            .centerToSuper()
+//            .onTextChange { text in
+//                print("text: \(text)")
+//            }
+//            .onBeginEditing { _ in
+//                print("begin")
+//            }
+//            .onEndEditing { _ in
+//                print("end")
+//            }
+        
+        view.addSubview(textF)
+    }
+    
+    
+    
+    
+    
+    
+    func tedt2() {
         let zView = ZStackView {// == UIView
             UIView()
                 .frame(width: 300, height: 200)
@@ -53,13 +79,6 @@ class ViewController: UIViewController {
         
         view.addSubview(zView)
     }
-    
-    
-    
-    
-    
-    
-    
     
     func test1() {
         let stackView = HStackView {

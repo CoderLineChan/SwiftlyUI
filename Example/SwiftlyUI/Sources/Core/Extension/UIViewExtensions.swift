@@ -8,15 +8,20 @@
 import UIKit
 
 // MARK: - ViewBuilder
+@available(iOS 13, *)
 @resultBuilder
-struct ViewBuilder {
-    static func buildBlock(_ components: UIView...) -> [UIView] { components }
-    static func buildOptional(_ component: [UIView]?) -> [UIView] { component ?? [] }
-    static func buildArray(_ components: [[UIView]]) -> [UIView] { components.flatMap { $0 } }
-    static func buildEither(first: [UIView]) -> [UIView] { first }
-    static func buildEither(second: [UIView]) -> [UIView] { second }
+public struct ViewBuilder {
+    public static func buildBlock(_ components: UIView...) -> [UIView] { components }
+    public static func buildBlock() -> [UIView] { [] }
+    public static func buildOptional(_ component: [UIView]?) -> [UIView] { component ?? [] }
+    public static func buildArray(_ components: [[UIView]]) -> [UIView] { components.flatMap { $0 } }
+    public static func buildEither(first: [UIView]) -> [UIView] { first }
+    public static func buildEither(second: [UIView]) -> [UIView] { second }
+    public static func buildPartialBlock(first: UIView) -> [UIView] { [first] }
+    public static func buildPartialBlock(accumulated: [UIView], next: UIView) -> [UIView] { accumulated + [next] }
 }
 
+// MARK: - Padding Edge
 public struct EdgeSet : OptionSet, Sendable {
     public let rawValue: Int
     public init(rawValue: Int) {
@@ -31,50 +36,53 @@ public struct EdgeSet : OptionSet, Sendable {
     public static let all: EdgeSet = [.top, .left, .bottom, .right]
 }
 
-private let defaultDuration: TimeInterval = 0.3
+
+// MARK: - Animation
 public struct UIKitAnimation {
     let duration: TimeInterval
     let delayInterval: TimeInterval
     let refreshAllViews: Bool
     let options: UIView.AnimationOptions
     
-    static var `default`: Self {
+    private static let defaultDuration: TimeInterval = 0.3
+    
+    public static var `default`: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseInOut, .allowUserInteraction])
     }
     
-    static func `default`(duration: TimeInterval = defaultDuration) -> Self {
-        Self(duration: duration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseInOut, .allowUserInteraction])
+    public static func `default`(duration: TimeInterval? = nil) -> Self {
+        Self(duration: duration ?? defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseInOut, .allowUserInteraction])
     }
     
-    static var linear: Self {
+    public static var linear: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveLinear, .allowUserInteraction])
     }
-    static func linear(duration: TimeInterval = defaultDuration, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
-        Self(duration: duration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveLinear, .allowUserInteraction])
+    public static func linear(duration: TimeInterval? = nil, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
+        Self(duration: duration ?? defaultDuration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveLinear, .allowUserInteraction])
     }
     
-    static var easeIn: Self {
+    public static var easeIn: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseIn, .allowUserInteraction])
     }
-    static func easeIn(duration: TimeInterval = defaultDuration, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
-        Self(duration: duration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveEaseIn, .allowUserInteraction])
+    public static func easeIn(duration: TimeInterval? = nil, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
+        Self(duration: duration ?? defaultDuration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveEaseIn, .allowUserInteraction])
     }
     
-    static var easeOut: Self {
+    public static var easeOut: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseOut, .allowUserInteraction])
     }
-    static func easeOut(duration: TimeInterval = defaultDuration, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
-        Self(duration: duration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveEaseOut, .allowUserInteraction])
+    public static func easeOut(duration: TimeInterval? = nil, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
+        Self(duration: duration ?? defaultDuration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveEaseOut, .allowUserInteraction])
     }
     
-    static var easeInOut: Self {
+    public static var easeInOut: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseInOut, .allowUserInteraction])
     }
-    static func easeInOut(duration: TimeInterval = defaultDuration, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
-        Self(duration: duration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveEaseInOut, .allowUserInteraction])
+    public static func easeInOut(duration: TimeInterval? = nil, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
+        Self(duration: duration ?? defaultDuration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveEaseInOut, .allowUserInteraction])
     }
     
-    static func spring(duration: TimeInterval, dampingRatio: CGFloat, initialVelocity: CGFloat = 0, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
+    public static func spring(duration: TimeInterval, dampingRatio: CGFloat, initialVelocity: CGFloat = 0, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
         Self(
             duration: duration,
             delayInterval: delay, refreshAllViews: refreshAllViews,
@@ -83,7 +91,7 @@ public struct UIKitAnimation {
         
     }
     
-    static func delay(_ delay: TimeInterval, animation: Self, refreshAllViews: Bool = false) -> Self {
+    public static func delay(_ delay: TimeInterval, animation: Self, refreshAllViews: Bool = false) -> Self {
         Self(
             duration: animation.duration,
             delayInterval: delay, refreshAllViews: refreshAllViews,
@@ -91,7 +99,7 @@ public struct UIKitAnimation {
         )
     }
     
-    static func repeatCount(_ count: Float, autoreverses: Bool = true, animation: Self) -> Self {
+    public static func repeatCount(_ count: Float, autoreverses: Bool = true, animation: Self) -> Self {
         var options = animation.options
         if autoreverses {
             options.insert(.autoreverse)
@@ -104,7 +112,7 @@ public struct UIKitAnimation {
         )
     }
     
-    static func repeatForever(autoreverses: Bool = true, animation: Self) -> Self {
+    public static func repeatForever(autoreverses: Bool = true, animation: Self) -> Self {
         var options = animation.options
         if autoreverses {
             options.insert(.autoreverse)
@@ -118,22 +126,7 @@ public struct UIKitAnimation {
     }
 }
 
-extension UIView {
-    static func swizzleMethod(clas: AnyClass, originalSelector: Selector, swizzledSelector: Selector) {
-        guard let originalMethod = class_getInstanceMethod(clas, originalSelector),
-              let swizzledMethod = class_getInstanceMethod(clas, swizzledSelector) else {
-            fatalError("Failed to swizzleMethod")
-        }
-        
-        let didAddMethod = class_addMethod(clas,originalSelector,method_getImplementation(swizzledMethod),method_getTypeEncoding(swizzledMethod))
-        if didAddMethod {
-            class_replaceMethod(clas,swizzledSelector,method_getImplementation(originalMethod),method_getTypeEncoding(originalMethod))
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod)
-        }
-    }
-}
-
+// MARK: - Create Gesture
 extension UIView {
     func createGestureRecognizer<T: UIGestureRecognizer>(
         for type: GestureType,
@@ -212,8 +205,9 @@ extension UIView {
     }
 }
 
+// MARK: - Gesture AssociatedKey
 extension UIView {
-    private struct AssociatedKeys {
+    fileprivate struct AssociatedKeys {
         nonisolated(unsafe) static var tapActionKey: UInt8 = 0
         nonisolated(unsafe) static var doubleTapActionKey: UInt8 = 0
         nonisolated(unsafe) static var longPressActionKey: UInt8 = 0
@@ -221,6 +215,8 @@ extension UIView {
         nonisolated(unsafe) static var swipeActionKey: UInt8 = 0
         nonisolated(unsafe) static var pinchActionKey: UInt8 = 0
         nonisolated(unsafe) static var rotationActionKey: UInt8 = 0
+        
+        nonisolated(unsafe) static var gestureTypeKey: Void?
         
         nonisolated(unsafe) static let tapActionKeyPtr: UnsafeRawPointer = {
             withUnsafePointer(to: &tapActionKey) { UnsafeRawPointer($0) }
@@ -260,6 +256,7 @@ extension UIView.GestureType {
     }
 }
 
+// MARK: - Gesture Action Closure
 class ViewGestureActionClosure<T: UIGestureRecognizer> {
     var action: (T) -> Void
     init(action: @escaping (T) -> Void) {
@@ -277,20 +274,17 @@ class ViewGestureActionClosure<T: UIGestureRecognizer> {
         action(gesture as! T)
     }
 }
-               
+
+// MARK: - Gesture Type
 extension UIGestureRecognizer {
-    private struct AssociatedKeys {
-        nonisolated(unsafe) static var gestureTypeKey: Void?
-    }
-    
     var gestureType: UIView.GestureType? {
         get {
-            objc_getAssociatedObject(self, &AssociatedKeys.gestureTypeKey) as? UIView.GestureType
+            objc_getAssociatedObject(self, &UIView.AssociatedKeys.gestureTypeKey) as? UIView.GestureType
         }
         set {
             objc_setAssociatedObject(
                 self,
-                &AssociatedKeys.gestureTypeKey,
+                &UIView.AssociatedKeys.gestureTypeKey,
                 newValue,
                 .OBJC_ASSOCIATION_RETAIN_NONATOMIC
             )
@@ -298,6 +292,7 @@ extension UIGestureRecognizer {
     }
 }
 
+// MARK: - Disposable Once
 struct __UIViewDisposableClass {
     @MainActor private static var hasExecuted = false
     @MainActor static func runOnce(block: () -> Void) {
@@ -307,10 +302,28 @@ struct __UIViewDisposableClass {
     }
 }
 
+// MARK: - Global Once Swizzled Method
 extension UIView {
     static func onceSwizzled() {
         __UIViewDisposableClass.runOnce {
             UIView.layoutOnce()
+        }
+    }
+}
+
+// MARK: - swizzleMethod
+extension UIView {
+    static func swizzleMethod(clas: AnyClass, originalSelector: Selector, swizzledSelector: Selector) {
+        guard let originalMethod = class_getInstanceMethod(clas, originalSelector),
+              let swizzledMethod = class_getInstanceMethod(clas, swizzledSelector) else {
+            fatalError("Failed to swizzleMethod")
+        }
+        
+        let didAddMethod = class_addMethod(clas,originalSelector,method_getImplementation(swizzledMethod),method_getTypeEncoding(swizzledMethod))
+        if didAddMethod {
+            class_replaceMethod(clas,swizzledSelector,method_getImplementation(originalMethod),method_getTypeEncoding(originalMethod))
+        } else {
+            method_exchangeImplementations(originalMethod, swizzledMethod)
         }
     }
 }

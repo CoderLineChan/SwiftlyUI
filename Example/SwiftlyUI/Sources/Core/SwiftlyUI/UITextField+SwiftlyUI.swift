@@ -8,7 +8,6 @@
 import UIKit
 
 // MARK: - Layout
-private let defaultPadding: CGFloat = 16
 public extension UITextField {
     @discardableResult
     override func padding(_ edge: UIEdgeInsets) -> Self {
@@ -156,14 +155,14 @@ extension UITextField {
     
     @discardableResult
     func onTextChange(_ action: @escaping (UITextField) -> Void) -> Self {
-        addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        textChangeObserver()
         objc_setAssociatedObject(self, &AssociatedKeys.textChangeActionKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return self
     }
     
     @discardableResult
     func onBeginEditing(_ action: @escaping (UITextField) -> Void) -> Self {
-        addTarget(self, action: #selector(textFieldDidBeginEditing(_:)), for: .editingDidBegin)
+        textFieldDidBeginEditingObserver()
         objc_setAssociatedObject(self, &AssociatedKeys.beginEditingActionKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return self
     }
@@ -177,7 +176,7 @@ extension UITextField {
     
     @discardableResult
     func onEndEditing(_ action: @escaping (UITextField) -> Void) -> Self {
-        addTarget(self, action: #selector(textFieldDidEndEditing(_:)), for: .editingDidEnd)
+        textFieldDidEndEditingObserver()
         objc_setAssociatedObject(self, &AssociatedKeys.endEditingActionKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return self
     }
@@ -199,6 +198,9 @@ private extension UITextField {
         nonisolated(unsafe) static var textChangeActionKey: Void?
         nonisolated(unsafe) static var beginEditingActionKey: Void?
         nonisolated(unsafe) static var endEditingActionKey: Void?
+        nonisolated(unsafe) static var observerKey: Void?
+        nonisolated(unsafe) static var endEditingObserverKey: Void?
+        nonisolated(unsafe) static var beginEditingObserverKey: Void?
     }
     
     var paddingInsets: UIEdgeInsets {
@@ -209,6 +211,21 @@ private extension UITextField {
     var placeholderLabel: UILabel? {
         get { objc_getAssociatedObject(self, &AssociatedKeys.placeholderLabelKey) as? UILabel }
         set { objc_setAssociatedObject(self, &AssociatedKeys.placeholderLabelKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
+    var observer: __UITextFieldBlockObserver? {
+        get { objc_getAssociatedObject(self, &AssociatedKeys.observerKey) as? __UITextFieldBlockObserver }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.observerKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
+    var beginEditingObserver: __UITextFieldBlockObserver? {
+        get { objc_getAssociatedObject(self, &AssociatedKeys.beginEditingObserverKey) as? __UITextFieldBlockObserver }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.beginEditingObserverKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
+    var endEditingObserver: __UITextFieldBlockObserver? {
+        get { objc_getAssociatedObject(self, &AssociatedKeys.endEditingObserverKey) as? __UITextFieldBlockObserver }
+        set { objc_setAssociatedObject(self, &AssociatedKeys.endEditingObserverKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
     
     func getOrCreatePlaceholderLabel() -> UILabel {
@@ -223,23 +240,75 @@ private extension UITextField {
         } else {
             label.textColor = .lightGray
         }
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.isHidden = !(text?.isEmpty ?? true)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isUserInteractionEnabled = false
         addSubview(label)
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: paddingInsets.left),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -paddingInsets.right),
-            label.topAnchor.constraint(equalTo: topAnchor, constant: paddingInsets.top),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -paddingInsets.bottom)
-        ])
+        label.fillSuperMargins(edge: paddingInsets)
         placeholderLabel = label
+        textChangeObserver()
+        updatePlaceholderVisibility()
         return label
+    }
+    
+    func textChangeObserver() {
+        if observer != nil {
+            return
+        }
+        observer = __UITextFieldBlockObserver(
+            notificationName: UITextField.textDidChangeNotification,
+            object: self
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.handleMaxLength()
+            self.updatePlaceholderVisibility()
+            if let action = objc_getAssociatedObject(self, &AssociatedKeys.textChangeActionKey) as? (UITextField) -> Void {
+                action(self)
+            }
+        }
+    }
+    
+    func textFieldDidBeginEditingObserver() {
+        if beginEditingObserver != nil {
+            return
+        }
+        beginEditingObserver = __UITextFieldBlockObserver(
+            notificationName: UITextField.textDidBeginEditingNotification,
+            object: self
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            if let action = objc_getAssociatedObject(self, &AssociatedKeys.beginEditingActionKey) as? (UITextField) -> Void {
+                action(self)
+            }
+        }
+    }
+    
+    func textFieldDidEndEditingObserver() {
+        if endEditingObserver != nil {
+            return
+        }
+        endEditingObserver = __UITextFieldBlockObserver(
+            notificationName: UITextField.textDidEndEditingNotification,
+            object: self
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            if let action = objc_getAssociatedObject(self, &AssociatedKeys.endEditingActionKey) as? (UITextField) -> Void {
+                action(self)
+            }
+        }
     }
     
     func updatePlaceholderVisibility() {
         placeholderLabel?.isHidden = !(text?.isEmpty ?? true)
+    }
+    
+    func updatePlaceholderMaxLayoutWidth() {
+        guard self.bounds.width > 0 else {
+            return
+        }
+//        let availableWidth = self.bounds.width - (self.textContainer.lineFragmentPadding + self.textContainerInset.left + self.textContainer.lineFragmentPadding + self.textContainerInset.right)
+//        placeholderLabel?.preferredMaxLayoutWidth = availableWidth
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
@@ -304,3 +373,18 @@ private struct __UITextFieldDisposableClass {
         hasExecuted = true
     }
 }
+
+private class __UITextFieldBlockObserver {
+    private var observer: NSObjectProtocol?
+    
+    init(notificationName: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, block: @escaping (Notification) -> Void) {
+        observer = NotificationCenter.default.addObserver(forName: notificationName, object: object, queue: queue, using: block)
+    }
+    
+    deinit {
+        if let observer = observer {
+            NotificationCenter.default.removeObserver(observer)
+        }
+    }
+}
+

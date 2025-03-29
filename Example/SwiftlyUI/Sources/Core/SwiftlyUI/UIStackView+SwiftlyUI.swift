@@ -8,19 +8,7 @@
 import UIKit
 
 #if swift(>=5.5)
-
-public extension UIStackView {
-    convenience init(
-        axis: NSLayoutConstraint.Axis,
-        spacing: CGFloat = 0,
-        @ViewBuilder content: () -> [UIView]) {
-        self.init(frame: .zero)
-        self.axis = axis
-        self.spacing = spacing
-        self.alignment = .center
-        content().forEach { addArrangedSubview($0) }
-    }
-}
+@available(iOS 13, *)
 public final class VStackView: UIStackView {
     public override var axis: NSLayoutConstraint.Axis {
         get { .vertical }
@@ -28,8 +16,12 @@ public final class VStackView: UIStackView {
     }
     
     @discardableResult
-    convenience init(spacing: CGFloat = 0, @ViewBuilder content: () -> [UIView]) {
-        self.init(axis: .vertical, spacing: spacing, content: content)
+    public convenience init(spacing: CGFloat = 0, @ViewBuilder content: () -> [UIView]) {
+        self.init(frame: .zero)
+        self.axis = .vertical
+        self.spacing = spacing
+        self.alignment = .center
+        content().forEach { addArrangedSubview($0) }
     }
     
     override init(frame: CGRect) {
@@ -48,7 +40,7 @@ public final class VStackView: UIStackView {
     }
 }
 
-
+@available(iOS 13, *)
 public final class HStackView: UIStackView {
     public override var axis: NSLayoutConstraint.Axis {
         get { .horizontal }
@@ -56,8 +48,12 @@ public final class HStackView: UIStackView {
     }
     
     @discardableResult
-    convenience init(spacing: CGFloat = 0, @ViewBuilder content: () -> [UIView]) {
-        self.init(axis: .horizontal, spacing: spacing, content: content)
+    public convenience init(spacing: CGFloat = 0, @ViewBuilder content: () -> [UIView]) {
+        self.init(frame: .zero)
+        self.axis = .horizontal
+        self.spacing = spacing
+        self.alignment = .center
+        content().forEach { addArrangedSubview($0) }
     }
     
     override init(frame: CGRect) {
@@ -76,9 +72,6 @@ public final class HStackView: UIStackView {
     }
 
 }
-
-
-
 #endif
 
 

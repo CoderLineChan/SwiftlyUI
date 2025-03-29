@@ -168,10 +168,8 @@ public extension UIView {
     }
 }
 
-public extension UIView {
-    
-    @objc
-    convenience init(@ViewBuilder content: () -> [UIView]) {
+public final class ZStackView: UIView {
+    public convenience init(@ViewBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
         let views = content()
         setCanActiveLayout(false, forViews: views)
@@ -219,16 +217,12 @@ public extension UIView {
             type: .marginsBottom
         )
     }
-}
-
-public final class ZStackView: UIView {
     
 }
 
-
-
 // MARK: - Layout
 public extension UIView {
+    
     @discardableResult
     func fillSuper(edge: UIEdgeInsets = .zero) -> Self {
         leftToSuper(isMargins: false, offset: edge.left)
@@ -445,14 +439,14 @@ public extension UIView {
     }
     
     @discardableResult
-    func leadingToSuper(offset: CGFloat = 0) -> Self {
+    func leadingToSuper(isMargins: Bool = true, offset: CGFloat = 0) -> Self {
         if let superview = superview {
             addNewConstraint(
-                leadingAnchor.constraint(equalTo: superview.layoutMarginsGuide.leadingAnchor, constant: offset),
+                leadingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.leadingAnchor : superview.leadingAnchor, constant: offset),
                 type: .leading
             )
         } else {
-            let config = ConstraintConfig(type: .leading, targetType: .super, offset: offset)
+            let config = ConstraintConfig(type: .leading, targetType: .super, offset: offset, isMargins: isMargins)
             var holder = constraintHolder
             holder.pendingConstraints[.leading] = config
             constraintHolder = holder
@@ -691,14 +685,14 @@ public extension UIView {
     }
     
     @discardableResult
-    func trailingToSuper(offset: CGFloat = 0) -> Self {
+    func trailingToSuper(isMargins: Bool = true, offset: CGFloat = 0) -> Self {
         if let superview = superview {
             addNewConstraint(
-                trailingAnchor.constraint(equalTo: superview.layoutMarginsGuide.trailingAnchor, constant: -offset),
+                trailingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: -offset),
                 type: .trailing
             )
         } else {
-            let config = ConstraintConfig(type: .trailing, targetType: .super, offset: offset)
+            let config = ConstraintConfig(type: .trailing, targetType: .super, offset: offset, isMargins: isMargins)
             var holder = constraintHolder
             holder.pendingConstraints[.trailing] = config
             constraintHolder = holder
@@ -1059,6 +1053,7 @@ private struct ConstraintConfig {
         self.YAxisAnchor = YAxisAnchor
         self.Dimension = Dimension
         self.isMargins = isMargins
+        UIView.onceSwizzled()
     }
     
 }
@@ -1147,7 +1142,7 @@ fileprivate extension UIView {
         constraintHolder = holder
     }
     
-    private func removeConstraint(type: ConstraintType) {
+    func removeConstraint(type: ConstraintType) {
         var holder = constraintHolder
         if let constraint = holder.constraints[type] {
             constraint.isActive = false
@@ -1160,7 +1155,6 @@ fileprivate extension UIView {
         if !canActiveLayout {
             return
         }
-        print("pendingConstraints View:\(Self.self):\(constraintHolder.constraints)")
         guard let superview = superview else { return }
         for (_, config) in constraintHolder.pendingConstraints {
             switch config.type {
@@ -1310,10 +1304,7 @@ fileprivate extension UIView {
         constraintHolder.constraints.forEach { (type, constraint) in
             constraint.isActive = true
         }
-        
     }
-    
-    
     
     @objc private func swizzled_didAddSubview(_ view: UIView) {
         swizzled_didAddSubview(view)
@@ -1328,7 +1319,6 @@ fileprivate extension UIView {
             safeActivateConstraints()
         }
     }
-    
     
     private func handleDimensionConstraints(
         value: CGFloat?,
@@ -1366,7 +1356,7 @@ fileprivate extension UIView {
 // MARK: - Animation
 @MainActor
 @discardableResult
-func withAnimation<Result>(
+public func withAnimation<Result>(
     _ animation: UIKitAnimation = .default,
     _ body: () throws -> Result
 ) rethrows -> Result {
@@ -1374,7 +1364,7 @@ func withAnimation<Result>(
 }
 @MainActor
 @discardableResult
-func withAnimation<Result>(
+public func withAnimation<Result>(
     _ animation: UIKitAnimation = .default,
     _ body: () throws -> Result,
     completion: ((Bool) -> Void)? = nil
@@ -1383,7 +1373,7 @@ func withAnimation<Result>(
 }
 @MainActor
 @discardableResult
-func withAnimation<Result>(
+public func withAnimation<Result>(
     _ animation: UIKitAnimation = .default,
     completion: ((Bool) -> Void)? = nil,
     _ body: () throws -> Result
