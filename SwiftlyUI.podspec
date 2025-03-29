@@ -10,6 +10,6 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '13.0'
   s.swift_versions = ['5.0', '6.0']
   
-  s.source_files = 'Sources/**/*.swift'
+  s.source_files = "SwiftlyUI/**/*.swift"
 
 end

@@ -1053,7 +1053,6 @@ private struct ConstraintConfig {
         self.YAxisAnchor = YAxisAnchor
         self.Dimension = Dimension
         self.isMargins = isMargins
-        UIView.onceSwizzled()
     }
     
 }
