@@ -16,15 +16,15 @@
 ```ruby
 # 核心组件 | Core components
 pod 'SwiftlyUI'
-# SnapKit 扩展 | SnapKit extensions
-pod 'SwiftlyUI/SnapKitExt'
+# 如果pod失败，请使用以下方式
+pod 'SwiftlyUI', :git => 'https://github.com/CoderLineChan/SwiftlyUI.git', :tag => '1.1.0'
 ```
 
 ### Swift Package Manager
 ```swift
 dependencies: [
     .package(url: "https://github.com/CoderLineChan/SwiftlyUI.git", 
-             from: "1.0.3")
+             from: "1.1.0")
 ]
 ```
 
