@@ -11,6 +11,7 @@ let package = Package(
             targets: ["SwiftlyUI"]
         ),
     ],
+    dependencies: [],
     targets: [
         // 核心模块（不依赖 SnapKit）
         .target(
