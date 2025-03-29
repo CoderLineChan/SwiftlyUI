@@ -7,7 +7,7 @@
 
 import UIKit
 
-typealias ImageView = UIImageView
+public typealias ImageView = UIImageView
 
 // MARK: - basics
 public extension UIImageView {
