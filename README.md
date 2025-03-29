@@ -27,6 +27,11 @@ dependencies: [
              from: "1.1.0")
 ]
 ```
+### 安装成功后设置全局导入
+在AppDelegate.swift文件中添加：
+```
+@_exported import SwiftlyUI
+```
 
 
 ## 为什么选择 SwiftlyUI？ <a name="技术优势全景图"></a>
