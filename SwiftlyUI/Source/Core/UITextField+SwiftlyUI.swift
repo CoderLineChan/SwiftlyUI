@@ -190,7 +190,7 @@ extension UITextField {
 }
 
 // MARK: - private
-private extension UITextField {
+fileprivate extension UITextField {
     struct AssociatedKeys {
         nonisolated(unsafe) static var paddingKey: Void?
         nonisolated(unsafe) static var placeholderLabelKey: Void?
@@ -261,8 +261,10 @@ private extension UITextField {
             object: self
         ) { [weak self] _ in
             guard let self = self else { return }
-            self.handleMaxLength()
-            self.updatePlaceholderVisibility()
+            DispatchQueue.main.async {
+                self.handleMaxLength()
+                self.updatePlaceholderVisibility()
+            }
             if let action = objc_getAssociatedObject(self, &AssociatedKeys.textChangeActionKey) as? (UITextField) -> Void {
                 action(self)
             }
@@ -377,7 +379,7 @@ private struct __UITextFieldDisposableClass {
 private class __UITextFieldBlockObserver {
     private var observer: NSObjectProtocol?
     
-    init(notificationName: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, block: @escaping (Notification) -> Void) {
+    init(notificationName: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, block: @Sendable @escaping (Notification) -> Void) {
         observer = NotificationCenter.default.addObserver(forName: notificationName, object: object, queue: queue, using: block)
     }
     

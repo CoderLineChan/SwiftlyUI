@@ -240,8 +240,10 @@ private extension UITextView {
             object: self
         ) { [weak self] _ in
             guard let self = self else { return }
-            self.handleMaxLength()
-            self.updatePlaceholderVisibility()
+            DispatchQueue.main.async {
+                self.handleMaxLength()
+                self.updatePlaceholderVisibility()
+            }
             if let action = objc_getAssociatedObject(self, &AssociatedKeys.textDidChangeKey) as? (UITextView) -> Void {
                 action(self)
             }
@@ -257,7 +259,9 @@ private extension UITextView {
             object: self
         ) { [weak self] _ in
             guard let self = self else { return }
-            self.updatePlaceholderVisibility()
+            DispatchQueue.main.async {
+                self.updatePlaceholderVisibility()
+            }
             if let action = objc_getAssociatedObject(self, &AssociatedKeys.textDidBeginEditingKey) as? (UITextView) -> Void {
                 action(self)
             }
@@ -273,7 +277,9 @@ private extension UITextView {
             object: self
         ) { [weak self] _ in
             guard let self = self else { return }
-            self.updatePlaceholderVisibility()
+            DispatchQueue.main.async {
+                self.updatePlaceholderVisibility()
+            }
             if let action = objc_getAssociatedObject(self, &AssociatedKeys.textDidEndEditingKey) as? (UITextView) -> Void {
                 action(self)
             }
@@ -288,7 +294,7 @@ private extension UITextView {
         
         self.text = String(text.prefix(maxLength))
     }
-    
+    @MainActor
     func updatePlaceholderVisibility() {
         placeholderLabel?.isHidden = !text.isEmpty
     }
@@ -331,7 +337,7 @@ private struct __UITextViewDisposableClass {
 private class __UITextViewBlockObserver {
     private var observer: NSObjectProtocol?
     
-    init(notificationName: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, block: @escaping (Notification) -> Void) {
+    init(notificationName: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, block: @Sendable @escaping (Notification) -> Void) {
         observer = NotificationCenter.default.addObserver(forName: notificationName, object: object, queue: queue, using: block)
     }
     

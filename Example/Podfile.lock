@@ -1,0 +1,16 @@
+PODS:
+  - SwiftlyUI (1.0.9)
+
+DEPENDENCIES:
+  - SwiftlyUI (from `../`)
+
+EXTERNAL SOURCES:
+  SwiftlyUI:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  SwiftlyUI: 7e7edb660bd93e063098e30c3fc5ca34f3c46a24
+
+PODFILE CHECKSUM: c6838f5f72750bb8268c65324f1c6c0c35e69ca0
+
+COCOAPODS: 1.16.2
