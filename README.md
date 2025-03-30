@@ -240,7 +240,7 @@ let textField = UITextField()
 ![WX20250326-172247](https://github.com/user-attachments/assets/3ce96ed8-ed5c-45c9-aae7-80b4260bc29f)
 ![WX20250328-190206](https://github.com/user-attachments/assets/eded9064-d3f8-4a27-bbc9-5c1c7018613e)
 <p align="center">
-<img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/SwiftlyUI/Example/SampleGraphs/SampleGraph_4.png" width="1000px"/>
+<img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/Example/SampleGraphs/SampleGraph_4.png" width="1000px"/>
 </p>
 
 
