@@ -981,7 +981,7 @@ public extension UIView {
     }
 }
 
-fileprivate enum ConstraintType: String, CaseIterable {
+enum ConstraintType: String, CaseIterable {
     case greaterThanOrEqualTo,lessThanOrEqualTo
     case left, right, top, bottom
     case leading, trailing
@@ -1027,12 +1027,12 @@ fileprivate enum ConstraintType: String, CaseIterable {
     }
 }
 
-private enum ConstraintTargetType {
+enum ConstraintTargetType {
     case `super`
     case other
 }
 
-private struct ConstraintConfig {
+struct ConstraintConfig {
     let type: ConstraintType
     let targetType: ConstraintTargetType
     let offset: CGFloat
@@ -1089,7 +1089,7 @@ extension UIView {
     }
 }
 
-fileprivate extension UIView {
+extension UIView {
     struct ConstraintHolder {
         var constraints: [ConstraintType: NSLayoutConstraint] = [:]
         var pendingConstraints: [ConstraintType: ConstraintConfig] = [:]

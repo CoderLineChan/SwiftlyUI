@@ -7,6 +7,74 @@
 
 import UIKit
 
+public extension UIControl {
+    
+    convenience init(_ action: @escaping () -> Void, @ViewBuilder content: () -> [UIView]) {
+        self.init(content: content, action: action)
+    }
+    
+    convenience init<T: UIControl>(_ action: @escaping (T) -> Void, @ViewBuilder content: () -> [UIView]) {
+        self.init(content: content, action: action)
+    }
+    
+    convenience init(@ViewBuilder content: () -> [UIView], action: @escaping () -> Void) {
+        self.init(content: content) { _ in
+            action()
+        }
+    }
+    
+    convenience init<T: UIControl>(@ViewBuilder content: () -> [UIView], action: @escaping (T) -> Void) {
+        self.init(frame: .zero)
+        let views = content()
+        setCanActiveLayout(false, forViews: views)
+        views.forEach {
+            addSubview($0)
+            $0.isUserInteractionEnabled = false
+        }
+        setCanActiveLayout(true, forViews: views)
+        views.forEach({ $0.safeActivateConstraints() })
+        views.forEach { view in
+            applyAlignmentConstraints(for: view)
+        }
+        onAction(action: action)
+    }
+    
+    private func setCanActiveLayout(_ enabled: Bool, forViews views: [UIView]) {
+        views.forEach { view in
+            view.canActiveLayout = enabled
+            setCanActiveLayout(enabled, forViews: view.subviews)
+        }
+    }
+    
+    private func applyAlignmentConstraints(for view: UIView) {
+        let guide = self
+        let leadingConstraint = leadingAnchor.constraint(greaterThanOrEqualTo: guide.layoutMarginsGuide.leadingAnchor)
+        leadingConstraint.priority = .defaultLow
+        view.addNewConstraint(
+            leadingConstraint,
+            type: .marginsLeft
+        )
+        let trailingConstraint = trailingAnchor.constraint(lessThanOrEqualTo: guide.layoutMarginsGuide.trailingAnchor)
+        trailingConstraint.priority = .defaultLow
+        view.addNewConstraint(
+            trailingConstraint,
+            type: .marginsRight
+        )
+        let topConstraint = topAnchor.constraint(greaterThanOrEqualTo: guide.layoutMarginsGuide.topAnchor)
+        topConstraint.priority = .defaultLow
+        view.addNewConstraint(
+            topConstraint,
+            type: .marginsTop
+        )
+        let bottomConstraint = bottomAnchor.constraint(lessThanOrEqualTo: guide.layoutMarginsGuide.bottomAnchor)
+        bottomConstraint.priority = .defaultLow
+        view.addNewConstraint(
+            bottomConstraint,
+            type: .marginsBottom
+        )
+    }
+}
+
 // MARK: - Action
 public extension UIControl {
     @discardableResult

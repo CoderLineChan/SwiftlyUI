@@ -30,12 +30,105 @@ class ViewController: UIViewController {
 //                print("end")
 //            }
         
-        view.addSubview(textF)
+//        view.addSubview(textF)
+        
+       let btn = UIButton {
+            HStackView {
+                ImageView("icon")
+                    .frame(width: 10, height: 10)
+                    .backgroundColor(.red)
+                UILabel("Button")
+                    .frame(height: 30)
+                    .backgroundColor(.green)
+            }
+            .padding(0)
+            .fillSuper()
+            .backgroundColor(.red.opacity(0.2))
+        } action: { _ in
+            print("tap")
+        }
+            .center(to: view)
+            .backgroundColor(.lightGray.opacity(0.2))
+        
+//        view.addSubview(btn)
+        
+        createButton()
+
     }
     
-    
-    
-    
+    // MARK: - UIButton
+    func createButton() {
+        //UIKit
+        let button1 = UIButton()
+        button1.titleLabel?.font = .medium(15)
+        button1.setTitleColor(.black, for: .normal)
+        button1.setTitle("button1", for: .normal)
+        button1.backgroundColor = .red
+        button1.setImage(UIColor.black.image(withSize: CGSize(width: 12, height: 12)), for: .normal)
+        button1.size = CGSize(width: 120, height: 30)
+        button1.resetImagePosition(.right, withTitleSpacing: 5)
+        button1.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        view.addSubview(button1)
+        button1.center = view.center
+        
+        //SwiftlyUI
+        let button2 = UIButton()
+            .title("button2")
+            .titleColor(.black)
+            .font(.medium(15))
+            .backgroundColor(.red)
+            .image(UIColor.black.image(withSize: CGSize(width: 12, height: 12)))
+            .resetImagePosition(.right, withTitleSpacing: 5)
+            .frame(width: 120, height: 30)
+            .centerXToSuper()
+            .centerYToSuper(offset: 50)
+            .onAction(action: buttonAction)
+        
+        view.addSubview(button2)
+        
+        //SwiftlyUI SwiftUI style 1
+        let button3 = UIButton {
+            HStackView(spacing: 5) {
+                UILabel("button3")
+                    .font(.medium(15))
+                    .foregroundColor(.black)
+                
+                UIImageView("")
+                    .frame(width: 12, height: 12)
+                    .backgroundColor(.black)
+            }
+            .fillSuperMargins() //has Margins
+        } action: { //or btn in
+            print("buttonAction")
+        }
+            .backgroundColor(.red)
+            .centerXToSuper()
+            .centerYToSuper(offset: 100)
+                    
+        view.addSubview(button3)
+        
+        //SwiftlyUI SwiftUI style 2
+        let button4 = UIButton(buttonAction) {
+            VStackView(spacing: 5) {
+                UILabel("button4")
+                    .font(.medium(15))
+                    .foregroundColor(.black)
+                
+                UIImageView("")
+                    .frame(width: 12, height: 12)
+                    .backgroundColor(.black)
+            }
+            .fillSuper() //no Margins
+        }
+            .backgroundColor(.red)
+            .centerXToSuper()
+            .centerYToSuper(offset: 160)
+                    
+        view.addSubview(button4)
+    }
+    @objc func buttonAction() {
+        print("buttonAction")
+    }
     
     
     func tedt2() {

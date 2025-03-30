@@ -46,7 +46,7 @@ public extension UIButton {
     }
     
     @discardableResult
-    func backgroundColor(_ color: UIColor?, state: UIControl.State = .normal) -> Self {
+    func backgroundImage(_ color: UIColor?, state: UIControl.State = .normal) -> Self {
         self.setBackgroundImage(color?.image(), for: state)
         return self
     }
