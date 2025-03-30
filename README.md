@@ -236,9 +236,15 @@ let textField = UITextField()
 ```
 
 ### 使用示例 <a name="使用示例"></a>
-![WX20250326-111439](https://github.com/user-attachments/assets/1fcfe6ad-3890-4979-8b50-13f664b0b216)
-![WX20250326-172247](https://github.com/user-attachments/assets/3ce96ed8-ed5c-45c9-aae7-80b4260bc29f)
-![WX20250328-190206](https://github.com/user-attachments/assets/eded9064-d3f8-4a27-bbc9-5c1c7018613e)
+<p align="center">
+<img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/Example/SampleGraphs/SampleGraph_1.png" width="1000px"/>
+</p>
+<p align="center">
+<img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/Example/SampleGraphs/SampleGraph_2.png" width="1000px"/>
+</p>
+<p align="center">
+<img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/Example/SampleGraphs/SampleGraph_3.png" width="1000px"/>
+</p>
 <p align="center">
 <img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/Example/SampleGraphs/SampleGraph_4.png" width="1000px"/>
 </p>
