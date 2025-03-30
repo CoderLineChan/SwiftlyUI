@@ -185,6 +185,8 @@ let view = UIView()
     .bottom(to: superView)//添加父控件前
     .width(20)//the same as .frame(width: 20)
     .width(to: view, multiplier: 1.2)
+
+superView.addSubview(view)
 ```
 
 ### UIControl & UIButton 多状态增强
