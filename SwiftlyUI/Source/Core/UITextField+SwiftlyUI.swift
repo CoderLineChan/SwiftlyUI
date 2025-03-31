@@ -144,7 +144,7 @@ public extension UITextField {
 }
 
 // MARK: - Action
-extension UITextField {
+public extension UITextField {
     @MainActor
     @discardableResult
     func onTextChange(_ action: @escaping (String) -> Void) -> Self {
@@ -303,14 +303,6 @@ fileprivate extension UITextField {
     
     func updatePlaceholderVisibility() {
         placeholderLabel?.isHidden = !(text?.isEmpty ?? true)
-    }
-    
-    func updatePlaceholderMaxLayoutWidth() {
-        guard self.bounds.width > 0 else {
-            return
-        }
-//        let availableWidth = self.bounds.width - (self.textContainer.lineFragmentPadding + self.textContainerInset.left + self.textContainer.lineFragmentPadding + self.textContainerInset.right)
-//        placeholderLabel?.preferredMaxLayoutWidth = availableWidth
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {

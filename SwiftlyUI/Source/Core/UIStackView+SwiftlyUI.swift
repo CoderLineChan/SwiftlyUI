@@ -27,11 +27,13 @@ public final class VStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.axis = .vertical
+        self.alignment = .center
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
         self.axis = .vertical
+        self.alignment = .center
     }
     
     @available(*, unavailable, message: "use init(spacing:content:)")
@@ -59,11 +61,13 @@ public final class HStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.axis = .horizontal
+        self.alignment = .center
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
         self.axis = .horizontal
+        self.alignment = .center
     }
     
     @available(*, unavailable, message: "use init(spacing:content:)")

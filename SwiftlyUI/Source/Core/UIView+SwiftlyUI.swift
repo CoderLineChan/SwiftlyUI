@@ -275,6 +275,50 @@ public extension UIView {
     }
     
     @discardableResult
+    func centerToSuper() -> Self {
+        if let superview = superview {
+            addNewConstraint(
+                centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: 0),
+                type: .centerY
+            )
+            addNewConstraint(
+                centerXAnchor.constraint(equalTo: superview.centerXAnchor, constant: 0),
+                type: .centerX
+            )
+        } else {
+            let configX = ConstraintConfig(type: .centerX, targetType: .super, offset: 0)
+            let configY = ConstraintConfig(type: .centerY, targetType: .super, offset: 0)
+            var holder = constraintHolder
+            holder.pendingConstraints[.centerX] = configX
+            holder.pendingConstraints[.centerY] = configY
+            constraintHolder = holder
+        }
+        return self
+    }
+    
+    @discardableResult
+    func center(to view: UIView) -> Self {
+        if view == superview {
+            addNewConstraint(
+                centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
+                type: .centerY
+            )
+            addNewConstraint(
+                centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+                type: .centerX
+            )
+        }else {
+            let configX = ConstraintConfig(type: .centerX, targetType: .other, offset: 0, XAxisAnchor: view.centerXAnchor)
+            let configY = ConstraintConfig(type: .centerY, targetType: .other, offset: 0, YAxisAnchor: view.centerYAnchor)
+            var holder = constraintHolder
+            holder.pendingConstraints[.centerX] = configX
+            holder.pendingConstraints[.centerY] = configY
+            constraintHolder = holder
+        }
+        return self
+    }
+    
+    @discardableResult
     func topToSuper(isMargins: Bool = true, offset: CGFloat = 0) -> Self {
         if let superview = superview {
             addNewConstraint(
@@ -932,50 +976,6 @@ public extension UIView {
             )
         }else {
             centerY(to: view.layoutMarginsGuide.centerYAnchor, offset: offset)
-        }
-        return self
-    }
-    
-    @discardableResult
-    func centerToSuper() -> Self {
-        if let superview = superview {
-            addNewConstraint(
-                centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: 0),
-                type: .centerY
-            )
-            addNewConstraint(
-                centerXAnchor.constraint(equalTo: superview.centerXAnchor, constant: 0),
-                type: .centerX
-            )
-        } else {
-            let configX = ConstraintConfig(type: .centerX, targetType: .super, offset: 0)
-            let configY = ConstraintConfig(type: .centerY, targetType: .super, offset: 0)
-            var holder = constraintHolder
-            holder.pendingConstraints[.centerX] = configX
-            holder.pendingConstraints[.centerY] = configY
-            constraintHolder = holder
-        }
-        return self
-    }
-    
-    @discardableResult
-    func center(to view: UIView) -> Self {
-        if view == superview {
-            addNewConstraint(
-                centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
-                type: .centerY
-            )
-            addNewConstraint(
-                centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-                type: .centerX
-            )
-        }else {
-            let configX = ConstraintConfig(type: .centerX, targetType: .other, offset: 0, XAxisAnchor: view.centerXAnchor)
-            let configY = ConstraintConfig(type: .centerY, targetType: .other, offset: 0, YAxisAnchor: view.centerYAnchor)
-            var holder = constraintHolder
-            holder.pendingConstraints[.centerX] = configX
-            holder.pendingConstraints[.centerY] = configY
-            constraintHolder = holder
         }
         return self
     }

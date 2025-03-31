@@ -12,12 +12,12 @@ public typealias ImageView = UIImageView
 // MARK: - basics
 public extension UIImageView {
     
-    convenience init(_ imageName: String) {
-        self.init(image: UIImage(named: imageName))
+    convenience init(_ imageName: String, highlightedImageName: String? = nil) {
+        self.init(imageName: imageName, highlightedImageName: highlightedImageName)
     }
     
-    convenience init(imageName: String) {
-        self.init(image: UIImage(named: imageName))
+    convenience init(imageName: String, highlightedImageName: String? = nil) {
+        self.init(image: UIImage(named: imageName), highlightedImage: UIImage(named: highlightedImageName ?? ""))
     }
     
     convenience init(systemName: String) {
@@ -32,14 +32,18 @@ public extension UIImageView {
     }
     
     @discardableResult
-    func imageName(_ imageName: String) -> Self {
+    func imageName(_ imageName: String, highlightedImageName: String? = nil) -> Self {
         self.image = UIImage(named: imageName)
+        if let highlightedImage = highlightedImageName {
+            self.highlightedImage = UIImage(named: highlightedImage)
+        }
         return self
     }
     
     @discardableResult
-    func image(_ image: UIImage) -> Self {
+    func image(_ image: UIImage, highlightedImage: UIImage? = nil) -> Self {
         self.image = image
+        self.highlightedImage = highlightedImage
         return self
     }
     
@@ -52,6 +56,12 @@ public extension UIImageView {
     @discardableResult
     func gradientImage(colors: [UIColor], direction: UIImage.GradientDirection, size: CGSize) -> Self {
         self.image = UIImage.gradient(colors: colors, direction: direction, size: size)
+        return self
+    }
+    
+    @discardableResult
+    func highlighted(_ isHighlighted: Bool) -> Self {
+        self.isHighlighted = isHighlighted
         return self
     }
 }

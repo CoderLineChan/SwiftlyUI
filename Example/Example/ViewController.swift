@@ -20,40 +20,19 @@ class ViewController: UIViewController {
             .frame(width: 200, height: 60)
             .maxLength(5)
             .centerToSuper()
-//            .onTextChange { text in
-//                print("text: \(text)")
-//            }
-//            .onBeginEditing { _ in
-//                print("begin")
-//            }
-//            .onEndEditing { _ in
-//                print("end")
-//            }
-        
-//        view.addSubview(textF)
-        
-       let btn = UIButton {
-            HStackView {
-                ImageView("icon")
-                    .frame(width: 10, height: 10)
-                    .backgroundColor(.red)
-                UILabel("Button")
-                    .frame(height: 30)
-                    .backgroundColor(.green)
+            .onTextChange { text in
+                print("text: \(text)")
             }
-            .padding(0)
-            .fillSuper()
-            .backgroundColor(.red.opacity(0.2))
-        } action: { _ in
-            print("tap")
-        }
-            .center(to: view)
-            .backgroundColor(.lightGray.opacity(0.2))
+            .onBeginEditing { _ in
+                print("begin")
+            }
+            .onEndEditing { _ in
+                print("end")
+            }
         
-//        view.addSubview(btn)
+        view.addSubview(textF)
         
-        createButton()
-
+        
     }
     
     // MARK: - UIButton

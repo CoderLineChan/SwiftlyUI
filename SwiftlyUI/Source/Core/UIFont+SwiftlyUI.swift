@@ -54,3 +54,59 @@ public extension UIFont {
         return UIFont(name: "DINCondensed-Bold", size: size) ?? UIFont.boldSystemFont(ofSize: size)
     }
 }
+
+public extension UIFont {
+    static var largeTitle: UIFont {
+        return UIFont.preferredFont(forTextStyle: .largeTitle)
+    }
+    
+    @available(iOS 17.0, *)
+    static var extraLargeTitle: UIFont {
+        return UIFont.preferredFont(forTextStyle: .extraLargeTitle)
+    }
+    
+    @available(iOS 17.0, *)
+    static var extraLargeTitle2: UIFont {
+        return .preferredFont(forTextStyle: .extraLargeTitle2)
+    }
+    
+    static var title: UIFont {
+        return .preferredFont(forTextStyle: .title1)
+    }
+    
+    static var title2: UIFont {
+        return .preferredFont(forTextStyle: .title2)
+    }
+    
+    static var title3: UIFont {
+        return .preferredFont(forTextStyle: .title3)
+    }
+    
+    static var headline: UIFont {
+        return .preferredFont(forTextStyle: .headline)
+    }
+    
+    static var subheadline: UIFont {
+        return .preferredFont(forTextStyle: .subheadline)
+    }
+    
+    static var body: UIFont {
+        return .preferredFont(forTextStyle: .body)
+    }
+    
+    static var callout: UIFont {
+        return .preferredFont(forTextStyle: .callout)
+    }
+    
+    static var footnote: UIFont {
+        return .preferredFont(forTextStyle: .footnote)
+    }
+    
+    static var caption: UIFont {
+        return .preferredFont(forTextStyle: .caption1)
+    }
+    
+    static var caption2: UIFont {
+        return .preferredFont(forTextStyle: .caption2)
+    }
+}
