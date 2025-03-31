@@ -2,8 +2,6 @@
 **为 UIKit 注入 SwiftUI 的开发效率**  
 通过链式语法和现代化 API 设计，让 UIKit 开发更简洁高效，同时保持完整控制权，实现「零转换成本」的 SwiftUI 式开发体验。  
 
-[![CocoaPods](https://img.shields.io/cocoapods/v/SwiftlyUI)](https://cocoapods.org/pods/SwiftlyUI)
-[![SPM](https://img.shields.io/badge/SPM-supported-green)](https://swift.org/package-manager/)
 
 ## 快速导航 🗺️ | Quick Navigation
 - [安装指南 | Installation](#安装指南)
@@ -12,6 +10,8 @@
 - [使用示例](#使用示例)
 
 ## 安装指南 📦| Installation <a name="安装指南"></a>
+[![CocoaPods](https://img.shields.io/cocoapods/v/SwiftlyUI)](https://cocoapods.org/pods/SwiftlyUI)
+[![SPM](https://img.shields.io/badge/SPM-supported-green)](https://swift.org/package-manager/)
 ### CocoaPods
 ```ruby
 # 核心组件 | Core components
