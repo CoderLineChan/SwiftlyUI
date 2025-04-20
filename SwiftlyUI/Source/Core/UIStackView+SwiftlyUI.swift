@@ -211,7 +211,7 @@ private class UIStackViewSeparatorHelper: NSObject {
     var size: CGSize = .zero
     weak var stackView: UIStackView?
     var separatorViews: [UIView] = []
-    var cornerRadius: CGFloat = 0
+    var cornerRadius: CGFloat = -1
     
     @MainActor func makeSeparators() {
         guard let stackView = stackView, !size.equalTo(.zero) else { return }
@@ -231,7 +231,14 @@ private class UIStackViewSeparatorHelper: NSObject {
             
             let separator = UIView()
             separator.backgroundColor = color
-            if cornerRadius > 0 {
+            if cornerRadius == -1 {
+                if stackView.axis == .horizontal {
+                    separator.layer.cornerRadius = size.width * 0.5
+                }else {
+                    separator.layer.cornerRadius = size.height * 0.5
+                }
+                separator.layer.masksToBounds = true
+            }else if cornerRadius > 0 {
                 separator.layer.cornerRadius = cornerRadius
                 separator.layer.masksToBounds = true
             }
@@ -239,10 +246,10 @@ private class UIStackViewSeparatorHelper: NSObject {
             if stackView.axis == .horizontal {
                 let centerX = previousView!.frame.maxX + (currentView.frame.minX - previousView!.frame.maxX) * 0.5
                 let x = centerX - size.width * 0.5
-                let y = (previousView!.frame.height - size.height) * 0.5 + stackView.layoutMargins.top
+                let y = previousView!.center.y - size.height * 0.5
                 separator.frame = CGRect(x: x, y: y, width: size.width, height: size.height)
             } else {
-                let x = (previousView!.frame.width - size.width) * 0.5 + stackView.layoutMargins.left
+                let x = previousView!.center.x - size.width * 0.5
                 let centerY = previousView!.frame.maxY + (currentView.frame.minY - previousView!.frame.maxY) * 0.5
                 let y = centerY - size.height * 0.5
                 separator.frame = CGRect(x: x, y: y, width: size.width, height: size.height)
