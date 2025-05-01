@@ -14,24 +14,61 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("viewDidLoad")
+        if #available(iOS 15.0, *) {
+            createButton2()
+        } else {
+            // Fallback on earlier versions
+        }
         
-        let textF = UITextField("123452123213123123231232131236")
-            .backgroundColor(.red.opacity(0.2))
-            .padding(.horizontal, 00)
-            .frame(width: 200, height: 60)
-            .maxLength(5)
-            .centerToSuper()
-            .onTextChange { text in
-                print("text: \(text)")
-            }
-            .onBeginEditing { _ in
-                print("begin")
-            }
-            .onEndEditing { _ in
-                print("end")
-            }
+    }
+    
+    //ios14
+    @available(iOS 15.0, *)
+    func createButton2() {
+        let ac = UIAction(title: "buttonac", subtitle: "sub") { ac in
+            print("buttonac")
+        }
+        let config = UIButton.Configuration.filled()
+            .title("button")
+            .subtitle("subtitle")
+            .baseBackgroundColor(.orange)
+//            .title("button")
+            .image(UIColor.black.image(withSize: CGSize(width: 12, height: 12)))
+//            .imagePlacement(.trailing)
+//            .imagePadding(5)
+            .titlePadding(5)
+            
+        let config2 = config
+            .title("button2")
+            .subtitle("subtitle2")
         
-        view.addSubview(textF)
+        let config3 = config
+            .title("button3")
+            .subtitle("subtitle3")
+        
+        let config4 = config
+            .title("button4")
+            .subtitle("subtitle4")
+            
+        
+        let button = UIButton(configuration: config, primaryAction: ac)
+            .configuration(config2, state: .highlighted)
+            .configuration(config4, state: .selected)
+            .frame(width: 100, height: 50)
+            .center(to: view)
+            .onAction { (btn) in
+                print("buttonAction")
+//                btn.isSelected.toggle()
+            }
+            .configurationUpdateHandler({ button in
+                print("button.state:\(button.state)")
+                if button.state == .highlighted {
+                    button.configuration = config3
+                }
+            })
+        
+        view.addSubview(button)
+        
         
         
     }
