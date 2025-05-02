@@ -17,14 +17,14 @@
 # 核心组件 | Core components
 pod 'SwiftlyUI'
 # 如果pod失败，请使用以下方式
-pod 'SwiftlyUI', :git => 'https://github.com/CoderLineChan/SwiftlyUI.git', :tag => '1.1.1'
+pod 'SwiftlyUI', :git => 'https://github.com/CoderLineChan/SwiftlyUI.git', :tag => '1.1.2'
 ```
 
 ### Swift Package Manager
 ```swift
 dependencies: [
     .package(url: "https://github.com/CoderLineChan/SwiftlyUI.git", 
-             from: "1.1.1")
+             from: "1.1.2")
 ]
 ```
 ### 安装成功后设置全局导入
