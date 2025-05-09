@@ -70,3 +70,19 @@ public extension UIColor {
         return withAlphaComponent(alpha)
     }
 }
+
+
+public extension UIColor {
+    static func convertToCGColors(_ colors: [UIColor]) -> [CGColor] {
+        return colors.map { color -> CGColor in
+            guard let convertedColor = color.cgColor.converted(
+                to: CGColorSpace(name: CGColorSpace.sRGB)!,
+                intent: .defaultIntent,
+                options: nil
+            ) else {
+                return color.cgColor
+            }
+            return convertedColor
+        }
+    }
+}

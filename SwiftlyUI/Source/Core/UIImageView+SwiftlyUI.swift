@@ -54,7 +54,7 @@ public extension UIImageView {
     }
     
     @discardableResult
-    func gradientImage(colors: [UIColor], direction: UIImage.GradientDirection, size: CGSize) -> Self {
+    func gradientImage(colors: [UIColor], direction: GradientDirection, size: CGSize) -> Self {
         self.image = UIImage.gradient(colors: colors, direction: direction, size: size)
         return self
     }

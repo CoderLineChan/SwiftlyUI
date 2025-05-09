@@ -83,16 +83,6 @@ public extension UIButton {
         case right
         case top
         case bottom
-        
-        @available(iOS 13.0, *)
-        var direction: NSDirectionalRectEdge {
-            switch self {
-            case .left: return .leading
-            case .right: return .trailing
-            case .top: return .top
-            case .bottom: return .bottom
-            }
-        }
     }
     
     @discardableResult
@@ -175,9 +165,15 @@ public extension UIButton {
 
 @available(iOS 15.0, *)
 public extension UIButton {
+    
+    convenience init(configuration: () -> UIButton.Configuration) {
+        self.init(configuration: configuration())
+    }
+    
     @discardableResult
-    func configuration(_ configuration: UIButton.Configuration) -> Self {
-        return self.configuration(configuration, state: .normal)
+    func configuration(_ builder: () -> UIButton.Configuration, state: UIButton.State = .normal) -> Self {
+        configuration(builder(), state: state)
+        return self
     }
     
     @discardableResult
@@ -234,6 +230,32 @@ public extension UIButton.Configuration {
         newConfig.attributedTitle = title
         return newConfig
     }
+    
+    @discardableResult
+    func attributedTitle(_ title: String, font: UIFont) -> Self {
+        var newConfig = self
+        var attributedTitle = AttributedString(title)
+        attributedTitle.font = font
+        newConfig.attributedTitle = attributedTitle
+        return newConfig
+    }
+    
+    @discardableResult
+    func attributedSubTitle(_ title: AttributedString) -> Self {
+        var newConfig = self
+        newConfig.attributedSubtitle = title
+        return newConfig
+    }
+    
+    @discardableResult
+    func attributedSubTitle(_ title: String, font: UIFont) -> Self {
+        var newConfig = self
+        var attributedTitle = AttributedString(title)
+        attributedTitle.font = font
+        newConfig.attributedSubtitle = attributedTitle
+        return newConfig
+    }
+    
     
     @discardableResult
     func subtitle(_ subtitle: String) -> Self {
@@ -296,6 +318,13 @@ public extension UIButton.Configuration {
     func background(_ background: UIBackgroundConfiguration) -> Self {
         var newConfig = self
         newConfig.background = background
+        return newConfig
+    }
+    
+    @discardableResult
+    func background(_ background: () -> UIBackgroundConfiguration) -> Self {
+        var newConfig = self
+        newConfig.background = background()
         return newConfig
     }
     

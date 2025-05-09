@@ -3,17 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 71;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14B119B92DCDFC5C003856F0 /* CAGradientLayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119B82DCDFC57003856F0 /* CAGradientLayerExtension.swift */; };
+		14B119BB2DCE1195003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */; };
 		1DC9A01C168B4C3B63B08D6C02E1677E /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425B2BE0B6C36A2653C6EAB2C39200C8 /* UIImageExtension.swift */; };
 		240F1A3E0B2919B5789E0B2E82C6AC1F /* UILabel+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */; };
 		267E8A91E92293A60A131F1E3D34CCDA /* SwiftlyUI-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC712E481D6A2422EAE60A4C245546F /* SwiftlyUI-dummy.m */; };
 		58E4919DFB1598DBC7EF9515F251DCE6 /* UITextView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAAE4D2B65D842AD6DEF63FEA1B128D /* UITextView+SwiftlyUI.swift */; };
 		595CE8D899C419B1AB1807ACB9A4D0FB /* UIFont+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFD35A5F5D7F3FB6B6A03BBC822B4D20 /* UIFont+SwiftlyUI.swift */; };
 		69ACFCC73ADA2C68AE51674C9853388F /* UITextField+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC294B8EAB971F7F8722BEC055CFCE0 /* UITextField+SwiftlyUI.swift */; };
-		6C51F7630A290E64755758903BC7ABAB /* UISpacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE7DF3C382ED288FC99E4F5CFE4ADD /* UISpacer.swift */; };
 		7A3D86A159CA140CB6E79E67F33B2A7E /* UIButton+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41888869CD9BBBF0BA9F6825F2D7DEE0 /* UIButton+SwiftlyUI.swift */; };
 		7F340E15C6E3FA46045C2C11AC2BBBBA /* UIImageView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF2520D371829E88598A202900B6DDC /* UIImageView+SwiftlyUI.swift */; };
 		998467E9375A6375152FC704B8E5A973 /* UIColor+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115817B25BDFD24B22CE4CC418688C99 /* UIColor+SwiftlyUI.swift */; };
@@ -42,7 +43,9 @@
 		0D8A9647DA1B79D5BC720DA87BEEBE45 /* SwiftlyUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftlyUI.debug.xcconfig; sourceTree = "<group>"; };
 		0EC4971538B4625ECC513743133F50DE /* SwiftlyUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftlyUI.release.xcconfig; sourceTree = "<group>"; };
 		115817B25BDFD24B22CE4CC418688C99 /* UIColor+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIColor+SwiftlyUI.swift"; sourceTree = "<group>"; };
-		1F667CC0E19EAF34E5A4119E2121F585 /* Pods-Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-Example"; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		14B119B82DCDFC57003856F0 /* CAGradientLayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAGradientLayerExtension.swift; sourceTree = "<group>"; };
+		14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBackgroundConfiguration+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		1F667CC0E19EAF34E5A4119E2121F585 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UILabel+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		243410B9535472556EA4BB6DBC133A0D /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		31C1D37707DFAA5E6A164BCC07834264 /* Pods-Example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Example-Info.plist"; sourceTree = "<group>"; };
@@ -52,23 +55,22 @@
 		425B2BE0B6C36A2653C6EAB2C39200C8 /* UIImageExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		441854E35F81731E63E53DC7E4EEAD9D /* Pods-Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		52D4F49C2C7438E838BD6385EA05E41F /* SwiftlyUI-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftlyUI-prefix.pch"; sourceTree = "<group>"; };
-		56FE7DF3C382ED288FC99E4F5CFE4ADD /* UISpacer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UISpacer.swift; sourceTree = "<group>"; };
 		68B6A0117DA77FF0A775D4AC35F90FB7 /* SwiftlyUI.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftlyUI.modulemap; sourceTree = "<group>"; };
 		6DC294B8EAB971F7F8722BEC055CFCE0 /* UITextField+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UITextField+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		7825A90E082A1582EB16256B0E722B3F /* Pods-Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Example-umbrella.h"; sourceTree = "<group>"; };
-		7DDC20D14E6F6FD8CE68C7EE1B7E0D0B /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		7DDC20D14E6F6FD8CE68C7EE1B7E0D0B /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8DF2520D371829E88598A202900B6DDC /* UIImageView+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIImageView+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		97A8A1AEB09BA1B42A4E7BEC00ED2A84 /* SwiftlyUI-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftlyUI-umbrella.h"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		ADC712E481D6A2422EAE60A4C245546F /* SwiftlyUI-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftlyUI-dummy.m"; sourceTree = "<group>"; };
 		AFECBC24E09D0D25F822C27BD944AFD4 /* Pods-Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Example-frameworks.sh"; sourceTree = "<group>"; };
 		B45138496B85A072654D1D0F8EBBEDE5 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
 		BE515B23866F612763480C30EF48378E /* UIViewExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
-		C8681149AB49170264B48353CE71C872 /* SwiftlyUI */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftlyUI; path = SwiftlyUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C8681149AB49170264B48353CE71C872 /* SwiftlyUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftlyUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBAAE4D2B65D842AD6DEF63FEA1B128D /* UITextView+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UITextView+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		D6D7C498FA339E02BD53ECB8916CEA8E /* Pods-Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Example-dummy.m"; sourceTree = "<group>"; };
-		DBFA8736950F7EAA1B0350AA351D6409 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		E615D91547FF885707C4CC5735E4DC1B /* SwiftlyUI.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = SwiftlyUI.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		DBFA8736950F7EAA1B0350AA351D6409 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		E615D91547FF885707C4CC5735E4DC1B /* SwiftlyUI.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = SwiftlyUI.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		E7A6F3FE7EBB8918C69CA7F2C918C691 /* UIView+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIView+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		EA21B344259B58996DB73382B1B1521F /* Pods-Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Example-acknowledgements.plist"; sourceTree = "<group>"; };
 		EE6492B151663E6CE29EB0DF7F1C2C0D /* SwiftlyUI-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftlyUI-Info.plist"; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				41888869CD9BBBF0BA9F6825F2D7DEE0 /* UIButton+SwiftlyUI.swift */,
+				14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */,
 				115817B25BDFD24B22CE4CC418688C99 /* UIColor+SwiftlyUI.swift */,
 				FB4BFEC6935F27BD9AED2618571C4B7C /* UIControl+SwiftlyUI.swift */,
 				FFD35A5F5D7F3FB6B6A03BBC822B4D20 /* UIFont+SwiftlyUI.swift */,
@@ -180,8 +183,8 @@
 		C9E1D0CB8C573A2B877A3607B96AB322 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1F667CC0E19EAF34E5A4119E2121F585 /* Pods-Example */,
-				C8681149AB49170264B48353CE71C872 /* SwiftlyUI */,
+				1F667CC0E19EAF34E5A4119E2121F585 /* Pods_Example.framework */,
+				C8681149AB49170264B48353CE71C872 /* SwiftlyUI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -225,8 +228,8 @@
 			isa = PBXGroup;
 			children = (
 				425B2BE0B6C36A2653C6EAB2C39200C8 /* UIImageExtension.swift */,
-				56FE7DF3C382ED288FC99E4F5CFE4ADD /* UISpacer.swift */,
 				BE515B23866F612763480C30EF48378E /* UIViewExtensions.swift */,
+				14B119B82DCDFC57003856F0 /* CAGradientLayerExtension.swift */,
 			);
 			name = Extension;
 			path = SwiftlyUI/Source/Extension;
@@ -270,7 +273,7 @@
 			);
 			name = "Pods-Example";
 			productName = Pods_Example;
-			productReference = 1F667CC0E19EAF34E5A4119E2121F585 /* Pods-Example */;
+			productReference = 1F667CC0E19EAF34E5A4119E2121F585 /* Pods_Example.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		F9E63024DF73D19812F8F9E4A89F1C6F /* SwiftlyUI */ = {
@@ -288,7 +291,7 @@
 			);
 			name = SwiftlyUI;
 			productName = SwiftlyUI;
-			productReference = C8681149AB49170264B48353CE71C872 /* SwiftlyUI */;
+			productReference = C8681149AB49170264B48353CE71C872 /* SwiftlyUI.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -309,8 +312,6 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			minimizedProjectReferenceProxies = 0;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = C9E1D0CB8C573A2B877A3607B96AB322 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -356,10 +357,11 @@
 				998467E9375A6375152FC704B8E5A973 /* UIColor+SwiftlyUI.swift in Sources */,
 				D2FF124EA1BB83564D512A3580F0EFC5 /* UIControl+SwiftlyUI.swift in Sources */,
 				595CE8D899C419B1AB1807ACB9A4D0FB /* UIFont+SwiftlyUI.swift in Sources */,
+				14B119BB2DCE1195003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift in Sources */,
 				1DC9A01C168B4C3B63B08D6C02E1677E /* UIImageExtension.swift in Sources */,
 				7F340E15C6E3FA46045C2C11AC2BBBBA /* UIImageView+SwiftlyUI.swift in Sources */,
+				14B119B92DCDFC5C003856F0 /* CAGradientLayerExtension.swift in Sources */,
 				240F1A3E0B2919B5789E0B2E82C6AC1F /* UILabel+SwiftlyUI.swift in Sources */,
-				6C51F7630A290E64755758903BC7ABAB /* UISpacer.swift in Sources */,
 				D90E4468F7C468DD05452908FB98160C /* UIStackView+SwiftlyUI.swift in Sources */,
 				69ACFCC73ADA2C68AE51674C9853388F /* UITextField+SwiftlyUI.swift in Sources */,
 				58E4919DFB1598DBC7EF9515F251DCE6 /* UITextView+SwiftlyUI.swift in Sources */,

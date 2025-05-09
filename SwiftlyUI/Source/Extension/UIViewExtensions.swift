@@ -36,6 +36,49 @@ public struct EdgeSet : OptionSet, Sendable {
     public static let all: EdgeSet = [.top, .left, .bottom, .right]
 }
 
+public enum GradientDirection {
+    case topToBottom
+    case bottomToTop
+    case leftToRight
+    case rightToLeft
+    case upleftToLowright
+    case uprightToLowleft
+    
+    func gradientPointsForLayer() -> (start: CGPoint, end: CGPoint) {
+        switch self {
+        case .topToBottom:
+            return (CGPoint(x: 0.5, y: 0), CGPoint(x: 0.5, y: 1))
+        case .bottomToTop:
+            return (CGPoint(x: 0.5, y: 1), CGPoint(x: 0.5, y: 0))
+        case .leftToRight:
+            return (CGPoint(x: 0, y: 0.5), CGPoint(x: 1, y: 0.5))
+        case .rightToLeft:
+            return (CGPoint(x: 1, y: 0.5), CGPoint(x: 0, y: 0.5))
+        case .upleftToLowright:
+            return (CGPoint(x: 0, y: 0), CGPoint(x: 1, y: 1))
+        case .uprightToLowleft:
+            return (CGPoint(x: 1, y: 0), CGPoint(x: 0, y: 1))
+        }
+    }
+    
+    func gradientPointsForImage(size: CGSize) -> (start: CGPoint, end: CGPoint) {
+        switch self {
+        case .topToBottom:
+            return (CGPoint(x: 0, y: 0), CGPoint(x: 0, y: size.height))
+        case .bottomToTop:
+            return (CGPoint(x: 0, y: size.height), CGPoint(x: 0, y: 0))
+        case .leftToRight:
+            return (CGPoint(x: 0, y: 0), CGPoint(x: size.width, y: 0))
+        case .rightToLeft:
+            return (CGPoint(x: size.width, y: 0), CGPoint(x: 0, y: 0))
+        case .upleftToLowright:
+            return (CGPoint(x: 0, y: 0), CGPoint(x: size.width, y: size.height))
+        case .uprightToLowleft:
+            return (CGPoint(x: size.width, y: 0), CGPoint(x: 0, y: size.height))
+        }
+    }
+}
+
 
 // MARK: - Animation
 public struct UIKitAnimation {
@@ -202,6 +245,12 @@ extension UIView {
         default:
             break
         }
+    }
+}
+// MARK: - <#desc#>
+public extension UIView {
+    func createGradientLayer(colors: [UIColor], direction: GradientDirection) -> CAGradientLayer {
+        return CAGradientLayer.gradient(colors: colors, direction: direction)
     }
 }
 

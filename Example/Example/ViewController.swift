@@ -15,11 +15,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         print("viewDidLoad")
         if #available(iOS 15.0, *) {
-            createButton2()
+            createButton3()
         } else {
             // Fallback on earlier versions
         }
         
+    }
+    
+    @available(iOS 15.0, *)
+    func createButton3() {
+        let button = UIButton {
+            .filled()
+            .title("button")
+            .background {
+                .clear()
+                .customView {
+                    UIView().backgroundColor(.red).cornerRadius(20)
+                }
+                .image(UIColor.black.image(withSize: CGSize(width: 100, height: 40)))
+            }
+        }
+            .frame(width: 100, height: 50)
+            .center(to: view)
+        
+        view.addSubview(button)
     }
     
     //ios14
@@ -52,8 +71,8 @@ class ViewController: UIViewController {
             
         
         let button = UIButton(configuration: config, primaryAction: ac)
-            .configuration(config2, state: .highlighted)
-            .configuration(config4, state: .selected)
+//            .configuration(config2, state: .highlighted)
+//            .configuration(config4, state: .selected)
             .frame(width: 100, height: 50)
             .center(to: view)
             .onAction { (btn) in
