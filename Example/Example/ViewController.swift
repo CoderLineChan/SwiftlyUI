@@ -10,18 +10,53 @@ import SwiftlyUI
 
 
 class ViewController: UIViewController {
-
+    deinit {
+        print("deinit")
+    }
+    /// 返回按钮
+    lazy var backButton: UIButton = {
+        let button: UIButton = UIButton.init(type: .custom)
+            .imageName("navi_back_black", state: .normal)
+            .frame(width: 44, height: 44)
+//            .onAction(target: self, action: {$0.onBackButtonAction() })
+            .onAction(target: self, action: { (vc: ViewController, btn: UIButton) in
+                vc.onBackButtonAction()
+                btn.alpha = 0.5
+            })
+            .backgroundColor(.orange)
+        return button
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         print("viewDidLoad")
-        if #available(iOS 15.0, *) {
-            createButton3()
-        } else {
-            // Fallback on earlier versions
-        }
+        
+        
+       
+        createButton4()
+    }
+    func onBackButtonAction() {
+        let vc = ViewController()
+        vc.view.backgroundColor = .gray
+        navigationController?.pushViewController(vc, animated: true)
+        
         
     }
-    
+    func createButton4() {
+        view.addSubview(backButton)
+        backButton.centerToSuper()
+        let image = UIImage.gradient(colors: [.brown, .clear], direction: .leftToRight, size: CGSize(width: 100, height: 40))
+        let imageView = UIImageView()
+            .centerX(to: view, offset: 0)
+            .centerY(to: view, offset: 100)
+            .frame(width: 100, height: 40)
+            .cornerRadius(20)
+        view.addSubview(imageView)
+        
+        let gra = CAGradientLayer.gradient(colors: [.brown, .clear], direction: .leftToRight)
+        gra.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+        imageView.layer.addSublayer(gra)
+    }
     @available(iOS 15.0, *)
     func createButton3() {
         let button = UIButton {

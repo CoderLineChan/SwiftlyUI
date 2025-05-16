@@ -16,7 +16,10 @@ let package = Package(
         // 核心模块（不依赖 SnapKit）
         .target(
             name: "SwiftlyUI",
-            path: "SwiftlyUI"
+            path: "SwiftlyUI",
+            linkerSettings: [
+                .linkedFramework("UIKit", .when(platforms: [.iOS]))
+            ]
         ),
     ]
 )

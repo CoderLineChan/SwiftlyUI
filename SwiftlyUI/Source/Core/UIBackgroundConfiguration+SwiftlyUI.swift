@@ -7,6 +7,7 @@
 
 import UIKit
 
+#if swift(>=5.5)
 @available(iOS 14.0, *)
 public extension UIBackgroundConfiguration {
     
@@ -118,7 +119,7 @@ public extension UIBackgroundConfiguration {
     }
     
     // MARK: - 阴影属性 (iOS 18+)
-    
+#if compiler(>=6.0)
     @available(iOS 18.0, tvOS 18.0, visionOS 2.0, *)
     @discardableResult
     func shadowProperties(_ properties: UIShadowProperties) -> UIBackgroundConfiguration {
@@ -126,7 +127,7 @@ public extension UIBackgroundConfiguration {
         newConfig.shadowProperties = properties
         return newConfig
     }
-    
+#endif
     // MARK: - 便捷方法
     
     /// 链式更新状态配置
@@ -148,3 +149,4 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
 }
+#endif

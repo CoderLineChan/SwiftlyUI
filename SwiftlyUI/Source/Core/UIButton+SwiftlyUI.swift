@@ -162,7 +162,7 @@ public extension UIButton {
         return self
     }
 }
-
+#if swift(>=5.5)
 @available(iOS 15.0, *)
 public extension UIButton {
     
@@ -536,7 +536,7 @@ private extension UIButton {
         }
     }
 }
-
+#endif
 @MainActor
 private struct __UIButtonDisposableClass {
     private static var hasExecuted = false

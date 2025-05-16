@@ -59,7 +59,7 @@ public extension UIFont {
     static var largeTitle: UIFont {
         return UIFont.preferredFont(forTextStyle: .largeTitle)
     }
-    
+#if compiler(>=5.9)
     @available(iOS 17.0, *)
     static var extraLargeTitle: UIFont {
         return UIFont.preferredFont(forTextStyle: .extraLargeTitle)
@@ -69,7 +69,7 @@ public extension UIFont {
     static var extraLargeTitle2: UIFont {
         return .preferredFont(forTextStyle: .extraLargeTitle2)
     }
-    
+#endif
     static var title: UIFont {
         return .preferredFont(forTextStyle: .title1)
     }

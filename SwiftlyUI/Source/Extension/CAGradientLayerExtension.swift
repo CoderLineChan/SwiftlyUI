@@ -10,7 +10,7 @@ import UIKit
 public extension CAGradientLayer {
     static func gradient(colors: [UIColor], direction: GradientDirection) -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = UIColor.convertToCGColors(colors)
+        gradientLayer.colors = colors.map { $0.cgColor }
         let (startPoint, endPoint) = direction.gradientPointsForLayer()
         gradientLayer.startPoint = startPoint
         gradientLayer.endPoint = endPoint

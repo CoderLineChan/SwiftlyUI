@@ -77,13 +77,49 @@ public extension UIControl {
 
 // MARK: - Action
 public extension UIControl {
+    
+    /// .onAction(target: self, action: { $0.doSomething() })
+    @discardableResult
+    func onAction<T: AnyObject>(target: T, for event: UIControl.Event = .touchUpInside, action: @escaping (T) -> Void) -> Self {
+        if let oldWrapper = actionClosures[event.rawValue] {
+            removeTarget(oldWrapper, action: nil, for: event)
+        }
+        
+        if let oldHandler = actionClosures[event.rawValue] as? ActionSingleHandler<T> {
+            removeTarget(oldHandler, action: nil, for: event)
+        }
+        
+        let handler = ActionSingleHandler(target: target, action: action)
+        addTarget(handler, action: #selector(ActionSingleHandler<T>.invoke), for: event)
+        actionClosures[event.rawValue] = handler
+        return self
+    }
+    
+    /// .onAction(target: self, action: { (vc: ViewController, btn: UIButton) in vc.doSomething(with: btn) })
+    @discardableResult
+    func onAction<T: AnyObject, ControlType: UIControl>(target: T, for event: UIControl.Event = .touchUpInside, action: @escaping (T, ControlType) -> Void) -> Self {
+        if let oldWrapper = actionClosures[event.rawValue] {
+            removeTarget(oldWrapper, action: nil, for: event)
+        }
+        
+        if let oldHandler = actionClosures[event.rawValue] as? ActionHandler<T, ControlType> {
+            removeTarget(oldHandler, action: nil, for: event)
+        }
+        
+        let handler = ActionHandler(target: target, action: action)
+        addTarget(handler, action: #selector(ActionHandler<T, ControlType>.invoke(_:)), for: event)
+        actionClosures[event.rawValue] = handler
+        return self
+    }
+    
+    /// button.onAction { [weak self] in self?.doSomething() }
     @discardableResult
     func onAction(for event: UIControl.Event = .touchUpInside, action: @escaping () -> Void) -> Self {
         return onAction { _ in
             action()
         }
     }
-    
+    /// button.onAction { [weak self] (btn: UIButton) in self?.doSomething() }
     @discardableResult
     func onAction<T: UIControl>(for event: UIControl.Event = .touchUpInside, action: @escaping (T) -> Void) -> Self {
         if let oldWrapper = actionClosures[event.rawValue] {
@@ -100,9 +136,41 @@ public extension UIControl {
     }
     
     @discardableResult
-    func onAction(_ target: Any?, action:Selector, event: UIControl.Event = .touchUpInside) -> Self {
+    func onAction(target: Any?, action:Selector, event: UIControl.Event = .touchUpInside) -> Self {
         self.addTarget(target, action: action, for: event)
         return self
+    }
+}
+
+private class ActionHandler<T: AnyObject, ControlType: UIControl>: NSObject {
+    private weak var target: T?
+    private let action: (T, ControlType) -> Void
+    
+    init(target: T, action: @escaping (T, ControlType) -> Void) {
+        self.target = target
+        self.action = action
+        super.init()
+    }
+    
+    @objc func invoke(_ sender: UIControl) {
+        guard let target = target, let control = sender as? ControlType else { return }
+        action(target, control)
+    }
+}
+
+private class ActionSingleHandler<T: AnyObject>: NSObject {
+    private weak var target: T?
+    private let action: (T) -> Void
+    
+    init(target: T, action: @escaping (T) -> Void) {
+        self.target = target
+        self.action = action
+        super.init()
+    }
+    
+    @objc func invoke() {
+        guard let target = target else { return }
+        action(target)
     }
 }
 
@@ -142,4 +210,5 @@ private extension UIControl {
             )
         }
     }
+   
 }

@@ -73,7 +73,7 @@ public extension UIColor {
 
 
 public extension UIColor {
-    static func convertToCGColors(_ colors: [UIColor]) -> [CGColor] {
+    static func tosRGBCGColors(_ colors: [UIColor]) -> [CGColor] {
         return colors.map { color -> CGColor in
             guard let convertedColor = color.cgColor.converted(
                 to: CGColorSpace(name: CGColorSpace.sRGB)!,

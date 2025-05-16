@@ -14,7 +14,7 @@ public extension UIImage {
             return nil
         }
         
-        let cgColors = UIColor.convertToCGColors(colors)
+        let cgColors = UIColor.tosRGBCGColors(colors)
         guard let colorSpace = cgColors.first?.colorSpace else {
             return nil
         }
