@@ -24,7 +24,7 @@ pod 'SwiftlyUI', :git => 'https://github.com/CoderLineChan/SwiftlyUI.git', :tag 
 ```swift
 dependencies: [
     .package(url: "https://github.com/CoderLineChan/SwiftlyUI.git", 
-             from: "1.1.2")
+             from: "1.1.4")
 ]
 ```
 ### 安装成功后设置全局导入
@@ -142,7 +142,6 @@ let view = UIView()
 //SwiftlyUI
 let view = UIView()
   .onGesture(.tap) { _ in print("tapAction") }
-  .onGesture(.tap, action: tapAction)
 
 //UIKit
 let view = UIView()
@@ -190,11 +189,16 @@ superView.addSubview(view)
 ```
 
 ### UIControl & UIButton 多状态增强
-- 高质量 Action 封装，告别 告别 Target-Action 的原始时代
+- Action封装闭包，需要注意循环引用
 ```swift
 let contorl = UIControl()
-    .onAction { print("click") }
-    .onAction(for: .touchUpInside, action: { print("click") })
+    .onAction { [weak self] in self?.doSomething() }
+    .onAction(target: self, action: { $0.doSomething() })
+    .onAction(for: .touchUpInside, action: { [weak self] in self?.doSomething() })
+    .onAction(target: self, action: { (vc: ViewController, btn: UIButton) in
+        vc.doSomething()
+        btn.alpha = 0.5
+    })
 ```
 
 ```swift
@@ -209,7 +213,7 @@ let button = UIButton()
     .backgroundImage(UIImage.gradient(colors: [.red, .green], direction: .leftToRight, size: CGSize(width: 100, height: 100)))
     .backgroundImageName("local_imageName", state: .normal)
     .cornerRadius(20)
-    .onAction{ print("action") }
+    .onAction(target: self, action: {$0.doSomething() })
 ```
 
 ### UITextView & UITextField：输入控件增强，比原生更易用的文本处理
