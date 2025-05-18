@@ -17,20 +17,19 @@
 # 核心组件 | Core components
 pod 'SwiftlyUI'
 # 如果pod失败，请使用以下方式
-pod 'SwiftlyUI', :git => 'https://github.com/CoderLineChan/SwiftlyUI.git', :tag => '1.1.2'
+pod 'SwiftlyUI', :git => 'https://github.com/CoderLineChan/SwiftlyUI.git', :tag => '1.1.5'
 ```
 
 ### Swift Package Manager
 ```swift
 dependencies: [
     .package(url: "https://github.com/CoderLineChan/SwiftlyUI.git", 
-             from: "1.1.4")
+             from: "1.1.5")
 ]
 ```
-### 安装成功后设置全局导入
-在AppDelegate.swift文件中添加：
-```
-@_exported import SwiftlyUI
+### 推荐使用Swift Package Manager(SPM)方式导入
+Xcode -> File -> Add Package Dependencies... -> https://github.com/CoderLineChan/SwiftlyUI.git -> Add Package
+
 ```
 
 
