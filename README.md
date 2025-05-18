@@ -30,7 +30,6 @@ dependencies: [
 ### 推荐使用Swift Package Manager(SPM)方式导入
 Xcode -> File -> Add Package Dependencies... -> https://github.com/CoderLineChan/SwiftlyUI.git -> Add Package
 
-```
 
 
 ## 为什么选择 SwiftlyUI？ <a name="技术优势全景图"></a>
