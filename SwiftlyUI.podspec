@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'SwiftlyUI'
-  s.version          = '1.1.2'
-  s.summary          = 'Swift-style declarative UIKit framework'
+  s.version          = '1.1.5'
+  s.summary          = 'Swift-style declarative UIKit Plus'
   s.homepage         = 'https://github.com/CoderLineChan/SwiftlyUI'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Your Name' => 'lianchen551@163.com' }
