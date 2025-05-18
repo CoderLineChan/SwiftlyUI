@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/2/20.
 //
-
+#if canImport(UIKit)
 import UIKit
 
 
@@ -60,12 +60,12 @@ public extension UIFont {
         return UIFont.preferredFont(forTextStyle: .largeTitle)
     }
 #if compiler(>=5.9)
-    @available(iOS 17.0, *)
+    @available(iOS 17.0, watchOS 10.0, tvOS 17.0, macCatalyst 17.0, *)
     static var extraLargeTitle: UIFont {
         return UIFont.preferredFont(forTextStyle: .extraLargeTitle)
     }
     
-    @available(iOS 17.0, *)
+    @available(iOS 17.0, watchOS 10.0, tvOS 17.0, macCatalyst 17.0, *)
     static var extraLargeTitle2: UIFont {
         return .preferredFont(forTextStyle: .extraLargeTitle2)
     }
@@ -110,3 +110,4 @@ public extension UIFont {
         return .preferredFont(forTextStyle: .caption2)
     }
 }
+#endif

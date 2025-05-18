@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/2/25.
 //
-
+#if canImport(UIKit)
 import UIKit
 
 // MARK: - basics
@@ -619,7 +619,7 @@ public extension UIView {
     func bottom(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, relation: .greaterThanOrEqual, YAxisAnchor: anchor)
         var holder = constraintHolder
-        holder.pendingConstraints[.bottom] = config
+        holder.pendingConstraints[.leading] = config
         constraintHolder = holder
         return self
     }
@@ -1486,3 +1486,4 @@ public extension UIView {
     }
 }
 
+#endif

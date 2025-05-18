@@ -4,11 +4,13 @@
 //
 //  Created by CoderChan on 2025/5/9.
 //
-
+#if canImport(UIKit)
 import UIKit
 
+// 由于UIBackgroundConfiguration是iOS 14.0和watchOS 7.0引入的API
+// 确保只在iOS 14/watchOS 7及以上版本编译
 #if swift(>=5.5)
-@available(iOS 14.0, *)
+@available(iOS 14.0, watchOS 7.0, *)
 public extension UIBackgroundConfiguration {
     
     @discardableResult
@@ -71,8 +73,8 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    // MARK: - 图片配置 (iOS 15+)
-    @available(iOS 15.0, tvOS 15.0, *)
+    // MARK: - 图片配置 (iOS 15+/watchOS 8+)
+    @available(iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     @discardableResult
     func image(_ image: UIImage?) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -80,7 +82,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    @available(iOS 15.0, tvOS 15.0, *)
+    @available(iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     @discardableResult
     func imageContentMode(_ mode: UIView.ContentMode) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -118,9 +120,9 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    // MARK: - 阴影属性 (iOS 18+)
+    // MARK: - 阴影属性 (iOS 18+/watchOS 11+)
 #if compiler(>=6.0)
-    @available(iOS 18.0, tvOS 18.0, visionOS 2.0, *)
+    @available(iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
     @discardableResult
     func shadowProperties(_ properties: UIShadowProperties) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -149,4 +151,15 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
 }
+#endif
+
+// iOS 13/watchOS 6兼容层，对于低于iOS 14/watchOS 7的版本提供空实现或替代实现
+#if !swift(>=5.5) || compiler(<5.5)
+// 提供一个空的UIBackgroundConfiguration实现，避免在iOS 13/watchOS 6上使用此API时编译错误
+@available(iOS, introduced: 13.0, obsoleted: 14.0, message: "UIBackgroundConfiguration is only available in iOS 14.0 or newer")
+@available(watchOS, introduced: 6.0, obsoleted: 7.0, message: "UIBackgroundConfiguration is only available in watchOS 7.0 or newer")
+public class UIBackgroundConfiguration {
+    // 空实现，iOS 13/watchOS 6上不应该使用这个类
+}
+#endif
 #endif

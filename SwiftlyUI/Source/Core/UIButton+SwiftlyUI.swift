@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/2/27.
 //
-
+#if canImport(UIKit)
 import UIKit
 
 // MARK: - basics
@@ -162,8 +162,10 @@ public extension UIButton {
         return self
     }
 }
+
+// 确保UIButton.Configuration相关代码只在iOS 15及watchOS 8以上版本编译
 #if swift(>=5.5)
-@available(iOS 15.0, *)
+@available(iOS 15.0, watchOS 8.0, *)
 public extension UIButton {
     
     convenience init(configuration: () -> UIButton.Configuration) {
@@ -194,7 +196,7 @@ public extension UIButton {
     }
 }
 
-@available(iOS 15.0, *)
+@available(iOS 15.0, watchOS 8.0, *)
 public extension UIButton.Configuration {
     static func plain(title: String, subtitle: String = "") -> Self {
         var config = UIButton.Configuration.plain()
@@ -356,7 +358,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
-    @available(iOS 16.0, *)
+    @available(iOS 16.0, watchOS 9.0, *)
     @discardableResult
     func indicator(_ indicator: UIButton.Configuration.Indicator) -> Self {
         var newConfig = self
@@ -364,7 +366,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
-    @available(iOS 16.0, *)
+    @available(iOS 16.0, watchOS 9.0, *)
     @discardableResult
     func indicatorColorTransformer(_ transformer: UIConfigurationColorTransformer) -> Self {
         var newConfig = self
@@ -423,7 +425,7 @@ public extension UIButton.Configuration {
 }
 
 
-@available(iOS 15.0, *)
+@available(iOS 15.0, watchOS 8.0, *)
 private extension UIButton.Configuration {
     func merging(_ other: UIButton.Configuration) -> Self {
         var merged = self
@@ -449,7 +451,7 @@ private extension UIButton.Configuration {
     }
 }
 
-@available(iOS 15.0, *)
+@available(iOS 15.0, watchOS 8.0, *)
 private extension UIButton {
     
     func setupConfigurationUpdateHandler() {
@@ -537,6 +539,28 @@ private extension UIButton {
     }
 }
 #endif
+
+// 提供下面的扩展以确保在iOS 13-14/watchOS 6-7上有替代方案
+#if !swift(>=5.5) || compiler(<5.5)
+// 针对iOS 13-14/watchOS 6-7的UIButton扩展
+public extension UIButton {
+    // 提供与iOS 15+/watchOS 8+ API类似功能的替代方法
+    @discardableResult
+    func systemImageName(_ name: String) -> Self {
+        if #available(iOS 13.0, watchOS 6.0, *) {
+            setImage(UIImage(systemName: name), for: .normal)
+        }
+        return self
+    }
+    
+    @discardableResult
+    func tintColor(_ color: UIColor) -> Self {
+        self.tintColor = color
+        return self
+    }
+}
+#endif
+
 @MainActor
 private struct __UIButtonDisposableClass {
     private static var hasExecuted = false
@@ -546,3 +570,5 @@ private struct __UIButtonDisposableClass {
         hasExecuted = true
     }
 }
+
+#endif

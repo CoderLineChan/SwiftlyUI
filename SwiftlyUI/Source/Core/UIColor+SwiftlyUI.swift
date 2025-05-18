@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/2/20.
 //
-
+#if canImport(UIKit) && os(iOS)
 import UIKit
 
 
@@ -86,3 +86,4 @@ public extension UIColor {
         }
     }
 }
+#endif

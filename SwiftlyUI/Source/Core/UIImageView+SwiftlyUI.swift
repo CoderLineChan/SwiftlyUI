@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/2/27.
 //
-
+#if canImport(UIKit)
 import UIKit
 
 public typealias ImageView = UIImageView
@@ -20,11 +20,12 @@ public extension UIImageView {
         self.init(image: UIImage(named: imageName), highlightedImage: UIImage(named: highlightedImageName ?? ""))
     }
     
+    @available(iOS 13.0, watchOS 6.0, *)
     convenience init(systemName: String) {
         self.init(image: UIImage(systemName: systemName))
     }
     
-    @available(iOS 13.0, *)
+    @available(iOS 13.0, watchOS 6.0, *)
     @discardableResult
     func systemImage(_ systemName: String) -> Self {
         self.image = UIImage(systemName: systemName)
@@ -65,3 +66,4 @@ public extension UIImageView {
         return self
     }
 }
+#endif

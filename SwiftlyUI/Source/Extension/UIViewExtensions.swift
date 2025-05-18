@@ -4,11 +4,10 @@
 //
 //  Created by CoderChan on 2025/3/2.
 //
-
+#if canImport(UIKit)
 import UIKit
 
 // MARK: - ViewBuilder
-@available(iOS 13, *)
 @resultBuilder
 public struct ViewBuilder {
     public static func buildBlock(_ components: UIView...) -> [UIView] { components }
@@ -377,3 +376,4 @@ extension UIView {
     }
 }
 
+#endif

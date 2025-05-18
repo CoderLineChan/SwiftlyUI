@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/5/9.
 //
-
+#if canImport(UIKit)
 import UIKit
 
 public extension CAGradientLayer {
@@ -17,3 +17,4 @@ public extension CAGradientLayer {
         return gradientLayer
     }
 }
+#endif

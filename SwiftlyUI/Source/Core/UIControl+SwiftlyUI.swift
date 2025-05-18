@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/3/2.
 //
-
+#if canImport(UIKit) && os(iOS)
 import UIKit
 
 public extension UIControl {
@@ -212,3 +212,4 @@ private extension UIControl {
     }
    
 }
+#endif

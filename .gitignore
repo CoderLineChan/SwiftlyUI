@@ -7,3 +7,4 @@
 *.xcworkspacedata
 .swiftpm
 Example/Example.xcworkspace/xcuserdata
+*.build

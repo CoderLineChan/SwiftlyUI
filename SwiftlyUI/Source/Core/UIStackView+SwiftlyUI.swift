@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/2/20.
 //
-
+#if canImport(UIKit)
 import UIKit
 
 #if swift(>=5.5)
@@ -261,3 +261,4 @@ private class UIStackViewSeparatorHelper: NSObject {
         }
     }
 }
+#endif

@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/3/8.
 //
-
+#if canImport(UIKit) && os(iOS)
 import UIKit
 
 // MARK: - gradient Image from colors
@@ -37,3 +37,4 @@ public extension UIImage {
     }
     
 }
+#endif

@@ -4,7 +4,7 @@
 //
 //  Created by CoderChan on 2025/3/2.
 //
-
+#if canImport(UIKit) && !os(tvOS)
 import UIKit
 
 // MARK: - Layout
@@ -347,3 +347,4 @@ private class __UITextViewBlockObserver {
         }
     }
 }
+#endif
