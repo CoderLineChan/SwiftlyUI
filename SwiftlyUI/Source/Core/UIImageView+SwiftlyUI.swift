@@ -17,7 +17,13 @@ public extension UIImageView {
     }
     
     convenience init(imageName: String, highlightedImageName: String? = nil) {
-        self.init(image: UIImage(named: imageName), highlightedImage: UIImage(named: highlightedImageName ?? ""))
+        let highlightedImage: UIImage?
+        if let name = highlightedImageName {
+            highlightedImage = UIImage(named: name)
+        }else {
+            highlightedImage = nil
+        }
+        self.init(image: UIImage(named: imageName), highlightedImage: highlightedImage)
     }
     
     @available(iOS 13.0, watchOS 6.0, *)
