@@ -166,6 +166,18 @@ public extension UIView {
         self.tag = tag
         return self
     }
+    
+    @discardableResult
+    func contentHuggingPriority(_ priority: UILayoutPriority, for axis: NSLayoutConstraint.Axis) -> Self {
+        self.setContentHuggingPriority(priority, for: axis)
+        return self
+    }
+    
+    @discardableResult
+    func contentCompressionResistancePriority(_ priority: UILayoutPriority, for axis: NSLayoutConstraint.Axis) -> Self {
+        self.setContentCompressionResistancePriority(priority, for: axis)
+        return self
+    }
 }
 
 public final class ZStackView: UIView {
@@ -1083,9 +1095,12 @@ extension UIView {
         UIView.swizzleMethod(clas: UIView.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
         
         let originalSelector1 = #selector(didAddSubview(_:))
-        let swizzledSelector2 = #selector(swizzled_didAddSubview(_:))
-        UIView.swizzleMethod(clas: UIView.self, originalSelector: originalSelector1, swizzledSelector: swizzledSelector2)
+        let swizzledSelector1 = #selector(swizzled_didAddSubview(_:))
+        UIView.swizzleMethod(clas: UIView.self, originalSelector: originalSelector1, swizzledSelector: swizzledSelector1)
         
+        let originalSelector2 = #selector(layoutSubviews)
+        let swizzledSelector2 = #selector(swizzled_viewLayoutSubviews)
+        UIView.swizzleMethod(clas: UIView.self, originalSelector: originalSelector2, swizzledSelector: swizzledSelector2)
     }
 }
 
@@ -1314,6 +1329,13 @@ extension UIView {
     
     @objc private func swizzled_didMoveToSuperview() {
         swizzled_didMoveToSuperview()
+        if canActiveLayout {
+            safeActivateConstraints()
+        }
+    }
+    
+    @objc func swizzled_viewLayoutSubviews() {
+        swizzled_viewLayoutSubviews()
         if canActiveLayout {
             safeActivateConstraints()
         }

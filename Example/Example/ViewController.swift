@@ -31,10 +31,8 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         print("viewDidLoad")
         
-        
-       
-        createButton4()
     }
+
     func onBackButtonAction() {
         let vc = ViewController()
         vc.view.backgroundColor = .gray
