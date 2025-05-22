@@ -238,27 +238,33 @@ public extension UIView {
     @discardableResult
     func fillSuper(edge: UIEdgeInsets = .zero) -> Self {
         leftToSuper(isMargins: false, offset: edge.left)
-        rightToSuper(isMargins: false, offset: -edge.right)
+        rightToSuper(isMargins: false, offset: edge.right)
         topToSuper(isMargins: false, offset: edge.top)
-        bottomToSuper(isMargins: false, offset: -edge.bottom)
+        bottomToSuper(isMargins: false, offset: edge.bottom)
         return self
     }
     
     @discardableResult
     func fillSuperMargins(edge: UIEdgeInsets = .zero) -> Self {
         leftToSuper(isMargins: true, offset: edge.left)
-        rightToSuper(isMargins: true, offset: -edge.right)
+        rightToSuper(isMargins: true, offset: edge.right)
         topToSuper(isMargins: true, offset: edge.top)
-        bottomToSuper(isMargins: true, offset: -edge.bottom)
+        bottomToSuper(isMargins: true, offset: edge.bottom)
         return self
     }
     
     @discardableResult
-    func fill(to view: UIView, _ edge: UIEdgeInsets = .zero) -> Self {
-        leading(to: view, offset: edge.left)
-        trailing(to: view, offset: edge.right)
-        top(to: view, offset: edge.top)
-        bottom(to: view, offset: edge.bottom)
+    func fill(toMargins view: UIView, edge: UIEdgeInsets = .zero) -> Self {
+        fill(to: view, isMargins: true, edge: edge)
+        return self
+    }
+    
+    @discardableResult
+    func fill(to view: UIView, isMargins: Bool = false, edge: UIEdgeInsets = .zero) -> Self {
+        leading(to: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: edge.left)
+        trailing(to: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: edge.right)
+        top(to: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: edge.top)
+        bottom(to: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: edge.bottom)
         return self
     }
     
@@ -331,7 +337,7 @@ public extension UIView {
     }
     
     @discardableResult
-    func topToSuper(isMargins: Bool = true, offset: CGFloat = 0) -> Self {
+    func topToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if let superview = superview {
             addNewConstraint(
                 topAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.topAnchor : superview.topAnchor, constant: offset),
@@ -413,7 +419,7 @@ public extension UIView {
     }
     
     @discardableResult
-    func leftToSuper(isMargins: Bool = true, offset: CGFloat = 0) -> Self {
+    func leftToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if let superview = superview {
             addNewConstraint(
                 leftAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.leftAnchor : superview.leftAnchor, constant: offset),
@@ -495,7 +501,7 @@ public extension UIView {
     }
     
     @discardableResult
-    func leadingToSuper(isMargins: Bool = true, offset: CGFloat = 0) -> Self {
+    func leadingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if let superview = superview {
             addNewConstraint(
                 leadingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.leadingAnchor : superview.leadingAnchor, constant: offset),
@@ -577,7 +583,7 @@ public extension UIView {
     }
     
     @discardableResult
-    func bottomToSuper(isMargins: Bool = true, offset: CGFloat = 0) -> Self {
+    func bottomToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if let superview = superview {
             addNewConstraint(
                 bottomAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.bottomAnchor : superview.bottomAnchor, constant: offset),
@@ -659,10 +665,10 @@ public extension UIView {
     }
     
     @discardableResult
-    func rightToSuper(isMargins: Bool = true, offset: CGFloat = 0) -> Self {
+    func rightToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if let superview = superview {
             addNewConstraint(
-                rightAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.rightAnchor : superview.rightAnchor, constant: -offset),
+                rightAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.rightAnchor : superview.rightAnchor, constant: offset),
                 type: .right
                 )
         } else {
@@ -687,7 +693,7 @@ public extension UIView {
     func right(to view: UIView, offset: CGFloat = 0) -> Self {
         if view == superview {
             addNewConstraint(
-                rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor, constant: -offset),
+                rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor, constant: offset),
                 type: .right
             )
         }else {
@@ -700,7 +706,7 @@ public extension UIView {
     func right(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
         if view == superview {
             addNewConstraint(
-                rightAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.rightAnchor, constant: -offset),
+                rightAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.rightAnchor, constant: offset),
                 type: .right
             )
         }else {
@@ -722,7 +728,7 @@ public extension UIView {
     func right(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
         if view == superview {
             addNewConstraint(
-                rightAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.rightAnchor, constant: -offset),
+                rightAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.rightAnchor, constant: offset),
                 type: .right
             )
         }else {
@@ -741,10 +747,10 @@ public extension UIView {
     }
     
     @discardableResult
-    func trailingToSuper(isMargins: Bool = true, offset: CGFloat = 0) -> Self {
+    func trailingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if let superview = superview {
             addNewConstraint(
-                trailingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: -offset),
+                trailingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: offset),
                 type: .trailing
             )
         } else {
@@ -769,7 +775,7 @@ public extension UIView {
     func trailing(to view: UIView, offset: CGFloat = 0) -> Self {
         if view == superview {
             addNewConstraint(
-                trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -offset),
+                trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: offset),
                 type: .trailing
             )
         }else {
@@ -782,7 +788,7 @@ public extension UIView {
     func trailing(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
         if view == superview {
             addNewConstraint(
-                trailingAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor, constant: -offset),
+                trailingAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor, constant: offset),
                 type: .trailing
             )
         }else {
@@ -804,7 +810,7 @@ public extension UIView {
     func trailing(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
         if view == superview {
             addNewConstraint(
-                trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor, constant: -offset),
+                trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor, constant: offset),
                 type: .trailing
             )
         }else {
@@ -1055,7 +1061,7 @@ struct ConstraintConfig {
     let Dimension: NSLayoutDimension?
     let isMargins: Bool
     
-    init(type: ConstraintType, targetType: ConstraintTargetType, offset: CGFloat, multiplier: CGFloat = 1, relation: NSLayoutConstraint.Relation = .equal, XAxisAnchor: NSLayoutXAxisAnchor? = nil, YAxisAnchor: NSLayoutYAxisAnchor? = nil, Dimension: NSLayoutDimension? = nil, isMargins: Bool = true) {
+    init(type: ConstraintType, targetType: ConstraintTargetType, offset: CGFloat, multiplier: CGFloat = 1, relation: NSLayoutConstraint.Relation = .equal, XAxisAnchor: NSLayoutXAxisAnchor? = nil, YAxisAnchor: NSLayoutYAxisAnchor? = nil, Dimension: NSLayoutDimension? = nil, isMargins: Bool = false) {
         self.type = type
         self.targetType = targetType
         self.offset = offset
@@ -1216,7 +1222,7 @@ extension UIView {
                     )
                 }else if let anchor = config.YAxisAnchor {
                     addNewConstraint(
-                        bottomAnchor.constraint(equalTo: anchor, constant: config.offset),
+                        bottomAnchor.constraint(equalTo: anchor, constant: -config.offset),
                         type: .bottom
                     )
                 }
@@ -1240,7 +1246,7 @@ extension UIView {
                     )
                 }else if let anchor = config.XAxisAnchor {
                     addNewConstraint(
-                        trailingAnchor.constraint(equalTo: anchor, constant: config.offset),
+                        trailingAnchor.constraint(equalTo: anchor, constant: -config.offset),
                         type: .trailing
                     )
                 }
