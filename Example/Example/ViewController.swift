@@ -33,6 +33,25 @@ class ViewController: UIViewController {
         
     }
 
+    func test3() {
+        let view1 = UIView()
+            .backgroundColor(.red)
+            .frame(width: 100, height: 100)
+            .centerX(to: view)
+            .centerY(to: view)
+        view.addSubview(view1)
+        
+        let view2 = UIView()
+            .backgroundColor(.blue)
+            
+            
+        view1.addSubview(view2)
+        view2.leadingToSuper(offset: 10)
+        view2.trailingToSuper(offset: 20)
+        view2.topToSuper(offset: 0)
+        view2.bottomToSuper(offset: 0)
+//        view2.fillSuper(edge: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20))
+    }
     
     func onBackButtonAction() {
         let vc = ViewController()
