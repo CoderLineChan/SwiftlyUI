@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		14B119B92DCDFC5C003856F0 /* CAGradientLayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119B82DCDFC57003856F0 /* CAGradientLayerExtension.swift */; };
 		14B119BB2DCE1195003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */; };
+		14DCD3572DDEC39D00C2378E /* UIImage+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */; };
 		1DC9A01C168B4C3B63B08D6C02E1677E /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425B2BE0B6C36A2653C6EAB2C39200C8 /* UIImageExtension.swift */; };
 		240F1A3E0B2919B5789E0B2E82C6AC1F /* UILabel+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */; };
 		267E8A91E92293A60A131F1E3D34CCDA /* SwiftlyUI-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC712E481D6A2422EAE60A4C245546F /* SwiftlyUI-dummy.m */; };
@@ -45,6 +46,7 @@
 		115817B25BDFD24B22CE4CC418688C99 /* UIColor+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIColor+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14B119B82DCDFC57003856F0 /* CAGradientLayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAGradientLayerExtension.swift; sourceTree = "<group>"; };
 		14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBackgroundConfiguration+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		1F667CC0E19EAF34E5A4119E2121F585 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UILabel+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		243410B9535472556EA4BB6DBC133A0D /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				41888869CD9BBBF0BA9F6825F2D7DEE0 /* UIButton+SwiftlyUI.swift */,
 				14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */,
 				115817B25BDFD24B22CE4CC418688C99 /* UIColor+SwiftlyUI.swift */,
+				14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */,
 				FB4BFEC6935F27BD9AED2618571C4B7C /* UIControl+SwiftlyUI.swift */,
 				FFD35A5F5D7F3FB6B6A03BBC822B4D20 /* UIFont+SwiftlyUI.swift */,
 				8DF2520D371829E88598A202900B6DDC /* UIImageView+SwiftlyUI.swift */,
@@ -366,6 +369,7 @@
 				69ACFCC73ADA2C68AE51674C9853388F /* UITextField+SwiftlyUI.swift in Sources */,
 				58E4919DFB1598DBC7EF9515F251DCE6 /* UITextView+SwiftlyUI.swift in Sources */,
 				A207879B1D6BB56DA532C8153F36BCFD /* UIView+SwiftlyUI.swift in Sources */,
+				14DCD3572DDEC39D00C2378E /* UIImage+SwiftlyUI.swift in Sources */,
 				F31BDD45D0F51C4F698C50F4B9FA0D15 /* UIViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

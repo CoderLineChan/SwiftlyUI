@@ -594,7 +594,7 @@ public extension UIView {
     
     @discardableResult
     func bottom(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset)
+        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, YAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.bottom] = config
         constraintHolder = holder
