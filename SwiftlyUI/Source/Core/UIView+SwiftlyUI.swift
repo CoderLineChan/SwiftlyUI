@@ -1198,7 +1198,7 @@ extension UIView {
                     )
                 }else if let anchor = config.XAxisAnchor {
                     addNewConstraint(
-                        rightAnchor.constraint(equalTo: anchor, constant: config.offset),
+                        rightAnchor.constraint(equalTo: anchor, constant: -config.offset),
                         type: .right
                     )
                 }
