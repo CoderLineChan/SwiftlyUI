@@ -9,21 +9,21 @@ import UIKit
 
 public extension UIControl {
     
-    convenience init(_ action: @escaping () -> Void, @ViewBuilder content: () -> [UIView]) {
+    convenience init(_ action: @escaping () -> Void, @SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(content: content, action: action)
     }
     
-    convenience init<T: UIControl>(_ action: @escaping (T) -> Void, @ViewBuilder content: () -> [UIView]) {
+    convenience init<T: UIControl>(_ action: @escaping (T) -> Void, @SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(content: content, action: action)
     }
     
-    convenience init(@ViewBuilder content: () -> [UIView], action: @escaping () -> Void) {
+    convenience init(@SwiftlyUIBuilder content: () -> [UIView], action: @escaping () -> Void) {
         self.init(content: content) { _ in
             action()
         }
     }
     
-    convenience init<T: UIControl>(@ViewBuilder content: () -> [UIView], action: @escaping (T) -> Void) {
+    convenience init<T: UIControl>(@SwiftlyUIBuilder content: () -> [UIView], action: @escaping (T) -> Void) {
         self.init(frame: .zero)
         let views = content()
         setCanActiveLayout(false, forViews: views)

@@ -9,15 +9,16 @@ import UIKit
 
 // MARK: - ViewBuilder
 @resultBuilder
-public struct ViewBuilder {
-    public static func buildBlock(_ components: UIView...) -> [UIView] { components }
+public struct SwiftlyUIBuilder {
+    public static func buildBlock(_ components: [UIView]...) -> [UIView] { components.flatMap { $0 } }
     public static func buildBlock() -> [UIView] { [] }
     public static func buildOptional(_ component: [UIView]?) -> [UIView] { component ?? [] }
     public static func buildArray(_ components: [[UIView]]) -> [UIView] { components.flatMap { $0 } }
     public static func buildEither(first: [UIView]) -> [UIView] { first }
     public static func buildEither(second: [UIView]) -> [UIView] { second }
-    public static func buildPartialBlock(first: UIView) -> [UIView] { [first] }
-    public static func buildPartialBlock(accumulated: [UIView], next: UIView) -> [UIView] { accumulated + [next] }
+    public static func buildPartialBlock(first: [UIView]) -> [UIView] { first }
+    public static func buildPartialBlock(accumulated: [UIView], next: [UIView]) -> [UIView] { accumulated + next }
+    public static func buildExpression(_ expression: UIView) -> [UIView] { [expression] }
 }
 
 // MARK: - Padding Edge
@@ -251,6 +252,11 @@ public extension UIView {
     func createGradientLayer(colors: [UIColor], direction: GradientDirection) -> CAGradientLayer {
         return CAGradientLayer.gradient(colors: colors, direction: direction)
     }
+}
+
+struct CornerInfo {
+    let radius: CGFloat
+    let corners: UIRectCorner
 }
 
 // MARK: - Gesture AssociatedKey

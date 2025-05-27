@@ -14,7 +14,7 @@ import UIKit
 public extension UIBackgroundConfiguration {
     
     @discardableResult
-    func customView(@ViewBuilder content: () -> [UIView]) -> UIBackgroundConfiguration {
+    func customView(@SwiftlyUIBuilder content: () -> [UIView]) -> UIBackgroundConfiguration {
         var newConfig = self
         newConfig.customView = content().last
         return newConfig

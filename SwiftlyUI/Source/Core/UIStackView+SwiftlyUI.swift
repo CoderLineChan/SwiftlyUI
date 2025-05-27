@@ -16,7 +16,7 @@ public final class VStackView: UIStackView {
     }
     
     @discardableResult
-    public convenience init(spacing: CGFloat = 0, @ViewBuilder content: () -> [UIView]) {
+    public convenience init(spacing: CGFloat = 0, @SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
         self.axis = .vertical
         self.spacing = spacing
@@ -50,7 +50,7 @@ public final class HStackView: UIStackView {
     }
     
     @discardableResult
-    public convenience init(spacing: CGFloat = 0, @ViewBuilder content: () -> [UIView]) {
+    public convenience init(spacing: CGFloat = 0, @SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
         self.axis = .horizontal
         self.spacing = spacing

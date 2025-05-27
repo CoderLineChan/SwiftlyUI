@@ -93,6 +93,20 @@ public extension UIView {
     }
     
     @discardableResult
+    func roundCorners(_ radius: CGFloat, corners: UIRectCorner) -> Self {
+        if self.bounds == .zero {
+            cornerInfo = CornerInfo(radius: radius, corners: corners)
+            return self
+        }
+        let maskPath = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        maskLayer.path = maskPath.cgPath
+        layer.mask = maskLayer
+        return self
+    }
+    
+    @discardableResult
     func backgroundColor(_ color: UIColor) -> Self {
         self.backgroundColor = color
         return self
@@ -111,7 +125,7 @@ public extension UIView {
     }
     
     @discardableResult
-    func background(@ViewBuilder content: () -> [UIView]) -> Self {
+    func background(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
         subviews.forEach({ if $0.tag == backgroundViewTag { $0.removeFromSuperview() } })
         let subviews = content()
         subviews.forEach { sub in
@@ -181,7 +195,7 @@ public extension UIView {
 }
 
 public final class ZStackView: UIView {
-    public convenience init(@ViewBuilder content: () -> [UIView]) {
+    public convenience init(@SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
         let views = content()
         setCanActiveLayout(false, forViews: views)
@@ -1118,6 +1132,20 @@ extension UIView {
     
     private static var constraintHolderKey: Void?
     private static var constraintCanActiveKey: Void?
+    private static var pendingCornerInfoKey: Void?
+    
+    var cornerInfo: CornerInfo? {
+        get {
+            if let info = objc_getAssociatedObject(self, &Self.pendingCornerInfoKey) as? CornerInfo {
+                return info
+            }else {
+                return nil
+            }
+        }
+        set {
+            objc_setAssociatedObject(self, &Self.pendingCornerInfoKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
     
     var canActiveLayout: Bool {
         get {
@@ -1344,6 +1372,10 @@ extension UIView {
         swizzled_viewLayoutSubviews()
         if canActiveLayout {
             safeActivateConstraints()
+        }
+        if let cornerInfo = cornerInfo, bounds != .zero {
+            roundCorners(cornerInfo.radius, corners: cornerInfo.corners)
+            self.cornerInfo = nil
         }
     }
     
