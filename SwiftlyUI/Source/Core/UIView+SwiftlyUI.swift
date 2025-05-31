@@ -193,7 +193,7 @@ public extension UIView {
         return self
     }
 }
-
+@available(iOS 13, *)
 public final class ZStackView: UIView {
     public convenience init(@SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
@@ -1414,54 +1414,41 @@ extension UIView {
 
 // MARK: - Animation
 @MainActor
-@discardableResult
-public func withAnimation<Result>(
+public func withAnimation(
     _ animation: UIKitAnimation = .default,
-    _ body: () throws -> Result
-) rethrows -> Result {
-    return try withAnimation(animation: animation, body: body, completion: nil)
+    _ animations: @escaping () -> Void
+) {
+    withAnimation(animation: animation, animations: animations, completion: nil)
 }
 @MainActor
-@discardableResult
-public func withAnimation<Result>(
+public func withAnimation(
     _ animation: UIKitAnimation = .default,
-    _ body: () throws -> Result,
+    _ animations: @escaping () -> Void,
     completion: ((Bool) -> Void)? = nil
-) rethrows -> Result {
-    return try withAnimation(animation: animation, body: body, completion: completion)
+) {
+    withAnimation(animation: animation, animations: animations, completion: completion)
 }
 @MainActor
-@discardableResult
-public func withAnimation<Result>(
+public func withAnimation(
     _ animation: UIKitAnimation = .default,
     completion: ((Bool) -> Void)? = nil,
-    _ body: () throws -> Result
-) rethrows -> Result {
-    return try withAnimation(animation: animation, body: body, completion: completion)
+    _ animations: @escaping () -> Void
+) {
+    withAnimation(animation: animation, animations: animations, completion: completion)
 }
 
-@MainActor @discardableResult
-private func withAnimation<Result>(
+@MainActor
+private func withAnimation(
     animation: UIKitAnimation = .default,
-    body: () throws -> Result,
-    completion: ((Bool) -> Void)? = nil) rethrows -> Result {
-    let result = try body()
-    if animation.refreshAllViews {
-        // 提交隐式动画
+    animations: @escaping () -> Void,
+    completion: ((Bool) -> Void)? = nil) {
         UIView.animate(
             withDuration: animation.duration,
             delay: animation.delayInterval,
             options: animation.options,
-            animations: {
-                // 刷新所有需要动画的视图
-                UIApplication.shared.windows.forEach {
-                    $0.layoutIfNeeded()
-                }
-            },
+            animations: animations,
             completion: completion
         )
-    }
-    return result
 }
 
 // MARK: - Gesture

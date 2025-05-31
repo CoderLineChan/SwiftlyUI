@@ -30,15 +30,28 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("viewDidLoad")
-        test3()
+        createButton4()
+        
+    }
+    func animation() {
+        
     }
     func test4() {
         let abf: String? = nil
         let flag = true
+        let a: Int = 2
         HStackView {
             if let abf = abf {
                 UILabel()
-                    
+            }
+            if flag {
+                UILabel()
+            }
+            switch a {
+            case 1:
+                UILabel()
+            default:
+                UILabel()
             }
             if flag {
                 UILabel()
@@ -78,17 +91,29 @@ class ViewController: UIViewController {
     func createButton4() {
         view.addSubview(backButton)
         backButton.centerToSuper()
-        let image = UIImage.gradient(colors: [.brown, .clear], direction: .leftToRight, size: CGSize(width: 100, height: 40))
-        let imageView = UIImageView()
+//        let image = UIImage.gradient(colors: [.brown, .clear], direction: .leftToRight, size: CGSize(width: 100, height: 40))
+//        let imageView = UIImageView()
+//            .centerX(to: view, offset: 0)
+//            .centerY(to: view, offset: 100)
+//            .frame(width: 100, height: 40)
+//            .cornerRadius(20)
+//        view.addSubview(imageView)
+//        
+//        let gra = CAGradientLayer.gradient(colors: [.brown, .clear], direction: .leftToRight)
+//        gra.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
+//        imageView.layer.addSublayer(gra)
+        
+        
+        let ani = UIButton("animation")
+            .onAction(target: self, action: { $0.animation() })
             .centerX(to: view, offset: 0)
             .centerY(to: view, offset: 100)
             .frame(width: 100, height: 40)
-            .cornerRadius(20)
-        view.addSubview(imageView)
+            .userInteractionEnabled(false)
+            .backgroundColor(.yellow)
+            .onGesture(.tap, action: animation)
         
-        let gra = CAGradientLayer.gradient(colors: [.brown, .clear], direction: .leftToRight)
-        gra.frame = CGRect(x: 0, y: 0, width: 100, height: 40)
-        imageView.layer.addSublayer(gra)
+        view.addSubview(ani)
     }
     @available(iOS 15.0, *)
     func createButton3() {
