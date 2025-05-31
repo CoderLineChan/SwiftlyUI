@@ -1,22 +1,24 @@
 # SwiftlyUI & UIKit Plus
+**Infusing UIKit with SwiftUI Development Efficiency**  
+Inject SwiftUI-like development efficiency into UIKit through chained syntax and modern API design. Develop with UIKit more concisely and efficiently while maintaining full control, achieving a "zero conversion cost" SwiftUI-like development experience.  
+
 **为 UIKit 注入 SwiftUI 的开发效率**  
 通过链式语法和现代化 API 设计，让 UIKit 开发更简洁高效，同时保持完整控制权，实现「零转换成本」的 SwiftUI 式开发体验。  
 
 
-## 快速导航 🗺️ | Quick Navigation
-- [安装指南 | Installation](#安装指南)
-- [为什么选择 SwiftlyUI？](#技术优势全景图)
-- [功能特性 | Features](#功能特性)
-- [使用示例](#使用示例)
+## Quick | Navigation快速导航 
+- [Installation Guide | 安装指南](#安装指南)
+- [Why Choose SwiftlyUI? | 为什么选择](#技术优势全景图)
+- [Features | 功能特性](#功能特性)
+- [Usage Examples | 使用示例](#使用示例)
 
-## 安装指南 📦| Installation <a name="安装指南"></a>
+## Installation Guide | 安装指南 <a name="安装指南"></a>
 [![CocoaPods](https://img.shields.io/cocoapods/v/SwiftlyUI)](https://cocoapods.org/pods/SwiftlyUI)
 [![SPM](https://img.shields.io/badge/SPM-supported-green)](https://swift.org/package-manager/)
 ### CocoaPods
 ```ruby
-# 核心组件 | Core components
 pod 'SwiftlyUI'
-# 如果pod失败，请使用以下方式
+# Use if pod fails | 如果pod失败使用此方式
 pod 'SwiftlyUI', :git => 'https://github.com/CoderLineChan/SwiftlyUI.git', :tag => '1.1.12'
 ```
 
@@ -27,25 +29,32 @@ dependencies: [
              from: "1.1.12")
 ]
 ```
-### 推荐使用Swift Package Manager(SPM)方式导入
+### Recommended Installation via SPM | 推荐使用SPM方式导入
 Xcode -> File -> Add Package Dependencies... -> https://github.com/CoderLineChan/SwiftlyUI.git -> Add Package
 
 
 
-## 为什么选择 SwiftlyUI？ <a name="技术优势全景图"></a>
+## Why Choose SwiftlyUI? <a name="技术优势全景图"></a>
 ✅ **渐进式迁移** 无需重写现有代码，可逐步改造 UIKit 项目
-  
+
+✅ **Progressive Migration** Migrate existing code gradually without rewriting entire projects
+
 ✅ **Swift 原生支持** 专为 Swift 设计的链式语法，类型安全且 IDE 友好
-  
+
+✅ **Native Swift Support** Designed for Swift with chain syntax, type safety and IDE friendliness
+
 ✅ **完整 UIKit 能力** 保留底层控件操作能力，不引入额外抽象层
-  
+
+✅ **Full UIKit Capabilities** Retain full underlying control capabilities, no extra abstraction layer
+
 ✅ **企业级兼容** 支持 iOS 13+，完美适配存量项目
 
+✅ **Enterprise Compatibility** Supports iOS 13+, perfectly adapts to existing projects
 
-## 功能特性 ✨ | Features <a name="功能特性"></a>
+## Features | 功能特性 <a name="功能特性"></a>
 
-### 使用@resultBuilder为 UIView和UIStackView容器增强
-- 多容器嵌套完美复刻SwiftUI
+### Enhanced Containers with @resultBuilder for UIView and UIStackView
+- Perfect nested containers replicating SwiftUI | 多容器嵌套完美复刻SwiftUI
 ```swift
 ZStackView == UIView
 HStackView == UIStackView
@@ -94,7 +103,7 @@ let zView = ZStackView {// == UIView
 view.addSubview(zView)
 ```
 
-### 链式语法：属性设置增强
+### Chained Syntax: Property Setting Enhancement | 链式语法：属性设置增强
 - 极简代码：比原生代码减少 60% 的冗余字符
 - 内边距精准设置,支持单边/全局/横向/纵向
 - 内置分割线系统，一行代码设置分割线，子视图增删/隐藏/显示时自动更新分隔线
@@ -166,7 +175,7 @@ UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) {
 }
 
 ```
-### 智能布局系统 Auto Layout ：前置约束 + 自适应布局
+### Pre-Parent Constraints ｜ 智能布局系统 Auto Layout ：父视图前约束 + 自适应布局
 - 添加父控件前约束，打破相对布局限制
 ```swift
 let view = UIView()
@@ -186,7 +195,7 @@ let view = UIView()
 superView.addSubview(view)
 ```
 
-### UIControl & UIButton 多状态增强
+### UIControl & UIButton Multi-state Enhancement
 - Action封装闭包，需要注意循环引用
 ```swift
 let contorl = UIControl()
@@ -214,7 +223,7 @@ let button = UIButton()
     .onAction(target: self, action: {$0.doSomething() })
 ```
 
-### UITextView & UITextField：输入控件增强，比原生更易用的文本处理
+### UITextView & UITextField：Enhanced Input Controls
 - 一行代码实现 Placeholder
 - Padding 精准设置内边距
 - 控件事件简化监听文本变化
@@ -239,7 +248,7 @@ let textField = UITextField()
     .onEndEditing(onEndEditingAction)
 ```
 
-### 使用示例 <a name="使用示例"></a>
+### Usage Examples ｜ 使用示例 <a name="使用示例"></a>
 <p align="center">
 <img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/Example/SampleGraphs/SampleGraph_1.png" width="1000px"/>
 </p>
