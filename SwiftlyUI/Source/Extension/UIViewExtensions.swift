@@ -169,84 +169,6 @@ public struct UIKitAnimation {
     }
 }
 
-// MARK: - Create Gesture
-extension UIView {
-    func createGestureRecognizer<T: UIGestureRecognizer>(
-        for type: GestureType,
-        action: @escaping (T) -> Void
-    ) -> (T, ViewGestureActionClosure<T>, UnsafeRawPointer?) {
-        let closure = ViewGestureActionClosure(action: action)
-        var key: UnsafeRawPointer?
-        var gesture: UIGestureRecognizer
-        
-        switch type {
-        case .tap:
-            let tap = UITapGestureRecognizer(target: closure, action: #selector(ViewGestureActionClosure.invoke))
-            tap.numberOfTapsRequired = 1
-            gesture = tap
-            key = type.associatedKey
-            
-        case .doubleTap:
-            let tap = UITapGestureRecognizer(target: closure, action: #selector(ViewGestureActionClosure.invoke))
-            tap.numberOfTapsRequired = 2
-            gesture = tap
-            key = type.associatedKey
-            
-        case .longPress(let duration):
-            let press = UILongPressGestureRecognizer(target: closure, action: #selector(ViewGestureActionClosure.invoke))
-            press.minimumPressDuration = duration
-            gesture = press
-            key = type.associatedKey
-            
-        case .pan:
-            gesture = UIPanGestureRecognizer(target: closure, action: #selector(ViewGestureActionClosure.invoke))
-            key = type.associatedKey
-            
-        case .swipe(let direction):
-            let swipe = UISwipeGestureRecognizer(target: closure, action: #selector(ViewGestureActionClosure.invoke))
-            swipe.direction = direction
-            gesture = swipe
-            key = type.associatedKey
-            
-        case .pinch:
-            gesture = UIPinchGestureRecognizer(target: closure, action: #selector(ViewGestureActionClosure.invoke))
-            key = type.associatedKey
-            
-        case .rotation:
-            gesture = UIRotationGestureRecognizer(target: closure, action: #selector(ViewGestureActionClosure.invoke))
-            key = type.associatedKey
-        }
-        return (gesture as! T, closure, key)
-    }
-    
-    func handleGestureDependencies(for type: GestureType, gesture: UIGestureRecognizer) {
-        switch type {
-        case .doubleTap:
-            gestureRecognizers?
-                    .compactMap { $0 as? UITapGestureRecognizer }
-                    .filter { $0.numberOfTapsRequired == 1 }
-                    .forEach { singleTapGesture in
-                        singleTapGesture.require(toFail: gesture)
-                    }
-        case .tap:
-            gestureRecognizers?
-                    .compactMap { $0 as? UITapGestureRecognizer }
-                    .filter { $0.numberOfTapsRequired == 2 }
-                    .forEach { doubleTapGesture in
-                        gesture.require(toFail: doubleTapGesture)
-                    }
-        case .longPress:
-            gestureRecognizers?
-                    .compactMap { $0 as? UITapGestureRecognizer }
-                    .filter { $0.numberOfTapsRequired == 1 }
-                    .forEach { singleTapGesture in
-                        singleTapGesture.require(toFail: gesture)
-                    }
-        default:
-            break
-        }
-    }
-}
 // MARK: - <#desc#>
 public extension UIView {
     func createGradientLayer(colors: [UIColor], direction: GradientDirection) -> CAGradientLayer {
@@ -307,25 +229,6 @@ extension UIView.GestureType {
         case .pinch: return UIView.AssociatedKeys.pinchActionKeyPtr
         case .rotation: return UIView.AssociatedKeys.rotationActionKeyPtr
         }
-    }
-}
-
-// MARK: - Gesture Action Closure
-class ViewGestureActionClosure<T: UIGestureRecognizer> {
-    var action: (T) -> Void
-    init(action: @escaping (T) -> Void) {
-        self.action = action
-    }
-    @MainActor @objc func invoke(_ gesture: UIGestureRecognizer) {
-        switch gesture {
-        case is UITapGestureRecognizer:
-            guard gesture.state == .ended else { return }
-        case is UILongPressGestureRecognizer:
-            guard gesture.state == .began else { return }
-        default:
-            break
-        }
-        action(gesture as! T)
     }
 }
 

@@ -1453,38 +1453,104 @@ private func withAnimation(
 
 // MARK: - Gesture
 public extension UIView {
-    
+    /// .onGesture(.tap , target: self, action: { $0.doSomething() })
     @discardableResult
-    func onGesture(_ type: GestureType, action: @escaping () -> Void) -> Self {
-        onGesture(type) { _ in
-            action()
-        }
-        return self
-    }
-    
-    @discardableResult
-    func onGesture<T: UIGestureRecognizer>(_ type: GestureType, action: @escaping (T) -> Void) -> Self {
+    func onGesture<T: AnyObject>(_ type: GestureType, target: T, action: @escaping (T) -> Void) -> Self {
         isUserInteractionEnabled = true
         gestureRecognizers?.forEach({ gesture in
             if gesture.gestureType == type {
                 removeGestureRecognizer(gesture)
+                var handlers = gestureHandlers
+                handlers.removeValue(forKey: type)
+                gestureHandlers = handlers
             }
         })
-        let (gesture, closure, key) = createGestureRecognizer(for: type, action: action)
-        handleGestureDependencies(for: type, gesture: gesture)
-        if let key = key {
-            objc_setAssociatedObject(
-                self,
-                key,
-                closure,
-                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-            )
-        }
+        
+        let handler = GestureSingleHandler(target: target, action: action)
+        let gesture = createGestureRecognizer(for: type)
+        gesture.addTarget(handler, action: #selector(GestureSingleHandler<T>.invoke))
+        
+        var handlers = gestureHandlers
+        handlers[type] = handler
+        gestureHandlers = handlers
+        
         addGestureRecognizer(gesture)
+        handleGestureDependencies(for: type, gesture: gesture)
         return self
     }
     
-    enum GestureType: Equatable {
+    /// .onGesture(.tap , target: self, action: { (vc: ViewController, btn: UIGestureRecognizer) in vc.doSomething() })
+    @discardableResult
+    func onGesture<T: AnyObject, GestureRecognizer: UIGestureRecognizer>(_ type: GestureType, target: T, action: @escaping (T, GestureRecognizer) -> Void) -> Self {
+        isUserInteractionEnabled = true
+        gestureRecognizers?.forEach({ gesture in
+            if gesture.gestureType == type {
+                removeGestureRecognizer(gesture)
+                var handlers = gestureHandlers
+                handlers.removeValue(forKey: type)
+                gestureHandlers = handlers
+            }
+        })
+        
+        let handler = GestureHandler(target: target, action: action)
+        let gesture = createGestureRecognizer(for: type)
+        gesture.addTarget(handler, action: #selector(GestureHandler<T, GestureRecognizer>.invoke(_:)))
+        
+        var handlers = gestureHandlers
+        handlers[type] = handler
+        gestureHandlers = handlers
+        
+        addGestureRecognizer(gesture)
+        handleGestureDependencies(for: type, gesture: gesture)
+        return self
+    }
+    
+    /// .onGesture(.tap, action: {[weak self] in self?.doSomething() })
+    @discardableResult
+    func onGesture(_ type: GestureType, action: @escaping () -> Void) -> Self {
+        isUserInteractionEnabled = true
+        gestureRecognizers?.forEach({ gesture in
+            if gesture.gestureType == type {
+                removeGestureRecognizer(gesture)
+                var handlers = gestureHandlers
+                handlers.removeValue(forKey: type)
+                gestureHandlers = handlers
+            }
+        })
+        
+        let handler = GestureClosureWrapper<UIGestureRecognizer>(gesture: createGestureRecognizer(for: type), closure: { _ in
+            action()
+        })
+        handler.gesture.addTarget(handler, action: #selector(GestureClosureWrapper<UIGestureRecognizer>.invoke))
+        
+        var handlers = gestureHandlers
+        handlers[type] = handler
+        gestureHandlers = handlers
+        
+        addGestureRecognizer(handler.gesture)
+        handleGestureDependencies(for: type, gesture: handler.gesture)
+        return self
+    }
+    
+    @discardableResult
+    func onGesture<T>(_ type: GestureType, target: T, action: Selector) -> Self {
+        isUserInteractionEnabled = true
+        gestureRecognizers?.forEach({ gesture in
+            if gesture.gestureType == type {
+                removeGestureRecognizer(gesture)
+                var handlers = gestureHandlers
+                handlers.removeValue(forKey: type)
+                gestureHandlers = handlers
+            }
+        })
+        let gesture = createGestureRecognizer(for: type)
+        gesture.addTarget(target, action: action)
+        addGestureRecognizer(gesture)
+        handleGestureDependencies(for: type, gesture: gesture)
+        return self
+    }
+    
+    enum GestureType: Equatable, Hashable {
         case tap
         case doubleTap
         case longPress(minimumDuration: TimeInterval = 0.5)
@@ -1514,6 +1580,27 @@ public extension UIView {
             }
         }
         
+        public func hash(into hasher: inout Hasher) {
+            switch self {
+            case .tap:
+                hasher.combine(0)
+            case .doubleTap:
+                hasher.combine(1)
+            case .longPress(let duration):
+                hasher.combine(2)
+                hasher.combine(duration)
+            case .pan:
+                hasher.combine(3)
+            case .swipe(let direction):
+                hasher.combine(4)
+                hasher.combine(direction.rawValue)
+            case .pinch:
+                hasher.combine(5)
+            case .rotation:
+                hasher.combine(6)
+            }
+        }
+        
         var longPressValue: TimeInterval {
             switch self {
             case .longPress(let minimumDuration):
@@ -1529,6 +1616,131 @@ public extension UIView {
             default:
                 return .right
             }
+        }
+    }
+}
+
+// MARK: - private
+private class GestureClosureWrapper<T: UIGestureRecognizer>: NSObject {
+    let gesture: T
+    private let closure: (T) -> Void
+    
+    init(gesture: T, closure: @escaping (T) -> Void) {
+        self.gesture = gesture
+        self.closure = closure
+        super.init()
+    }
+    
+    @objc func invoke() {
+        closure(gesture)
+    }
+}
+
+private class GestureSingleHandler<T: AnyObject>: NSObject {
+    private weak var target: T?
+    private let action: (T) -> Void
+    
+    init(target: T, action: @escaping (T) -> Void) {
+        self.target = target
+        self.action = action
+        super.init()
+    }
+    
+    @objc func invoke() {
+        if let target = target {
+            action(target)
+        }
+    }
+}
+
+private class GestureHandler<T: AnyObject, GestureRecognizer: UIGestureRecognizer>: NSObject {
+    private weak var target: T?
+    private let action: (T, GestureRecognizer) -> Void
+    
+    init(target: T, action: @escaping (T, GestureRecognizer) -> Void) {
+        self.target = target
+        self.action = action
+        super.init()
+    }
+    
+    @objc func invoke(_ gesture: UIGestureRecognizer) {
+        guard let target = target, let typedGesture = gesture as? GestureRecognizer else { return }
+        action(target, typedGesture)
+    }
+}
+
+private extension UIView {
+    struct AssociatedKeys {
+        nonisolated(unsafe) static var gestureHandlersKey: Void?
+    }
+    
+    private var gestureHandlers: [GestureType: Any] {
+        get {
+            return objc_getAssociatedObject(
+                self,
+                withUnsafePointer(to: &AssociatedKeys.gestureHandlersKey) { UnsafeRawPointer($0) }
+            ) as? [GestureType: Any] ?? [:]
+        }
+        set {
+            objc_setAssociatedObject(
+                self,
+                withUnsafePointer(to: &AssociatedKeys.gestureHandlersKey) { UnsafeRawPointer($0) },
+                newValue,
+                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
+            )
+        }
+    }
+    
+    private func createGestureRecognizer(for type: GestureType) -> UIGestureRecognizer {
+        switch type {
+        case .tap:
+            return UITapGestureRecognizer()
+        case .doubleTap:
+            let gesture = UITapGestureRecognizer()
+            gesture.numberOfTapsRequired = 2
+            return gesture
+        case .longPress(let minimumDuration):
+            let gesture = UILongPressGestureRecognizer()
+            gesture.minimumPressDuration = minimumDuration
+            return gesture
+        case .pan:
+            return UIPanGestureRecognizer()
+        case .swipe(let direction):
+            let gesture = UISwipeGestureRecognizer()
+            gesture.direction = direction
+            return gesture
+        case .pinch:
+            return UIPinchGestureRecognizer()
+        case .rotation:
+            return UIRotationGestureRecognizer()
+        }
+    }
+    
+    private func handleGestureDependencies(for type: GestureType, gesture: UIGestureRecognizer) {
+        switch type {
+        case .doubleTap:
+            gestureRecognizers?
+                .compactMap { $0 as? UITapGestureRecognizer }
+                .filter { $0.numberOfTapsRequired == 1 }
+                .forEach { singleTapGesture in
+                    singleTapGesture.require(toFail: gesture)
+                }
+        case .tap:
+            gestureRecognizers?
+                .compactMap { $0 as? UITapGestureRecognizer }
+                .filter { $0.numberOfTapsRequired == 2 }
+                .forEach { doubleTapGesture in
+                    gesture.require(toFail: doubleTapGesture)
+                }
+        case .longPress:
+            gestureRecognizers?
+                .compactMap { $0 as? UITapGestureRecognizer }
+                .filter { $0.numberOfTapsRequired == 1 }
+                .forEach { singleTapGesture in
+                    singleTapGesture.require(toFail: gesture)
+                }
+        default:
+            break
         }
     }
 }

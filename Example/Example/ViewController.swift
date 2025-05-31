@@ -18,7 +18,6 @@ class ViewController: UIViewController {
         let button: UIButton = UIButton.init(type: .custom)
             .imageName("navi_back_black", state: .normal)
             .frame(width: 44, height: 44)
-//            .onAction(target: self, action: {$0.onBackButtonAction() })
             .onAction(target: self, action: { (vc: ViewController, btn: UIButton) in
                 vc.onBackButtonAction()
                 btn.alpha = 0.5
@@ -34,7 +33,7 @@ class ViewController: UIViewController {
         
     }
     func animation() {
-        
+        print("animation")
     }
     func test4() {
         let abf: String? = nil
@@ -111,7 +110,10 @@ class ViewController: UIViewController {
             .frame(width: 100, height: 40)
             .userInteractionEnabled(false)
             .backgroundColor(.yellow)
-            .onGesture(.tap, action: animation)
+            .onGesture(.longPress(minimumDuration: 1), action: {[weak self] in self?.animation() })
+//            .onGesture(.longPress(minimumDuration: 1), target: self) { vc, gest in
+//                print("gestgest:\(gest)")
+//            }
         
         view.addSubview(ani)
     }
