@@ -17,7 +17,8 @@ class ViewController: UIViewController {
     lazy var backButton: UIButton = {
         let button: UIButton = UIButton.init(type: .custom)
             .imageName("navi_back_black", state: .normal)
-            .frame(width: 44, height: 44)
+//            .frame(width: 44, height: 44)
+            .frame(size: CGSize(width: 44, height: 44))
             .onAction(target: self, action: { (vc: ViewController, btn: UIButton) in
                 vc.onBackButtonAction()
                 btn.alpha = 0.5
@@ -33,6 +34,10 @@ class ViewController: UIViewController {
         
     }
     func animation() {
+        self.backButton.constraint(.bottom)?.constant = -90
+        withAnimation {
+            self.view.layoutIfNeeded()
+        }
         print("animation")
     }
     func test4() {
@@ -89,7 +94,7 @@ class ViewController: UIViewController {
     }
     func createButton4() {
         view.addSubview(backButton)
-        backButton.centerToSuper()
+        
 //        let image = UIImage.gradient(colors: [.brown, .clear], direction: .leftToRight, size: CGSize(width: 100, height: 40))
 //        let imageView = UIImageView()
 //            .centerX(to: view, offset: 0)
@@ -105,8 +110,7 @@ class ViewController: UIViewController {
         
         let ani = UIButton("animation")
             .onAction(target: self, action: { $0.animation() })
-            .centerX(to: view, offset: 0)
-            .centerY(to: view, offset: 100)
+            .centerToSuper()
             .frame(width: 100, height: 40)
             .userInteractionEnabled(false)
             .backgroundColor(.yellow)
@@ -116,6 +120,9 @@ class ViewController: UIViewController {
 //            }
         
         view.addSubview(ani)
+        backButton.centerXToSuper()
+        backButton.bottom(to: ani.topAnchor, offset: 30)
+        backButton.activeConstraints()
     }
     @available(iOS 15.0, *)
     func createButton3() {

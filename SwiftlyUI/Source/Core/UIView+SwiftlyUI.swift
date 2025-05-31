@@ -203,7 +203,7 @@ public final class ZStackView: UIView {
             addSubview($0)
         }
         setCanActiveLayout(true, forViews: views)
-        views.forEach({ $0.safeActivateConstraints() })
+        views.forEach({ $0.interiorActivateAllConstraints() })
         views.forEach { view in
             applyAlignmentConstraints(for: view)
         }
@@ -301,6 +301,24 @@ public extension UIView {
             value: height,
             minValue: minHeight,
             maxValue: maxHeight,
+            dimension: heightAnchor,
+            types: (.height, .minHeight, .maxHeight))
+        return self
+    }
+    
+    @discardableResult
+    func frame(size: CGSize) -> Self {
+        handleDimensionConstraints(
+            value: size.width,
+            minValue: nil,
+            maxValue: nil,
+            dimension: widthAnchor,
+            types: (.width, .minWidth, .maxWidth))
+        
+        handleDimensionConstraints(
+            value: size.height,
+            minValue: nil,
+            maxValue: nil,
             dimension: heightAnchor,
             types: (.height, .minHeight, .maxHeight))
         return self
@@ -1011,9 +1029,26 @@ public extension UIView {
         }
         return self
     }
+    
+    /// Returns the constraint for the specified type
+    func constraint(_ constraintType: ConstraintType) -> NSLayoutConstraint? {
+        return constraintHolder.constraints[constraintType]
+    }
+    
+    /// Manually activate constraints
+    @discardableResult
+    func activeConstraints(_ activeSubViews: Bool = false) -> Self {
+        interiorActivateAllConstraints()
+        if activeSubViews {
+            subviews.forEach { subview in
+                subview.interiorActivateAllConstraints()
+            }
+        }
+        return self
+    }
 }
 
-enum ConstraintType: String, CaseIterable {
+public enum ConstraintType: String, CaseIterable {
     case greaterThanOrEqualTo,lessThanOrEqualTo
     case left, right, top, bottom
     case leading, trailing
@@ -1023,7 +1058,7 @@ enum ConstraintType: String, CaseIterable {
     case minWidth, maxWidth
     case minHeight, maxHeight
     case marginsLeft, marginsRight, marginsTop, marginsBottom, marginsCenterX, marginsCenterY
-    init?(rawValue: String) {
+    public init?(rawValue: String) {
         switch rawValue {
         case "left": self = .left
         case "right": self = .right
@@ -1199,7 +1234,7 @@ extension UIView {
         constraintHolder = holder
     }
     
-    func safeActivateConstraints() {
+    func interiorActivateAllConstraints() {
         if !canActiveLayout {
             return
         }
@@ -1357,21 +1392,21 @@ extension UIView {
     @objc private func swizzled_didAddSubview(_ view: UIView) {
         swizzled_didAddSubview(view)
         subviews.forEach { subview in
-            view.safeActivateConstraints()
+            subview.interiorActivateAllConstraints()
         }
     }
     
     @objc private func swizzled_didMoveToSuperview() {
         swizzled_didMoveToSuperview()
         if canActiveLayout {
-            safeActivateConstraints()
+            interiorActivateAllConstraints()
         }
     }
     
     @objc func swizzled_viewLayoutSubviews() {
         swizzled_viewLayoutSubviews()
         if canActiveLayout {
-            safeActivateConstraints()
+            interiorActivateAllConstraints()
         }
         if let cornerInfo = cornerInfo, bounds != .zero {
             roundCorners(cornerInfo.radius, corners: cornerInfo.corners)

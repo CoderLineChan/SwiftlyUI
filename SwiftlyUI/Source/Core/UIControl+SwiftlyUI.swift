@@ -32,7 +32,7 @@ public extension UIControl {
             $0.isUserInteractionEnabled = false
         }
         setCanActiveLayout(true, forViews: views)
-        views.forEach({ $0.safeActivateConstraints() })
+        views.forEach({ $0.interiorActivateAllConstraints() })
         views.forEach { view in
             applyAlignmentConstraints(for: view)
         }
