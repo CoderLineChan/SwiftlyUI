@@ -262,6 +262,9 @@ let textField = UITextField()
 <img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/Example/SampleGraphs/SampleGraph_4.png" width="1000px"/>
 </p>
 
+https://github.com/user-attachments/assets/0f7b5d91-eb03-4345-87e8-3c73372f504a
+
+
 
 
 
