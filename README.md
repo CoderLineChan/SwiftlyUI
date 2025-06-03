@@ -6,7 +6,7 @@ Inject SwiftUI-like development efficiency into UIKit through chained syntax and
 通过链式语法和现代化 API 设计，让 UIKit 开发更简洁高效，同时保持完整控制权，实现「零转换成本」的 SwiftUI 式开发体验。  
 
 
-## Quick | Navigation快速导航 
+## Quick Navigation | 快速导航 
 - [Installation Guide | 安装指南](#安装指南)
 - [Why Choose SwiftlyUI? | 为什么选择](#技术优势全景图)
 - [Features | 功能特性](#功能特性)
@@ -19,14 +19,14 @@ Inject SwiftUI-like development efficiency into UIKit through chained syntax and
 ```ruby
 pod 'SwiftlyUI'
 # Use if pod fails | 如果pod失败使用此方式
-pod 'SwiftlyUI', :git => 'https://github.com/CoderLineChan/SwiftlyUI.git', :tag => '1.1.12'
+pod 'SwiftlyUI', :git => 'https://github.com/CoderLineChan/SwiftlyUI.git', :tag => '*.*.*'
 ```
 
 ### Swift Package Manager
 ```swift
 dependencies: [
     .package(url: "https://github.com/CoderLineChan/SwiftlyUI.git", 
-             from: "1.1.12")
+             from: "*.*.*")
 ]
 ```
 ### Recommended Installation via SPM | 推荐使用SPM方式导入
