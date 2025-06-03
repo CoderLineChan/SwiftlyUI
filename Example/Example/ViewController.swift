@@ -9,15 +9,56 @@ import UIKit
 import SwiftlyUI
 
 
+#if canImport(SwiftUI) && DEBUG
+import SwiftUI
+struct ViewControllerPreview: PreviewProvider {
+    static var previews: some View {
+        UIViewControllerPreview {
+            UINavigationController(rootViewController: ViewController())
+        }.edgesIgnoringSafeArea(.all)
+            .previewDevice("iPhone 16 Pro")
+    }
+}
+//struct ViewPreview: PreviewProvider {
+//    static var previews: some View {
+//        UIViewPreview {
+//            ViewController().view
+//        }.edgesIgnoringSafeArea(.all)
+//            .previewDevice("iPhone 16 Pro")
+//    }
+//}
+
+#endif
 class ViewController: UIViewController {
     deinit {
         print("deinit")
     }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        print("viewDidLoad")
+        test1()
+        test2()
+        test3()
+        test4()
+        test5()
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /// 返回按钮
     lazy var backButton: UIButton = {
         let button: UIButton = UIButton.init(type: .custom)
             .imageName("navi_back_black", state: .normal)
-//            .frame(width: 44, height: 44)
+        //            .frame(width: 44, height: 44)
             .frame(size: CGSize(width: 44, height: 44))
             .onAction(target: self, action: { (vc: ViewController, btn: UIButton) in
                 vc.onBackButtonAction()
@@ -26,13 +67,6 @@ class ViewController: UIViewController {
             .backgroundColor(.orange)
         return button
     }()
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        print("viewDidLoad")
-        createButton4()
-        
-    }
     func animation() {
         self.backButton.constraint(.bottom)?.constant = -90
         withAnimation {
@@ -40,35 +74,13 @@ class ViewController: UIViewController {
         }
         print("animation")
     }
-    func test4() {
-        let abf: String? = nil
-        let flag = true
-        let a: Int = 2
-        HStackView {
-            if let abf = abf {
-                UILabel()
-            }
-            if flag {
-                UILabel()
-            }
-            switch a {
-            case 1:
-                UILabel()
-            default:
-                UILabel()
-            }
-            if flag {
-                UILabel()
-            }
-            UILabel()
-        }
-    }
-    func test3() {
+    
+    func test5() {
         let view1 = UIView()
             .backgroundColor(.red)
             .frame(width: 100, height: 100)
             .centerX(to: view)
-            .centerY(to: view)
+            .centerY(to: view, offset: 300)
             .roundCorners(10, corners: [.topLeft, .bottomRight])
         view.addSubview(view1)
         let view2 = UIView()
@@ -92,7 +104,7 @@ class ViewController: UIViewController {
         
         
     }
-    func createButton4() {
+    func test4() {
         view.addSubview(backButton)
         
 //        let image = UIImage.gradient(colors: [.brown, .clear], direction: .leftToRight, size: CGSize(width: 100, height: 40))
@@ -110,7 +122,8 @@ class ViewController: UIViewController {
         
         let ani = UIButton("animation")
             .onAction(target: self, action: { $0.animation() })
-            .centerToSuper()
+            .centerXToSuper()
+            .centerYToSuper(offset: -190)
             .frame(width: 100, height: 40)
             .userInteractionEnabled(false)
             .backgroundColor(.yellow)
@@ -195,7 +208,7 @@ class ViewController: UIViewController {
     }
     
     // MARK: - UIButton
-    func createButton() {
+    func test3() {
         //UIKit
         let button1 = UIButton()
         button1.titleLabel?.font = .medium(15)
@@ -269,7 +282,7 @@ class ViewController: UIViewController {
     }
     
     
-    func tedt2() {
+    func test2() {
         let zView = ZStackView {// == UIView
             UIView()
                 .frame(width: 300, height: 200)
@@ -345,7 +358,8 @@ class ViewController: UIViewController {
             .padding(.horizontal)
             .padding(.vertical, 5)
             .backgroundColor(.darkGray.opacity(0.3))
-            .center(to: view)
+            .centerXToSuper()
+            .centerYToSuper(offset: -300)
             .alignment(.center)
             .distribution(.fill)
         view.addSubview(stackView)
