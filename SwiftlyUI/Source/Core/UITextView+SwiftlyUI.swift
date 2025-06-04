@@ -10,8 +10,8 @@ import UIKit
 // MARK: - Layout
 public extension UITextView {
     @discardableResult
-    override func padding(_ edge: UIEdgeInsets) -> Self {
-        super.padding(edge)
+    override func layoutMargins(_ edge: UIEdgeInsets) -> Self {
+        super.layoutMargins(edge)
         self.textContainerInset = edge
         return self
     }

@@ -82,8 +82,8 @@ public final class HStackView: UIStackView {
 public extension UIStackView {
     
     @discardableResult
-    override func padding(_ edge: UIEdgeInsets) -> Self {
-        super.padding(edge)
+    override func layoutMargins(_ edge: UIEdgeInsets) -> Self {
+        super.layoutMargins(edge)
         isLayoutMarginsRelativeArrangement = true
         return self
     }

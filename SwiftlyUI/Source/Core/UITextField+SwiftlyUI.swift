@@ -10,8 +10,8 @@ import UIKit
 // MARK: - Layout
 public extension UITextField {
     @discardableResult
-    override func padding(_ edge: UIEdgeInsets) -> Self {
-        super.padding(edge)
+    override func layoutMargins(_ edge: UIEdgeInsets) -> Self {
+        super.layoutMargins(edge)
         paddingInsets = edge
         __UITextFieldDisposableClass.runOnce(block: UITextField.once)
         return self

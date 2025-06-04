@@ -56,7 +56,6 @@ public extension UIView {
         return self
     }
     
-    @objc
     @discardableResult
     func padding(_ edge: UIEdgeInsets) -> Self {
         return layoutMargins(edge)
@@ -68,7 +67,7 @@ public extension UIView {
     }
     
     @discardableResult
-    func layoutMargins(_ edge: UIEdgeInsets) -> Self {
+    @objc func layoutMargins(_ edge: UIEdgeInsets) -> Self {
         translatesAutoresizingMaskIntoConstraints = false
         layoutMargins = edge
         return self

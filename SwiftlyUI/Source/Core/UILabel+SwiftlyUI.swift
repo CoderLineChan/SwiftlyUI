@@ -9,9 +9,6 @@ import UIKit
 
 
 public final class Label: UILabel {
-    public override func padding(_ edge: UIEdgeInsets) -> Self {
-        return super.padding(edge)
-    }
     
     public override func drawText(in rect: CGRect) {
         super.drawText(in: rect.inset(by: layoutMargins))
