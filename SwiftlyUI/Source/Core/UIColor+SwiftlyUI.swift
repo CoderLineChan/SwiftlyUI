@@ -4,6 +4,8 @@
 //
 //  Created by CoderChan on 2025/2/20.
 //
+
+import Foundation
 #if canImport(UIKit) && os(iOS)
 import UIKit
 

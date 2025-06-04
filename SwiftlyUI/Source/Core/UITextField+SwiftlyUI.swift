@@ -33,12 +33,6 @@ public extension UITextField {
     }
     
     @discardableResult
-    func tintColor(_ color: UIColor) -> Self {
-        tintColor = color
-        return self
-    }
-    
-    @discardableResult
     func font(_ font: UIFont) -> Self {
         self.font = font
         placeholderLabel?.font = font

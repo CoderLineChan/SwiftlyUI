@@ -37,19 +37,44 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("viewDidLoad")
-        test1()
-        test2()
-        test3()
         test4()
-        test5()
+        test6()
         
     }
     
+    func test6() {
+        let array = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+        let scrollView = VScrollView {
+            VStackView {
+                ForEach(array) { i in
+                    self.createCell("cell ForEach: \(i)")
+                }
+                createCell("cell1")
+                createCell("cell2")
+            }
+            .spacing(10)
+            .fillSuper()
+            .width(200)
+        }
+            .height(200)
+            .width(200)
+            .centerToSuper()
+            .backgroundColor(.yellow)
+        
+        view.addSubview(scrollView)
+    }
     
-    
-    
-    
-    
+    func createCell(_ string: String) -> UIView {
+        let cell = UIView()
+            .backgroundColor(.random())
+            .frame(width: 190, height: 50)
+        
+        let label = Label(string)
+            .centerToSuper()
+        cell.addSubview(label)
+        return cell
+            
+    }
     
     
     

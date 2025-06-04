@@ -10,6 +10,8 @@
 		143107442DEEA1BF00B14C9E /* UIKitPreviewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143107432DEEA1BE00B14C9E /* UIKitPreviewable.swift */; };
 		14B119B92DCDFC5C003856F0 /* CAGradientLayerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119B82DCDFC57003856F0 /* CAGradientLayerExtension.swift */; };
 		14B119BB2DCE1195003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */; };
+		14C2C3BB2DEFF78A00B658DA /* UIScrollView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */; };
+		14C2C3BD2DF0204C00B658DA /* ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C3BC2DF0204B00B658DA /* ForEach.swift */; };
 		14DCD3572DDEC39D00C2378E /* UIImage+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */; };
 		1DC9A01C168B4C3B63B08D6C02E1677E /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425B2BE0B6C36A2653C6EAB2C39200C8 /* UIImageExtension.swift */; };
 		240F1A3E0B2919B5789E0B2E82C6AC1F /* UILabel+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */; };
@@ -48,6 +50,8 @@
 		143107432DEEA1BE00B14C9E /* UIKitPreviewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitPreviewable.swift; sourceTree = "<group>"; };
 		14B119B82DCDFC57003856F0 /* CAGradientLayerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CAGradientLayerExtension.swift; sourceTree = "<group>"; };
 		14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBackgroundConfiguration+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C3BC2DF0204B00B658DA /* ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEach.swift; sourceTree = "<group>"; };
 		14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		1F667CC0E19EAF34E5A4119E2121F585 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UILabel+SwiftlyUI.swift"; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 				6DC294B8EAB971F7F8722BEC055CFCE0 /* UITextField+SwiftlyUI.swift */,
 				CBAAE4D2B65D842AD6DEF63FEA1B128D /* UITextView+SwiftlyUI.swift */,
 				E7A6F3FE7EBB8918C69CA7F2C918C691 /* UIView+SwiftlyUI.swift */,
+				14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */,
 			);
 			name = Core;
 			path = SwiftlyUI/Source/Core;
@@ -232,6 +237,7 @@
 		F579CD064F2AEA395C113E7080045112 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				14C2C3BC2DF0204B00B658DA /* ForEach.swift */,
 				425B2BE0B6C36A2653C6EAB2C39200C8 /* UIImageExtension.swift */,
 				BE515B23866F612763480C30EF48378E /* UIViewExtensions.swift */,
 				143107432DEEA1BE00B14C9E /* UIKitPreviewable.swift */,
@@ -361,7 +367,9 @@
 				267E8A91E92293A60A131F1E3D34CCDA /* SwiftlyUI-dummy.m in Sources */,
 				7A3D86A159CA140CB6E79E67F33B2A7E /* UIButton+SwiftlyUI.swift in Sources */,
 				998467E9375A6375152FC704B8E5A973 /* UIColor+SwiftlyUI.swift in Sources */,
+				14C2C3BD2DF0204C00B658DA /* ForEach.swift in Sources */,
 				D2FF124EA1BB83564D512A3580F0EFC5 /* UIControl+SwiftlyUI.swift in Sources */,
+				14C2C3BB2DEFF78A00B658DA /* UIScrollView+SwiftlyUI.swift in Sources */,
 				595CE8D899C419B1AB1807ACB9A4D0FB /* UIFont+SwiftlyUI.swift in Sources */,
 				14B119BB2DCE1195003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift in Sources */,
 				1DC9A01C168B4C3B63B08D6C02E1677E /* UIImageExtension.swift in Sources */,

@@ -19,6 +19,7 @@ public struct SwiftlyUIBuilder {
     public static func buildPartialBlock(first: [UIView]) -> [UIView] { first }
     public static func buildPartialBlock(accumulated: [UIView], next: [UIView]) -> [UIView] { accumulated + next }
     public static func buildExpression(_ expression: UIView) -> [UIView] { [expression] }
+    public static func buildExpression<T: SwiftlyUIViewBuildingProtocol>(_ expression: T) -> [UIView] { expression.views }
 }
 
 // MARK: - Padding Edge
@@ -173,6 +174,43 @@ public struct UIKitAnimation {
 public extension UIView {
     func createGradientLayer(colors: [UIColor], direction: GradientDirection) -> CAGradientLayer {
         return CAGradientLayer.gradient(colors: colors, direction: direction)
+    }
+}
+
+extension UIView {
+    func setCanActiveLayout(_ enabled: Bool, forViews views: [UIView]) {
+        views.forEach { view in
+            view.canActiveLayout = enabled
+            setCanActiveLayout(enabled, forViews: view.subviews)
+        }
+    }
+    
+    func applyAlignmentConstraints(for view: UIView) {
+        let guide = self
+        let leadingConstraint = leadingAnchor.constraint(greaterThanOrEqualTo: guide.layoutMarginsGuide.leadingAnchor)
+        leadingConstraint.priority = .defaultLow
+        view.addNewConstraint(
+            leadingConstraint,
+            type: .marginsLeft
+        )
+        let trailingConstraint = trailingAnchor.constraint(lessThanOrEqualTo: guide.layoutMarginsGuide.trailingAnchor)
+        trailingConstraint.priority = .defaultLow
+        view.addNewConstraint(
+            trailingConstraint,
+            type: .marginsRight
+        )
+        let topConstraint = topAnchor.constraint(greaterThanOrEqualTo: guide.layoutMarginsGuide.topAnchor)
+        topConstraint.priority = .defaultLow
+        view.addNewConstraint(
+            topConstraint,
+            type: .marginsTop
+        )
+        let bottomConstraint = bottomAnchor.constraint(lessThanOrEqualTo: guide.layoutMarginsGuide.bottomAnchor)
+        bottomConstraint.priority = .defaultLow
+        view.addNewConstraint(
+            bottomConstraint,
+            type: .marginsBottom
+        )
     }
 }
 

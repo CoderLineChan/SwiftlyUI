@@ -8,7 +8,6 @@
 import UIKit
 
 #if swift(>=5.5)
-@available(iOS 13, *)
 public final class VStackView: UIStackView {
     public override var axis: NSLayoutConstraint.Axis {
         get { .vertical }
@@ -42,7 +41,6 @@ public final class VStackView: UIStackView {
     }
 }
 
-@available(iOS 13, *)
 public final class HStackView: UIStackView {
     public override var axis: NSLayoutConstraint.Axis {
         get { .horizontal }

@@ -38,41 +38,6 @@ public extension UIControl {
         }
         onAction(action: action)
     }
-    
-    private func setCanActiveLayout(_ enabled: Bool, forViews views: [UIView]) {
-        views.forEach { view in
-            view.canActiveLayout = enabled
-            setCanActiveLayout(enabled, forViews: view.subviews)
-        }
-    }
-    
-    private func applyAlignmentConstraints(for view: UIView) {
-        let guide = self
-        let leadingConstraint = leadingAnchor.constraint(greaterThanOrEqualTo: guide.layoutMarginsGuide.leadingAnchor)
-        leadingConstraint.priority = .defaultLow
-        view.addNewConstraint(
-            leadingConstraint,
-            type: .marginsLeft
-        )
-        let trailingConstraint = trailingAnchor.constraint(lessThanOrEqualTo: guide.layoutMarginsGuide.trailingAnchor)
-        trailingConstraint.priority = .defaultLow
-        view.addNewConstraint(
-            trailingConstraint,
-            type: .marginsRight
-        )
-        let topConstraint = topAnchor.constraint(greaterThanOrEqualTo: guide.layoutMarginsGuide.topAnchor)
-        topConstraint.priority = .defaultLow
-        view.addNewConstraint(
-            topConstraint,
-            type: .marginsTop
-        )
-        let bottomConstraint = bottomAnchor.constraint(lessThanOrEqualTo: guide.layoutMarginsGuide.bottomAnchor)
-        bottomConstraint.priority = .defaultLow
-        view.addNewConstraint(
-            bottomConstraint,
-            type: .marginsBottom
-        )
-    }
 }
 
 // MARK: - Action

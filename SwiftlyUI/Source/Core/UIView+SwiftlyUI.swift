@@ -52,6 +52,30 @@ public extension UIView {
     
     @discardableResult
     func padding(_ edge: EdgeSet = .all, _ length: CGFloat? = nil) -> Self {
+        layoutMargins(edge, length)
+        return self
+    }
+    
+    @objc
+    @discardableResult
+    func padding(_ edge: UIEdgeInsets) -> Self {
+        return layoutMargins(edge)
+    }
+    
+    @discardableResult
+    func layoutMargins(_ margin: CGFloat? = nil) -> Self {
+        return layoutMargins(.all, margin ?? defaultPadding)
+    }
+    
+    @discardableResult
+    func layoutMargins(_ edge: UIEdgeInsets) -> Self {
+        translatesAutoresizingMaskIntoConstraints = false
+        layoutMargins = edge
+        return self
+    }
+    
+    @discardableResult
+    func layoutMargins(_ edge: EdgeSet = .all, _ length: CGFloat? = nil) -> Self {
         let margin = length ?? defaultPadding
         let insets = UIEdgeInsets(
             top: edge.contains(.top) ? margin : layoutMargins.top,
@@ -59,22 +83,55 @@ public extension UIView {
             bottom: edge.contains(.bottom) ? margin : layoutMargins.bottom,
             right: edge.contains(.right) ? margin : layoutMargins.right
         )
-        padding(insets)
-        return self
-    }
-    
-    @objc
-    @discardableResult
-    func padding(_ edge: UIEdgeInsets) -> Self {
-        translatesAutoresizingMaskIntoConstraints = false
-        layoutMargins = edge
-        return self
+        return layoutMargins(insets)
     }
     
     @discardableResult
     func border(_ color: UIColor, _ width: CGFloat = 1) -> Self {
         self.layer.borderColor = color.cgColor
         self.layer.borderWidth = width
+        return self
+    }
+    
+    @discardableResult
+    func clipsToBounds(_ isEnabled: Bool = true) -> Self {
+        self.clipsToBounds = isEnabled
+        return self
+    }
+    
+    @discardableResult
+    func opaque(_ isEnabled: Bool = true) -> Self {
+        self.isOpaque = isEnabled
+        return self
+    }
+    
+    @discardableResult
+    func clearsContextBeforeDrawing(_ isEnabled: Bool = true) -> Self {
+        self.clearsContextBeforeDrawing = isEnabled
+        return self
+    }
+    
+    @discardableResult
+    func contentMode(_ mode: UIView.ContentMode) -> Self {
+        self.contentMode = mode
+        return self
+    }
+    
+    @discardableResult
+    func mask(_ mask: UIView) -> Self {
+        self.mask = mask
+        return self
+    }
+    
+    @discardableResult
+    func tintColor(_ color: UIColor) -> Self {
+        self.tintColor = color
+        return self
+    }
+    
+    @discardableResult
+    func tintAdjustmentMode(_ mode: UIView.TintAdjustmentMode) -> Self {
+        self.tintAdjustmentMode = mode
         return self
     }
     
@@ -192,8 +249,131 @@ public extension UIView {
         self.setContentCompressionResistancePriority(priority, for: axis)
         return self
     }
+    
+    @discardableResult
+    func semanticContentAttribute(_ attribute: UISemanticContentAttribute) -> Self {
+        self.semanticContentAttribute = attribute
+        return self
+    }
+    
+    @discardableResult
+    func transform(_ transform: CGAffineTransform) -> Self {
+        self.transform = transform
+        return self
+    }
+    
+    @discardableResult
+    func transform3D(_ transform: CATransform3D) -> Self {
+        self.transform3D = transform
+        return self
+    }
+    
+    @discardableResult
+    func contentScaleFactor(_ scale: CGFloat) -> Self {
+        self.contentScaleFactor = scale
+        return self
+    }
+    
+    @discardableResult
+    func multipleTouchEnabled(_ isEnabled: Bool = true) -> Self {
+        self.isMultipleTouchEnabled = isEnabled
+        return self
+    }
+    
+    @discardableResult
+    func exclusiveTouch(_ isExclusive: Bool = true) -> Self {
+        self.isExclusiveTouch = isExclusive
+        return self
+    }
+    
+    @discardableResult
+    func autoresizesSubviews(_ isEnabled: Bool = true) -> Self {
+        self.autoresizesSubviews = isEnabled
+        return self
+    }
+    
+    @discardableResult
+    func autoresizingMask(_ mask: UIView.AutoresizingMask) -> Self {
+        self.autoresizingMask = mask
+        return self
+    }
+    
+    @discardableResult
+    func gestureRecognizers(_ recognizers: [UIGestureRecognizer]?) -> Self {
+        self.gestureRecognizers = recognizers
+        return self
+    }
+    
+    @discardableResult
+    func motionEffects(_ effects: [UIMotionEffect]) -> Self {
+        self.motionEffects = effects
+        return self
+    }
+    
+    @discardableResult
+    func translatesAutoresizingMaskIntoConstraints(_ isEnabled: Bool = false) -> Self {
+        self.translatesAutoresizingMaskIntoConstraints = isEnabled
+        return self
+    }
+    
+    @discardableResult
+    func restorationIdentifier(_ identifier: String?) -> Self {
+        self.restorationIdentifier = identifier
+        return self
+    }
+    
+    @discardableResult
+    func overrideUserInterfaceStyle(_ style: UIUserInterfaceStyle) -> Self {
+        self.overrideUserInterfaceStyle = style
+        return self
+    }
+#if compiler(>=5.7)
+    @available(iOS 16.0, *)
+    @discardableResult
+    func anchorPoint(_ point: CGPoint) -> Self {
+        self.anchorPoint = point
+        return self
+    }
+#endif
+#if compiler(>=5.5)
+    @available(iOS 15.0, *)
+    @discardableResult
+    func minimumContentSizeCategory(_ category: UIContentSizeCategory?) -> Self {
+        self.minimumContentSizeCategory = category
+        return self
+    }
+    
+    @available(iOS 15.0, *)
+    @discardableResult
+    func maximumContentSizeCategory(_ category: UIContentSizeCategory?) -> Self {
+        self.maximumContentSizeCategory = category
+        return self
+    }
+    
+    @available(iOS 15, *)
+    @discardableResult
+    func focusGroupPriority(_ priority: UIFocusGroupPriority) -> Self {
+        self.focusGroupPriority = priority
+        return self
+    }
+    
+    @available(iOS 15, *)
+    @discardableResult
+    func focusEffect(_ effect: UIFocusEffect?) -> Self {
+        self.focusEffect = effect
+        return self
+    }
+#endif
+#if compiler(>=5.3)
+    @available(iOS 14, *)
+    @discardableResult
+    func focusGroupIdentifier(_ identifier: String) -> Self {
+        self.focusGroupIdentifier = identifier
+        return self
+    }
+#endif
 }
-@available(iOS 13, *)
+
 public final class ZStackView: UIView {
     public convenience init(@SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
@@ -207,41 +387,6 @@ public final class ZStackView: UIView {
         views.forEach { view in
             applyAlignmentConstraints(for: view)
         }
-    }
-    
-    private func setCanActiveLayout(_ enabled: Bool, forViews views: [UIView]) {
-        views.forEach { view in
-            view.canActiveLayout = enabled
-            setCanActiveLayout(enabled, forViews: view.subviews)
-        }
-    }
-    
-    private func applyAlignmentConstraints(for view: UIView) {
-        let guide = self
-        let leadingConstraint = leadingAnchor.constraint(greaterThanOrEqualTo: guide.layoutMarginsGuide.leadingAnchor)
-        leadingConstraint.priority = .defaultLow
-        view.addNewConstraint(
-            leadingConstraint,
-            type: .marginsLeft
-        )
-        let trailingConstraint = trailingAnchor.constraint(lessThanOrEqualTo: guide.layoutMarginsGuide.trailingAnchor)
-        trailingConstraint.priority = .defaultLow
-        view.addNewConstraint(
-            trailingConstraint,
-            type: .marginsRight
-        )
-        let topConstraint = topAnchor.constraint(greaterThanOrEqualTo: guide.layoutMarginsGuide.topAnchor)
-        topConstraint.priority = .defaultLow
-        view.addNewConstraint(
-            topConstraint,
-            type: .marginsTop
-        )
-        let bottomConstraint = bottomAnchor.constraint(lessThanOrEqualTo: guide.layoutMarginsGuide.bottomAnchor)
-        bottomConstraint.priority = .defaultLow
-        view.addNewConstraint(
-            bottomConstraint,
-            type: .marginsBottom
-        )
     }
     
 }

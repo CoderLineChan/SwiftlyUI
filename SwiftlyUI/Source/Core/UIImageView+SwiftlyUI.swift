@@ -26,12 +26,10 @@ public extension UIImageView {
         self.init(image: UIImage(named: imageName), highlightedImage: highlightedImage)
     }
     
-    @available(iOS 13.0, watchOS 6.0, *)
     convenience init(systemName: String) {
         self.init(image: UIImage(systemName: systemName))
     }
     
-    @available(iOS 13.0, watchOS 6.0, *)
     @discardableResult
     func systemImage(_ systemName: String) -> Self {
         self.image = UIImage(systemName: systemName)
@@ -55,8 +53,8 @@ public extension UIImageView {
     }
     
     @discardableResult
-    func contentMode(_ mode: UIView.ContentMode) -> Self {
-        self.contentMode = mode
+    func highlightedImage(_ image: UIImage?) -> Self {
+        self.highlightedImage = image
         return self
     }
     
@@ -71,5 +69,44 @@ public extension UIImageView {
         self.isHighlighted = isHighlighted
         return self
     }
+    
+    @discardableResult
+    func preferredSymbolConfiguration(_ configuration: UIImage.SymbolConfiguration?) -> Self {
+        self.preferredSymbolConfiguration = configuration
+        return self
+    }
+    
+    @discardableResult
+    func animationImages(_ images: [UIImage]?) -> Self {
+        self.animationImages = images
+        return self
+    }
+    
+    @discardableResult
+    func highlightedAnimationImages(_ images: [UIImage]?) -> Self {
+        self.highlightedAnimationImages = images
+        return self
+    }
+    
+    @discardableResult
+    func animationDuration(_ duration: TimeInterval) -> Self {
+        self.animationDuration = duration
+        return self
+    }
+    
+    @discardableResult
+    func animationRepeatCount(_ count: Int) -> Self {
+        self.animationRepeatCount = count
+        return self
+    }
+    
+#if swift(>=5.9)
+    @available(iOS 17.0, tvOS 17.0, *)
+    @discardableResult
+    func preferredImageDynamicRange(_ range: UIImage.DynamicRange) -> Self {
+        self.preferredImageDynamicRange = range
+        return self
+    }
+#endif
 }
 #endif
