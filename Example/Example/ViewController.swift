@@ -33,15 +33,37 @@ class ViewController: UIViewController {
     deinit {
         print("deinit")
     }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("viewDidLoad")
-        test4()
-        test6()
         
+        test7()
     }
     
+    func test8() {
+        let tableView = UITableView()
+        let refresh = UIRefreshControl()
+            .tintColor(.red)
+        tableView.refreshControl = refresh
+        
+    }
+//    @available(iOS 14.0, *)
+    func test7() {
+        let swt = UISwitch()
+            .center(to: view)
+            .sizeScale(0.5)
+            .onTintColor(.orange)
+            .thumbTintColor(.red)
+            .onAction { (swt: UISwitch) in
+                print("switch is \(swt.isOn)")
+            }
+        
+        view.addSubview(swt)
+        print("swt.frame:\(swt.frame)")
+    }
     func test6() {
         let array = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
         let scrollView = VScrollView {

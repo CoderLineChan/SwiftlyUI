@@ -4,6 +4,7 @@
 //
 //  Created by CoderChan on 2025/2/25.
 //
+
 #if canImport(UIKit)
 import UIKit
 
@@ -1350,13 +1351,13 @@ extension UIView {
         }
         set {
             objc_setAssociatedObject(self, &Self.constraintHolderKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            UIView.onceSwizzled()
         }
     }
     
     
     func addNewConstraint(_ constraint: NSLayoutConstraint, type: ConstraintType) {
         translatesAutoresizingMaskIntoConstraints = false
-        UIView.onceSwizzled()
         removeConstraint(type: type)
         var holder = constraintHolder
         if let _ = superview {

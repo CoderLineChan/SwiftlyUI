@@ -12,6 +12,20 @@
 		14B119BB2DCE1195003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */; };
 		14C2C3BB2DEFF78A00B658DA /* UIScrollView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */; };
 		14C2C3BD2DF0204C00B658DA /* ForEach.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C3BC2DF0204B00B658DA /* ForEach.swift */; };
+		14C2C6842DF1335700B658DA /* UISwitch+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C6832DF1335200B658DA /* UISwitch+SwiftlyUI.swift */; };
+		14C2C6862DF13CF500B658DA /* UISlider+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C6852DF13CF000B658DA /* UISlider+SwiftlyUI.swift */; };
+		14C2C6882DF13E4600B658DA /* UISegmentedControl+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C6872DF13E4100B658DA /* UISegmentedControl+SwiftlyUI.swift */; };
+		14C2C68A2DF13FA600B658DA /* UIRefreshControl+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C6892DF13FA100B658DA /* UIRefreshControl+SwiftlyUI.swift */; };
+		14C2C68C2DF1414E00B658DA /* UITableView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C68B2DF1414800B658DA /* UITableView+SwiftlyUI.swift */; };
+		14C2C68E2DF1416A00B658DA /* UITableViewCell+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C68D2DF1416400B658DA /* UITableViewCell+SwiftlyUI.swift */; };
+		14C2C6902DF14A6600B658DA /* UICollectionView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C68F2DF14A6200B658DA /* UICollectionView+SwiftlyUI.swift */; };
+		14C2C6922DF14C9F00B658DA /* UICollectionViewCell+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C6912DF14C9900B658DA /* UICollectionViewCell+SwiftlyUI.swift */; };
+		14C2C6942DF1661700B658DA /* UIInputView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C6932DF1661000B658DA /* UIInputView+SwiftlyUI.swift */; };
+		14C2C6962DF1665300B658DA /* UIVisualEffectView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C6952DF1664F00B658DA /* UIVisualEffectView+SwiftlyUI.swift */; };
+		14C2C6982DF167BA00B658DA /* UIStepper+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C6972DF167B500B658DA /* UIStepper+SwiftlyUI.swift */; };
+		14C2C69A2DF1688A00B658DA /* UIPickerView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C6992DF1688600B658DA /* UIPickerView+SwiftlyUI.swift */; };
+		14C2C69C2DF1690F00B658DA /* UIDatePicker+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C69B2DF1690A00B658DA /* UIDatePicker+SwiftlyUI.swift */; };
+		14C2C69E2DF169EB00B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C69D2DF169E600B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift */; };
 		14DCD3572DDEC39D00C2378E /* UIImage+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */; };
 		1DC9A01C168B4C3B63B08D6C02E1677E /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425B2BE0B6C36A2653C6EAB2C39200C8 /* UIImageExtension.swift */; };
 		240F1A3E0B2919B5789E0B2E82C6AC1F /* UILabel+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */; };
@@ -52,6 +66,20 @@
 		14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBackgroundConfiguration+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14C2C3BC2DF0204B00B658DA /* ForEach.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForEach.swift; sourceTree = "<group>"; };
+		14C2C6832DF1335200B658DA /* UISwitch+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISwitch+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C6852DF13CF000B658DA /* UISlider+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISlider+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C6872DF13E4100B658DA /* UISegmentedControl+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C6892DF13FA100B658DA /* UIRefreshControl+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C68B2DF1414800B658DA /* UITableView+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C68D2DF1416400B658DA /* UITableViewCell+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C68F2DF14A6200B658DA /* UICollectionView+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C6912DF14C9900B658DA /* UICollectionViewCell+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewCell+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C6932DF1661000B658DA /* UIInputView+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIInputView+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C6952DF1664F00B658DA /* UIVisualEffectView+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVisualEffectView+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C6972DF167B500B658DA /* UIStepper+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStepper+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C6992DF1688600B658DA /* UIPickerView+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPickerView+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C69B2DF1690A00B658DA /* UIDatePicker+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDatePicker+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14C2C69D2DF169E600B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewFlowLayout+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		1F667CC0E19EAF34E5A4119E2121F585 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UILabel+SwiftlyUI.swift"; sourceTree = "<group>"; };
@@ -153,6 +181,20 @@
 				CBAAE4D2B65D842AD6DEF63FEA1B128D /* UITextView+SwiftlyUI.swift */,
 				E7A6F3FE7EBB8918C69CA7F2C918C691 /* UIView+SwiftlyUI.swift */,
 				14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */,
+				14C2C6832DF1335200B658DA /* UISwitch+SwiftlyUI.swift */,
+				14C2C6852DF13CF000B658DA /* UISlider+SwiftlyUI.swift */,
+				14C2C6872DF13E4100B658DA /* UISegmentedControl+SwiftlyUI.swift */,
+				14C2C6892DF13FA100B658DA /* UIRefreshControl+SwiftlyUI.swift */,
+				14C2C68B2DF1414800B658DA /* UITableView+SwiftlyUI.swift */,
+				14C2C68D2DF1416400B658DA /* UITableViewCell+SwiftlyUI.swift */,
+				14C2C68F2DF14A6200B658DA /* UICollectionView+SwiftlyUI.swift */,
+				14C2C6912DF14C9900B658DA /* UICollectionViewCell+SwiftlyUI.swift */,
+				14C2C69D2DF169E600B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift */,
+				14C2C6932DF1661000B658DA /* UIInputView+SwiftlyUI.swift */,
+				14C2C6952DF1664F00B658DA /* UIVisualEffectView+SwiftlyUI.swift */,
+				14C2C6972DF167B500B658DA /* UIStepper+SwiftlyUI.swift */,
+				14C2C6992DF1688600B658DA /* UIPickerView+SwiftlyUI.swift */,
+				14C2C69B2DF1690A00B658DA /* UIDatePicker+SwiftlyUI.swift */,
 			);
 			name = Core;
 			path = SwiftlyUI/Source/Core;
@@ -366,22 +408,36 @@
 			files = (
 				267E8A91E92293A60A131F1E3D34CCDA /* SwiftlyUI-dummy.m in Sources */,
 				7A3D86A159CA140CB6E79E67F33B2A7E /* UIButton+SwiftlyUI.swift in Sources */,
+				14C2C68C2DF1414E00B658DA /* UITableView+SwiftlyUI.swift in Sources */,
+				14C2C68E2DF1416A00B658DA /* UITableViewCell+SwiftlyUI.swift in Sources */,
+				14C2C68A2DF13FA600B658DA /* UIRefreshControl+SwiftlyUI.swift in Sources */,
 				998467E9375A6375152FC704B8E5A973 /* UIColor+SwiftlyUI.swift in Sources */,
+				14C2C6942DF1661700B658DA /* UIInputView+SwiftlyUI.swift in Sources */,
 				14C2C3BD2DF0204C00B658DA /* ForEach.swift in Sources */,
+				14C2C6982DF167BA00B658DA /* UIStepper+SwiftlyUI.swift in Sources */,
 				D2FF124EA1BB83564D512A3580F0EFC5 /* UIControl+SwiftlyUI.swift in Sources */,
+				14C2C6902DF14A6600B658DA /* UICollectionView+SwiftlyUI.swift in Sources */,
 				14C2C3BB2DEFF78A00B658DA /* UIScrollView+SwiftlyUI.swift in Sources */,
+				14C2C69C2DF1690F00B658DA /* UIDatePicker+SwiftlyUI.swift in Sources */,
+				14C2C6962DF1665300B658DA /* UIVisualEffectView+SwiftlyUI.swift in Sources */,
 				595CE8D899C419B1AB1807ACB9A4D0FB /* UIFont+SwiftlyUI.swift in Sources */,
+				14C2C69A2DF1688A00B658DA /* UIPickerView+SwiftlyUI.swift in Sources */,
 				14B119BB2DCE1195003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift in Sources */,
 				1DC9A01C168B4C3B63B08D6C02E1677E /* UIImageExtension.swift in Sources */,
 				7F340E15C6E3FA46045C2C11AC2BBBBA /* UIImageView+SwiftlyUI.swift in Sources */,
 				14B119B92DCDFC5C003856F0 /* CAGradientLayerExtension.swift in Sources */,
+				14C2C6882DF13E4600B658DA /* UISegmentedControl+SwiftlyUI.swift in Sources */,
+				14C2C69E2DF169EB00B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift in Sources */,
 				240F1A3E0B2919B5789E0B2E82C6AC1F /* UILabel+SwiftlyUI.swift in Sources */,
 				D90E4468F7C468DD05452908FB98160C /* UIStackView+SwiftlyUI.swift in Sources */,
 				69ACFCC73ADA2C68AE51674C9853388F /* UITextField+SwiftlyUI.swift in Sources */,
+				14C2C6842DF1335700B658DA /* UISwitch+SwiftlyUI.swift in Sources */,
 				143107442DEEA1BF00B14C9E /* UIKitPreviewable.swift in Sources */,
+				14C2C6922DF14C9F00B658DA /* UICollectionViewCell+SwiftlyUI.swift in Sources */,
 				58E4919DFB1598DBC7EF9515F251DCE6 /* UITextView+SwiftlyUI.swift in Sources */,
 				A207879B1D6BB56DA532C8153F36BCFD /* UIView+SwiftlyUI.swift in Sources */,
 				14DCD3572DDEC39D00C2378E /* UIImage+SwiftlyUI.swift in Sources */,
+				14C2C6862DF13CF500B658DA /* UISlider+SwiftlyUI.swift in Sources */,
 				F31BDD45D0F51C4F698C50F4B9FA0D15 /* UIViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

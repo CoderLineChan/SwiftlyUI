@@ -5,6 +5,7 @@
 //  Created by CoderChan on 2025/5/22.
 //
 
+#if canImport(UIKit) && os(iOS)
 import UIKit
 
 public extension UIImage {
@@ -19,3 +20,5 @@ public extension UIImage {
     
     
 }
+
+#endif
