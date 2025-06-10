@@ -257,6 +257,17 @@ public extension UIView {
     }
     
     @discardableResult
+    func scaleEffect(_ scale: CGFloat, anchor: UnitPoint = .center) -> Self {
+        if anchor != .center {
+            let scaleParameters = ScaleParameters(scale: scale, anchor: anchor)
+            applyScaleEffect(scaleParameters)
+        }else {
+            self.transform(CGAffineTransform(scaleX: scale, y: scale))
+        }
+        return self
+    }
+    
+    @discardableResult
     func transform(_ transform: CGAffineTransform) -> Self {
         self.transform = transform
         return self
@@ -1849,6 +1860,11 @@ private class GestureHandler<T: AnyObject, GestureRecognizer: UIGestureRecognize
     }
 }
 
+private struct ScaleParameters {
+    var scale: CGFloat
+    var anchor: UnitPoint
+}
+
 private extension UIView {
     struct AssociatedKeys {
         nonisolated(unsafe) static var gestureHandlersKey: Void?
@@ -1869,6 +1885,42 @@ private extension UIView {
                 .OBJC_ASSOCIATION_RETAIN_NONATOMIC
             )
         }
+    }
+    
+    
+    private func applyScaleEffect(_ params: ScaleParameters) {
+        
+        let size: CGSize = {
+            let width = constraint(.width)?.constant ?? .zero
+            let height = constraint(.height)?.constant ?? .zero
+            
+            if !bounds.isEmpty && bounds.size != .zero {
+                return bounds.size
+            } else if width != .zero || height != .zero {
+                return CGSize(width: width, height: height)
+            } else {
+                return intrinsicContentSize
+            }
+        }()
+        
+        guard size != .zero else { return }
+        
+        let anchorPosition = CGPoint(
+                x: size.width * params.anchor.x,
+                y: size.height * params.anchor.y
+            )
+        
+        let centerPoint = CGPoint(x: size.width / 2.0, y: size.height / 2.0)
+        
+        let xOffset = anchorPosition.x - centerPoint.x
+        let yOffset = anchorPosition.y - centerPoint.y
+        
+        let scaleTransform = CGAffineTransform.identity
+            .translatedBy(x: xOffset, y: yOffset)
+            .scaledBy(x: params.scale, y: params.scale)
+            .translatedBy(x: -xOffset, y: -yOffset)
+        
+        transform = scaleTransform
     }
     
     private func createGestureRecognizer(for type: GestureType) -> UIGestureRecognizer {

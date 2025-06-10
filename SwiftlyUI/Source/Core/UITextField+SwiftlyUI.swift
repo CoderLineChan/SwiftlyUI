@@ -96,6 +96,12 @@ public extension UITextField {
     }
     
     @discardableResult
+    func attributedPlaceholder(_ attributedText: NSAttributedString) -> Self {
+        self.attributedPlaceholder = attributedText
+        return self
+    }
+    
+    @discardableResult
     func keyboardType(_ type: UIKeyboardType) -> Self {
         self.keyboardType = type
         return self
@@ -120,6 +126,12 @@ public extension UITextField {
     }
     
     @discardableResult
+    func adjustsFontSizeToFitWidth(_ adjusts: Bool) -> Self {
+        self.adjustsFontSizeToFitWidth = adjusts
+        return self
+    }
+    
+    @discardableResult
     func minimumFontSize(_ size: CGFloat) -> Self {
         self.minimumFontSize = size
         return self
@@ -134,6 +146,49 @@ public extension UITextField {
     @discardableResult
     func borderStyle(_ style: UITextField.BorderStyle) -> Self {
         self.borderStyle = style
+        return self
+    }
+    
+    @discardableResult
+    func delegate(_ delegate: UITextFieldDelegate?) -> Self {
+        self.delegate = delegate
+        return self
+    }
+    
+    @discardableResult
+    func attributedText(_ attributedText: NSAttributedString) -> Self {
+        self.attributedText = attributedText
+        updatePlaceholderVisibility()
+        return self
+    }
+    
+    @discardableResult
+    func defaultTextAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
+        self.defaultTextAttributes = attributes
+        return self
+    }
+    
+    @discardableResult
+    func background(_ image: UIImage?) -> Self {
+        self.background = image
+        return self
+    }
+    
+    @discardableResult
+    func disabledBackground(_ image: UIImage?) -> Self {
+        self.disabledBackground = image
+        return self
+    }
+    
+    @discardableResult
+    func allowsEditingTextAttributes(_ allows: Bool) -> Self {
+        self.allowsEditingTextAttributes = allows
+        return self
+    }
+    
+    @discardableResult
+    func typingAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
+        self.typingAttributes = attributes
         return self
     }
 }

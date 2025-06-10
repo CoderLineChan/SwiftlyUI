@@ -17,24 +17,24 @@ public struct ForEach<Data, Content>: SwiftlyUIViewBuildingProtocol where Data: 
         self.content = content
     }
     
-    public var views: [UIView] {
+    public var swiftlyUIViews: [UIView] {
         data.flatMap { element in
-            content(element).views
+            content(element).swiftlyUIViews
         }
     }
 }
 
 public protocol SwiftlyUIViewBuildingProtocol {
-    var views: [UIView] { get }
+    var swiftlyUIViews: [UIView] { get }
 }
 
 extension UIView: @preconcurrency SwiftlyUIViewBuildingProtocol {
-    public var views: [UIView] { [self] }
+    public var swiftlyUIViews: [UIView] { [self] }
 }
 
 extension Array: SwiftlyUIViewBuildingProtocol where Element: SwiftlyUIViewBuildingProtocol {
-    public var views: [UIView] {
-        flatMap { $0.views }
+    public var swiftlyUIViews: [UIView] {
+        flatMap { $0.swiftlyUIViews }
     }
 }
 

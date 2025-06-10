@@ -115,6 +115,134 @@ public extension UITextView {
         return self
     }
     
+    @discardableResult
+    func delegate(_ delegate: UITextViewDelegate?) -> Self {
+        self.delegate = delegate
+        return self
+    }
+    
+    @discardableResult
+    func selectedRange(_ range: NSRange) -> Self {
+        self.selectedRange = range
+        return self
+    }
+    
+    @discardableResult
+    func dataDetectorTypes(_ types: UIDataDetectorTypes) -> Self {
+        self.dataDetectorTypes = types
+        return self
+    }
+    
+    @discardableResult
+    func allowsEditingTextAttributes(_ allows: Bool) -> Self {
+        self.allowsEditingTextAttributes = allows
+        return self
+    }
+    
+    @discardableResult
+    func attributedText(_ attributedText: NSAttributedString) -> Self {
+        self.attributedText = attributedText
+        return self
+    }
+    
+    @discardableResult
+    func typingAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
+        self.typingAttributes = attributes
+        return self
+    }
+    
+    @discardableResult
+    func inputView(_ view: UIView?) -> Self {
+        self.inputView = view
+        return self
+    }
+    
+    @discardableResult
+    func inputAccessoryView(_ view: UIView?) -> Self {
+        self.inputAccessoryView = view
+        return self
+    }
+    
+    @discardableResult
+    func clearsOnInsertion(_ clears: Bool) -> Self {
+        self.clearsOnInsertion = clears
+        return self
+    }
+    
+    @discardableResult
+    func textContainerInset(_ inset: UIEdgeInsets) -> Self {
+        self.textContainerInset = inset
+        return self
+    }
+    
+    @discardableResult
+    func linkTextAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
+        self.linkTextAttributes = attributes
+        return self
+    }
+    
+    @discardableResult
+    func usesStandardTextScaling(_ uses: Bool) -> Self {
+        self.usesStandardTextScaling = uses
+        return self
+    }
+    
+#if compiler(>=5.5)
+    @available(iOS 15.0, *)
+    @discardableResult
+    func interactionState(_ state: Any) -> Self {
+        self.interactionState = state
+        return self
+    }
+#endif
+    
+#if compiler(>=5.7)
+    @available(iOS 16.0, *)
+    @discardableResult
+    func findInteractionEnabled(_ enabled: Bool) -> Self {
+        self.isFindInteractionEnabled = enabled
+        return self
+    }
+#endif
+    
+#if compiler(>=5.9)
+    @available(iOS 17.0, *)
+    @discardableResult
+    func borderStyle(_ style: UITextView.BorderStyle) -> Self {
+        self.borderStyle = style
+        return self
+    }
+#endif
+    
+#if compiler(>=6.0)
+    @available(iOS 18.0, *)
+    @discardableResult
+    func textHighlightAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
+        self.textHighlightAttributes = attributes
+        return self
+    }
+    
+    @available(iOS 18.0, *)
+    @discardableResult
+    func writingToolsBehavior(_ behavior: UIWritingToolsBehavior) -> Self {
+        self.writingToolsBehavior = behavior
+        return self
+    }
+    
+    @available(iOS 18.0, *)
+    @discardableResult
+    func allowedWritingToolsResultOptions(_ options: UIWritingToolsResultOptions) -> Self {
+        self.allowedWritingToolsResultOptions = options
+        return self
+    }
+    
+    @available(iOS 18.0, *)
+    @discardableResult
+    func textFormattingConfiguration(_ configuration: UITextFormattingViewController.Configuration?) -> Self {
+        self.textFormattingConfiguration = configuration
+        return self
+    }
+#endif
 }
 
 // MARK: - Action

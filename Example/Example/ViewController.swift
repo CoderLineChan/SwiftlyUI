@@ -5,42 +5,38 @@
 //  Created by CoderChan on 2025/3/18.
 //
 
-import UIKit
+//import UIKit
 import SwiftlyUI
 
 
-#if canImport(SwiftUI) && DEBUG
-import SwiftUI
-struct ViewControllerPreview: PreviewProvider {
-    static var previews: some View {
-        UIViewControllerPreview {
-            UINavigationController(rootViewController: ViewController())
-        }.edgesIgnoringSafeArea(.all)
-            .previewDevice("iPhone 16 Pro")
-    }
-}
-//struct ViewPreview: PreviewProvider {
+//#if canImport(SwiftUI) && DEBUG
+//import SwiftUI
+//struct ViewControllerPreview: PreviewProvider {
 //    static var previews: some View {
-//        UIViewPreview {
-//            ViewController().view
+//        UIViewControllerPreview {
+//            UINavigationController(rootViewController: ViewController())
 //        }.edgesIgnoringSafeArea(.all)
 //            .previewDevice("iPhone 16 Pro")
 //    }
 //}
-
-#endif
+////struct ViewPreview: PreviewProvider {
+////    static var previews: some View {
+////        UIViewPreview {
+////            ViewController().view
+////        }.edgesIgnoringSafeArea(.all)
+////            .previewDevice("iPhone 16 Pro")
+////    }
+////}
+//
+//#endif
 class ViewController: UIViewController {
-    deinit {
-        print("deinit")
-    }
-    
-    
+    deinit { print("deinit") }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("viewDidLoad")
         
-        test7()
+        test4()
     }
     
     func test8() {
@@ -54,7 +50,7 @@ class ViewController: UIViewController {
     func test7() {
         let swt = UISwitch()
             .center(to: view)
-            .sizeScale(0.5)
+            .scaleEffect(0.5)
             .onTintColor(.orange)
             .thumbTintColor(.red)
             .onAction { (swt: UISwitch) in
@@ -107,6 +103,7 @@ class ViewController: UIViewController {
             .imageName("navi_back_black", state: .normal)
         //            .frame(width: 44, height: 44)
             .frame(size: CGSize(width: 44, height: 44))
+            .scaleEffect(0.3, anchor: .center)
             .onAction(target: self, action: { (vc: ViewController, btn: UIButton) in
                 vc.onBackButtonAction()
                 btn.alpha = 0.5
@@ -115,9 +112,9 @@ class ViewController: UIViewController {
         return button
     }()
     func animation() {
-        self.backButton.constraint(.bottom)?.constant = -90
-        withAnimation {
-            self.view.layoutIfNeeded()
+        
+        SwiftlyUI.withAnimation {
+            self.backButton.scaleEffect(0.8, anchor: .bottomLeading)
         }
         print("animation")
     }
@@ -153,6 +150,11 @@ class ViewController: UIViewController {
     }
     func test4() {
         view.addSubview(backButton)
+        let bg = UIView()
+            .backgroundColor(.orange.opacity(0.5))
+            .frame(size: CGSize(width: 44, height: 44))
+            .center(to: backButton)
+        view.insertSubview(bg, at: 0)
         
 //        let image = UIImage.gradient(colors: [.brown, .clear], direction: .leftToRight, size: CGSize(width: 100, height: 40))
 //        let imageView = UIImageView()

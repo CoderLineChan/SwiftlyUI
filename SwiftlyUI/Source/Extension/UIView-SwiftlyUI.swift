@@ -19,11 +19,11 @@ public struct SwiftlyUIBuilder {
     public static func buildPartialBlock(first: [UIView]) -> [UIView] { first }
     public static func buildPartialBlock(accumulated: [UIView], next: [UIView]) -> [UIView] { accumulated + next }
     public static func buildExpression(_ expression: UIView) -> [UIView] { [expression] }
-    public static func buildExpression<T: SwiftlyUIViewBuildingProtocol>(_ expression: T) -> [UIView] { expression.views }
+    public static func buildExpression<T: SwiftlyUIViewBuildingProtocol>(_ expression: T) -> [UIView] { expression.swiftlyUIViews }
 }
 
 // MARK: - Padding Edge
-public struct EdgeSet : OptionSet, Sendable {
+@frozen public struct EdgeSet : OptionSet, Sendable {
     public let rawValue: Int
     public init(rawValue: Int) {
         self.rawValue = rawValue
@@ -37,7 +37,27 @@ public struct EdgeSet : OptionSet, Sendable {
     public static let all: EdgeSet = [.top, .left, .bottom, .right]
 }
 
-public enum GradientDirection {
+@frozen public struct UnitPoint: Hashable, Equatable {
+    public var x: CGFloat
+    public var y: CGFloat
+    
+    public init(x: CGFloat, y: CGFloat) {
+        self.x = x
+        self.y = y
+    }
+    
+    public static let center = UnitPoint(x: 0.5, y: 0.5)
+    public static let leading = UnitPoint(x: 0.0, y: 0.5)
+    public static let trailing = UnitPoint(x: 1.0, y: 0.5)
+    public static let top = UnitPoint(x: 0.5, y: 0.0)
+    public static let bottom = UnitPoint(x: 0.5, y: 1.0)
+    public static let topLeading = UnitPoint(x: 0.0, y: 0.0)
+    public static let topTrailing = UnitPoint(x: 1.0, y: 0.0)
+    public static let bottomLeading = UnitPoint(x: 0.0, y: 1.0)
+    public static let bottomTrailing = UnitPoint(x: 1.0, y: 1.0)
+}
+
+@frozen public enum GradientDirection {
     case topToBottom
     case bottomToTop
     case leftToRight

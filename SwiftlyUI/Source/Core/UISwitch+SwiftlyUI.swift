@@ -10,13 +10,6 @@ import UIKit
 
 public extension UISwitch {
     
-    /// default is 1
-    @discardableResult
-    func sizeScale(_ scale: CGFloat = 1) -> Self {
-        self.transform(CGAffineTransform(scaleX: scale, y: scale))
-        return self
-    }
-    
     @discardableResult
     func onTintColor(_ color: UIColor?) -> Self {
         self.onTintColor = color
