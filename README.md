@@ -261,7 +261,9 @@ let textField = UITextField()
 <p align="center">
 <img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/Example/SampleGraphs/SampleGraph_4.png" width="1000px"/>
 </p>
-
+<p align="center">
+<img src="https://github.com/CoderLineChan/SwiftlyUI/blob/main/Example/SampleGraphs/SampleGraph_5.png" width="1000px"/>
+</p>
 
 
 
