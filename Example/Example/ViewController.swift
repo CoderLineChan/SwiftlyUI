@@ -5,39 +5,63 @@
 //  Created by CoderChan on 2025/3/18.
 //
 
-//import UIKit
+
 import SwiftlyUI
 
-
-//#if canImport(SwiftUI) && DEBUG
-//import SwiftUI
-//struct ViewControllerPreview: PreviewProvider {
+//struct ViewPreview: PreviewProvider {
 //    static var previews: some View {
-//        UIViewControllerPreview {
-//            UINavigationController(rootViewController: ViewController())
+//        UIViewPreview {
+//            ViewController().view
 //        }.edgesIgnoringSafeArea(.all)
 //            .previewDevice("iPhone 16 Pro")
 //    }
 //}
-////struct ViewPreview: PreviewProvider {
-////    static var previews: some View {
-////        UIViewPreview {
-////            ViewController().view
-////        }.edgesIgnoringSafeArea(.all)
-////            .previewDevice("iPhone 16 Pro")
-////    }
-////}
-//
-//#endif
+
+import SwiftUI
+struct ViewControllerPreview: PreviewProvider {
+    static var previews: some View {
+        UIViewControllerPreview {
+            UINavigationController(rootViewController: ViewController())
+        }.edgesIgnoringSafeArea(.all)
+            .previewDevice("iPhone 16 Pro")
+    }
+}
+
 class ViewController: UIViewController {
     deinit { print("deinit") }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("viewDidLoad")
-        
-        test4()
+        test9()
     }
+    func test9() {
+        let view1 = UIView()
+            .backgroundColor(.red)
+            .frame(width: 300, height: 300)
+            .centerX(to: view)
+            .centerY(to: view, offset: -60)
+            
+        view.addSubview(view1)
+        
+        let view2 = UIView()
+            .backgroundColor(.blue)
+            .edges.equal(to: view1,offset: 20)
+        
+        view1.addSubview(view2)
+        
+        let view3 = UIView()
+            .backgroundColor(.green)
+            .leading.top.trailing.equalToSuper(offset: 40)
+            .bottomToSuper(offset: 60)
+        
+        view2.addSubview(view3)
+    }
+    
+    
+    
+    
+    
     
     func test8() {
         let tableView = UITableView()

@@ -405,6 +405,177 @@ public final class ZStackView: UIView {
 // MARK: - Layout
 public extension UIView {
     
+    var left: Self {
+        var types = constraintTypes
+        if let index = types.firstIndex(of: .left) {
+            types.remove(at: index)
+        }
+        if let index = types.firstIndex(of: .leading) {
+            types.remove(at: index)
+        }
+        types.append(.left)
+        constraintTypes = types
+        return self
+    }
+    
+    var right: Self {
+        var types = constraintTypes
+        if let index = types.firstIndex(of: .right) {
+            types.remove(at: index)
+        }
+        if let index = types.firstIndex(of: .trailing) {
+            types.remove(at: index)
+        }
+        types.append(.right)
+        constraintTypes = types
+        return self
+    }
+    
+    var leading: Self {
+        var types = constraintTypes
+        if let index = types.firstIndex(of: .leading) {
+            types.remove(at: index)
+        }
+        if let index = types.firstIndex(of: .left) {
+            types.remove(at: index)
+        }
+        types.append(.leading)
+        constraintTypes = types
+        return self
+    }
+    
+    var trailing: Self {
+        var types = constraintTypes
+        if let index = types.firstIndex(of: .trailing) {
+            types.remove(at: index)
+        }
+        if let index = types.firstIndex(of: .right) {
+            types.remove(at: index)
+        }
+        types.append(.trailing)
+        constraintTypes = types
+        return self
+    }
+    
+    var top: Self {
+        var types = constraintTypes
+        if let index = types.firstIndex(of: .top) {
+            types.remove(at: index)
+        }
+        types.append(.top)
+        constraintTypes = types
+        return self
+    }
+    
+    var bottom: Self {
+        var types = constraintTypes
+        if let index = types.firstIndex(of: .bottom) {
+            types.remove(at: index)
+        }
+        types.append(.bottom)
+        constraintTypes = types
+        return self
+    }
+    
+    var centerX: Self {
+        var types = constraintTypes
+        if let index = types.firstIndex(of: .centerX) {
+            types.remove(at: index)
+        }
+        types.append(.centerX)
+        constraintTypes = types
+        return self
+    }
+    
+    var centerY: Self {
+        var types = constraintTypes
+        if let index = types.firstIndex(of: .centerY) {
+            types.remove(at: index)
+        }
+        types.append(.centerY)
+        constraintTypes = types
+        return self
+    }
+    
+    var edges: Self {
+        var types: [ConstraintType] = []
+        types.append(.top)
+        types.append(.bottom)
+        types.append(.leading)
+        types.append(.trailing)
+        constraintTypes = types
+        return self
+    }
+    
+    @discardableResult
+    func equalToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        let types = constraintTypes
+        if types.isEmpty {
+            assertionFailure("No constraints specified. Use .top, .bottom, .leading, .trailing, .centerX or .centerY to specify constraints.")
+            return self
+        }
+        constraintTypes = []
+        if types.contains(.left) {
+            leftToSuper(isMargins: isMargins, offset: offset)
+        }else if types.contains(.leading) {
+            leadingToSuper(isMargins: isMargins, offset: offset)
+        }
+        if types.contains(.right) {
+            rightToSuper(isMargins: isMargins, offset: offset)
+        }else if types.contains(.trailing) {
+            trailingToSuper(isMargins: isMargins, offset: offset)
+        }
+        if types.contains(.top) {
+            topToSuper(isMargins: isMargins, offset: offset)
+        }
+        if types.contains(.bottom) {
+            bottomToSuper(isMargins: isMargins, offset: offset)
+        }
+        if types.contains(.centerX) {
+            centerXToSuper(offset: offset)
+        }
+        if types.contains(.centerY) {
+            centerYToSuper(offset: offset)
+        }
+        return self
+    }
+    
+    @discardableResult
+    func equal(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        let types = constraintTypes
+        if types.isEmpty {
+            assertionFailure("No constraints specified. Use .top, .bottom, .leading, .trailing, .centerX or .centerY to specify constraints.")
+            return self
+        }
+        constraintTypes = []
+        if types.contains(.left) {
+            left(to: view, isMargins: isMargins, offset: offset)
+        }else if types.contains(.leading) {
+            leading(to: view, isMargins: isMargins, offset: offset)
+        }
+        
+        if types.contains(.right) {
+            right(to: view, isMargins: isMargins, offset: offset)
+        }else if types.contains(.trailing) {
+            trailing(to: view, isMargins: isMargins, offset: offset)
+        }
+        
+        if types.contains(.top) {
+            top(to: view, isMargins: isMargins, offset: offset)
+        }
+        
+        if types.contains(.bottom) {
+            bottom(to: view, isMargins: isMargins, offset: offset)
+        }
+        if types.contains(.centerX) {
+            centerX(to: view, offset: offset)
+        }
+        if types.contains(.centerY) {
+            centerY(to: view, offset: offset)
+        }
+        return self
+    }
+    
     @discardableResult
     func fillSuper(edge: UIEdgeInsets = .zero) -> Self {
         leftToSuper(isMargins: false, offset: edge.left)
@@ -482,6 +653,10 @@ public extension UIView {
     
     @discardableResult
     func centerToSuper() -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if let superview = superview {
             addNewConstraint(
                 centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: 0),
@@ -504,6 +679,10 @@ public extension UIView {
     
     @discardableResult
     func center(to view: UIView) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
                 centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
@@ -526,6 +705,10 @@ public extension UIView {
     
     @discardableResult
     func topToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if let superview = superview {
             addNewConstraint(
                 topAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.topAnchor : superview.topAnchor, constant: offset),
@@ -542,6 +725,10 @@ public extension UIView {
     
     @discardableResult
     func top(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .top, targetType: .other, offset: offset, YAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.top] = config
@@ -550,33 +737,45 @@ public extension UIView {
     }
     
     @discardableResult
-    func top(to view: UIView, offset: CGFloat = 0) -> Self {
+    func top(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: offset),
+                topAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, constant: offset),
                 type: .top
             )
         }else {
-            top(to: view.layoutMarginsGuide.topAnchor, offset: offset)
+            top(to: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
-    func top(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func top(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                topAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.topAnchor, constant: offset),
+                topAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, constant: offset),
                 type: .top
             )
         }else {
-            top(greaterThanOrEqualTo: view.layoutMarginsGuide.topAnchor, offset: offset)
+            top(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func top(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .top, targetType: .other, offset: offset, relation:.greaterThanOrEqual, YAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.top] = config
@@ -585,20 +784,28 @@ public extension UIView {
     }
     
     @discardableResult
-    func top(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func top(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                topAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.topAnchor, constant: offset),
+                topAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, constant: offset),
                 type: .top
             )
         }else {
-            top(lessThanOrEqualTo: view.layoutMarginsGuide.topAnchor, offset: offset)
+            top(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func top(lessThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .top, targetType: .other, offset: offset, relation:.lessThanOrEqual, YAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.top] = config
@@ -608,6 +815,10 @@ public extension UIView {
     
     @discardableResult
     func leftToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if let superview = superview {
             addNewConstraint(
                 leftAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.leftAnchor : superview.leftAnchor, constant: offset),
@@ -624,6 +835,10 @@ public extension UIView {
     
     @discardableResult
     func left(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .left, targetType: .other, offset: offset, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.left] = config
@@ -632,33 +847,45 @@ public extension UIView {
     }
     
     @discardableResult
-    func left(to view: UIView, offset: CGFloat = 0) -> Self {
+    func left(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor, constant: offset),
+                leftAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, constant: offset),
                 type: .left
             )
         }else {
-            left(to: view.layoutMarginsGuide.leftAnchor, offset: offset)
+            left(to: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
-    func left(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func left(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                leftAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.leftAnchor, constant: offset),
+                leftAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, constant: offset),
                 type: .left
             )
         }else {
-            left(greaterThanOrEqualTo: view.layoutMarginsGuide.leftAnchor, offset: offset)
+            left(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func left(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .left, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.left] = config
@@ -667,20 +894,28 @@ public extension UIView {
     }
     
     @discardableResult
-    func left(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func left(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                leftAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.leftAnchor, constant: offset),
+                leftAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, constant: offset),
                 type: .left
             )
         }else {
-            left(lessThanOrEqualTo: view.layoutMarginsGuide.leftAnchor, offset: offset)
+            left(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func left(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .left, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.left] = config
@@ -690,6 +925,10 @@ public extension UIView {
     
     @discardableResult
     func leadingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if let superview = superview {
             addNewConstraint(
                 leadingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.leadingAnchor : superview.leadingAnchor, constant: offset),
@@ -706,6 +945,10 @@ public extension UIView {
         
     @discardableResult
     func leading(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.leading] = config
@@ -714,33 +957,45 @@ public extension UIView {
     }
     
     @discardableResult
-    func leading(to view: UIView, offset: CGFloat = 0) -> Self {
+    func leading(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: offset),
+                leadingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
                 type: .leading
             )
         }else {
-            leading(to: view.layoutMarginsGuide.leadingAnchor, offset: offset)
+            leading(to: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
-    func leading(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func leading(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                leadingAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.leadingAnchor, constant: offset),
+                leadingAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
                 type: .leading
             )
         }else {
-            leading(greaterThanOrEqualTo: view.layoutMarginsGuide.leadingAnchor, offset: offset)
+            leading(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func leading(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.leading] = config
@@ -749,20 +1004,28 @@ public extension UIView {
     }
     
     @discardableResult
-    func leading(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func leading(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                leadingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.leadingAnchor, constant: offset),
+                leadingAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
                 type: .leading
             )
         }else {
-            leading(lessThanOrEqualTo: view.layoutMarginsGuide.leadingAnchor, offset: offset)
+            leading(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func leading(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.leading] = config
@@ -772,6 +1035,10 @@ public extension UIView {
     
     @discardableResult
     func bottomToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if let superview = superview {
             addNewConstraint(
                 bottomAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.bottomAnchor : superview.bottomAnchor, constant: -offset),
@@ -788,6 +1055,10 @@ public extension UIView {
     
     @discardableResult
     func bottom(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, YAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.bottom] = config
@@ -796,33 +1067,45 @@ public extension UIView {
     }
     
     @discardableResult
-    func bottom(to view: UIView, offset: CGFloat = 0) -> Self {
+    func bottom(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -offset),
+                bottomAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: -offset),
                 type: .bottom
             )
         }else {
-            bottom(to: view.layoutMarginsGuide.bottomAnchor, offset: offset)
+            bottom(to: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
-    func bottom(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func bottom(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                bottomAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.bottomAnchor, constant: offset),
+                bottomAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: offset),
                 type: .bottom
             )
         }else {
-            bottom(greaterThanOrEqualTo: view.layoutMarginsGuide.bottomAnchor, offset: offset)
+            bottom(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func bottom(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, relation: .greaterThanOrEqual, YAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.leading] = config
@@ -831,20 +1114,28 @@ public extension UIView {
     }
     
     @discardableResult
-    func bottom(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func bottom(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                bottomAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.bottomAnchor, constant: -offset),
+                bottomAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: -offset),
                 type: .bottom
             )
         }else {
-            bottom(lessThanOrEqualTo: view.layoutMarginsGuide.bottomAnchor, offset: offset)
+            bottom(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func bottom(lessThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, relation: .lessThanOrEqual, YAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.leading] = config
@@ -854,6 +1145,10 @@ public extension UIView {
     
     @discardableResult
     func rightToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if let superview = superview {
             addNewConstraint(
                 rightAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.rightAnchor : superview.rightAnchor, constant: -offset),
@@ -870,6 +1165,10 @@ public extension UIView {
     
     @discardableResult
     func right(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.right] = config
@@ -878,33 +1177,45 @@ public extension UIView {
     }
     
     @discardableResult
-    func right(to view: UIView, offset: CGFloat = 0) -> Self {
+    func right(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor, constant: -offset),
+                rightAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
                 type: .right
             )
         }else {
-            right(to: view.layoutMarginsGuide.rightAnchor, offset: offset)
+            right(to: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
-    func right(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func right(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                rightAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.rightAnchor, constant: -offset),
+                rightAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
                 type: .right
             )
         }else {
-            right(greaterThanOrEqualTo: view.layoutMarginsGuide.rightAnchor, offset: offset)
+            right(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func right(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.right] = config
@@ -913,20 +1224,28 @@ public extension UIView {
     }
     
     @discardableResult
-    func right(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func right(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                rightAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.rightAnchor, constant: -offset),
+                rightAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
                 type: .right
             )
         }else {
-            right(lessThanOrEqualTo: view.layoutMarginsGuide.rightAnchor, offset: offset)
+            right(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func right(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.right] = config
@@ -936,6 +1255,10 @@ public extension UIView {
     
     @discardableResult
     func trailingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if let superview = superview {
             addNewConstraint(
                 trailingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: -offset),
@@ -952,6 +1275,10 @@ public extension UIView {
     
     @discardableResult
     func trailing(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.trailing] = config
@@ -960,33 +1287,45 @@ public extension UIView {
     }
     
     @discardableResult
-    func trailing(to view: UIView, offset: CGFloat = 0) -> Self {
+    func trailing(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -offset),
+                trailingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
                 type: .trailing
             )
         }else {
-            trailing(to: view.layoutMarginsGuide.trailingAnchor, offset: offset)
+            trailing(to: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
-    func trailing(greaterThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func trailing(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                trailingAnchor.constraint(greaterThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor, constant: -offset),
+                trailingAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
                 type: .trailing
             )
         }else {
-            trailing(greaterThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor, offset: offset)
+            trailing(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func trailing(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.trailing] = config
@@ -995,20 +1334,28 @@ public extension UIView {
     }
     
     @discardableResult
-    func trailing(lessThanOrEqualTo view: UIView, offset: CGFloat = 0) -> Self {
+    func trailing(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
-                trailingAnchor.constraint(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor, constant: -offset),
+                trailingAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
                 type: .trailing
             )
         }else {
-            trailing(lessThanOrEqualTo: view.layoutMarginsGuide.trailingAnchor, offset: offset)
+            trailing(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
         }
         return self
     }
     
     @discardableResult
     func trailing(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.trailing] = config
@@ -1112,6 +1459,10 @@ public extension UIView {
     
     @discardableResult
     func centerXToSuper(offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if let superview = superview {
             addNewConstraint(
                 centerXAnchor.constraint(equalTo: superview.centerXAnchor, constant: offset),
@@ -1128,6 +1479,10 @@ public extension UIView {
     
     @discardableResult
     func centerX(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .centerX, targetType: .other, offset: offset, XAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.centerX] = config
@@ -1137,6 +1492,10 @@ public extension UIView {
     
     @discardableResult
     func centerX(to view: UIView, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
                 centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: offset),
@@ -1150,6 +1509,10 @@ public extension UIView {
     
     @discardableResult
     func centerYToSuper(offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if let superview = superview {
             addNewConstraint(
                 centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: offset),
@@ -1166,6 +1529,10 @@ public extension UIView {
     
     @discardableResult
     func centerY(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         let config = ConstraintConfig(type: .centerY, targetType: .other, offset: offset, YAxisAnchor: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.centerY] = config
@@ -1175,6 +1542,10 @@ public extension UIView {
     
     @discardableResult
     func centerY(to view: UIView, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("Please use .equal() method to set constraints.")
+            return self
+        }
         if view == superview {
             addNewConstraint(
                 centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: offset),
@@ -1324,6 +1695,19 @@ extension UIView {
     private static var constraintHolderKey: Void?
     private static var constraintCanActiveKey: Void?
     private static var pendingCornerInfoKey: Void?
+    private static var constraintTypesKey: Void?
+    
+    var constraintTypes: [ConstraintType] {
+        get {
+            if let types = objc_getAssociatedObject(self, &Self.constraintTypesKey) as? [ConstraintType] {
+                return types
+            }
+            return []
+        }
+        set {
+            objc_setAssociatedObject(self, &Self.constraintTypesKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
     
     var cornerInfo: CornerInfo? {
         get {
