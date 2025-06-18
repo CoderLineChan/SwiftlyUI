@@ -94,6 +94,18 @@ public extension UIView {
     }
     
     @discardableResult
+    func borderColor(_ color: UIColor) -> Self {
+        self.layer.borderColor = color.cgColor
+        return self
+    }
+    
+    @discardableResult
+    func borderWidth(_ width: CGFloat) -> Self {
+        self.layer.borderWidth = width
+        return self
+    }
+    
+    @discardableResult
     func clipsToBounds(_ isEnabled: Bool = true) -> Self {
         self.clipsToBounds = isEnabled
         return self
@@ -138,14 +150,23 @@ public extension UIView {
     @discardableResult
     func cornerRadius(_ radius: CGFloat) -> Self {
         self.layer.cornerRadius = radius
-        self.layer.masksToBounds = true
         return self
     }
     
     @discardableResult
-    func radius(_ radius: CGFloat) -> Self {
-        self.layer.cornerRadius = radius
-        self.layer.masksToBounds = true
+    func radius(_ radius: CGFloat, corners: UIRectCorner = .allCorners) -> Self {
+        if corners == .allCorners {
+            self.layer.cornerRadius = radius
+            self.layer.masksToBounds = true
+        }else {
+            roundCorners(radius, corners: corners)
+        }
+        return self
+    }
+    
+    @discardableResult
+    func masksToBounds(_ isEnabled: Bool = true) -> Self {
+        self.layer.masksToBounds = isEnabled
         return self
     }
     

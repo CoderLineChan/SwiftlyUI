@@ -69,6 +69,12 @@ public extension UILabel {
     }
     
     @discardableResult
+    func textAlignment(_ alignment: NSTextAlignment) -> Self {
+        self.textAlignment = alignment
+        return self
+    }
+    
+    @discardableResult
     func lineBreak(_ mode: NSLineBreakMode) -> Self {
         self.lineBreakMode = mode
         return self

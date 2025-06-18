@@ -60,13 +60,7 @@ public extension UITextView {
     func placeholder(_ text: String, color: UIColor? = nil) -> Self {
         let placeholderLabel = getOrCreatePlaceholderLabel()
         placeholderLabel.text = text
-        placeholderLabel.textColor = color ?? {
-            if #available(iOS 13.0, *) {
-                return .placeholderText
-            } else {
-                return .lightGray
-            }
-        }()
+        placeholderLabel.textColor = color ?? .placeholderText
         placeholderLabel.isHidden = !self.text.isEmpty
         return self
     }
@@ -74,13 +68,7 @@ public extension UITextView {
     @discardableResult
     func placeholderColor(_ color: UIColor? = nil) -> Self {
         let placeholderLabel = getOrCreatePlaceholderLabel()
-        placeholderLabel.textColor = color ?? {
-            if #available(iOS 13.0, *) {
-                return .placeholderText
-            } else {
-                return .lightGray
-            }
-        }()
+        placeholderLabel.textColor = color ?? .placeholderText
         placeholderLabel.isHidden = !(self.text?.isEmpty ?? true)
         return self
     }
@@ -100,6 +88,48 @@ public extension UITextView {
     @discardableResult
     func keyboardType(_ type: UIKeyboardType) -> Self {
         self.keyboardType = type
+        return self
+    }
+    
+    @discardableResult
+    func keyboardAppearance(_ appearance: UIKeyboardAppearance) -> Self {
+        self.keyboardAppearance = appearance
+        return self
+    }
+    
+    @discardableResult
+    func autocapitalizationType(_ type: UITextAutocapitalizationType) -> Self {
+        self.autocapitalizationType = type
+        return self
+    }
+    
+    @discardableResult
+    func autocorrectionType(_ type: UITextAutocorrectionType) -> Self {
+        self.autocorrectionType = type
+        return self
+    }
+    
+    @discardableResult
+    func spellCheckingType(_ type: UITextSpellCheckingType) -> Self {
+        self.spellCheckingType = type
+        return self
+    }
+    
+    @discardableResult
+    func smartQuotesType(_ type: UITextSmartQuotesType) -> Self {
+        self.smartQuotesType = type
+        return self
+    }
+    
+    @discardableResult
+    func smartDashesType(_ type: UITextSmartDashesType) -> Self {
+        self.smartDashesType = type
+        return self
+    }
+    
+    @discardableResult
+    func smartInsertDeleteType(_ type: UITextSmartInsertDeleteType) -> Self {
+        self.smartInsertDeleteType = type
         return self
     }
     
@@ -187,6 +217,36 @@ public extension UITextView {
         return self
     }
     
+    @discardableResult
+    func returnKeyType(_ type: UIReturnKeyType) -> Self {
+        self.returnKeyType = type
+        return self
+    }
+    
+    @discardableResult
+    func enablesReturnKeyAutomatically(_ enables: Bool) -> Self {
+        self.enablesReturnKeyAutomatically = enables
+        return self
+    }
+    
+    @discardableResult
+    func secureTextEntry(_ isSecure: Bool) -> Self {
+        self.isSecureTextEntry = isSecure
+        return self
+    }
+    
+    @discardableResult
+    func textContentType(_ type: UITextContentType) -> Self {
+        self.textContentType = type
+        return self
+    }
+    
+    @discardableResult
+    func passwordRules(_ rules: UITextInputPasswordRules?) -> Self {
+        self.passwordRules = rules
+        return self
+    }
+    
 #if compiler(>=5.5)
     @available(iOS 15.0, *)
     @discardableResult
@@ -210,6 +270,13 @@ public extension UITextView {
     @discardableResult
     func borderStyle(_ style: UITextView.BorderStyle) -> Self {
         self.borderStyle = style
+        return self
+    }
+    
+    @available(iOS 17.0, *)
+    @discardableResult
+    func inlinePredictionType(_ type: UITextInlinePredictionType) -> Self {
+        self.inlinePredictionType = type
         return self
     }
 #endif
@@ -242,6 +309,20 @@ public extension UITextView {
         self.textFormattingConfiguration = configuration
         return self
     }
+    
+    @available(iOS 18.0, *)
+    @discardableResult
+    func mathExpressionCompletionType(_ type: UITextMathExpressionCompletionType) -> Self {
+        self.mathExpressionCompletionType = type
+        return self
+    }
+    
+    @available(iOS 18.4, *)
+    @discardableResult
+    func conversationContext(_ context: UIConversationContext?) -> Self {
+        self.conversationContext = context
+        return self
+    }
 #endif
 }
 
@@ -257,7 +338,7 @@ public extension UITextView {
     
     @discardableResult
     func onTextChange(_ action: @escaping (UITextView) -> Void) -> Self {
-        objc_setAssociatedObject(self, &AssociatedKeys.textDidChangeKey, observer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &AssociatedKeys.textDidChangeKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         textChangeObserver()
         return self
     }
@@ -272,7 +353,7 @@ public extension UITextView {
     
     @discardableResult
     func onBeginEditing(_ action: @escaping (UITextView) -> Void) -> Self {
-        objc_setAssociatedObject(self, &AssociatedKeys.textDidBeginEditingKey, observer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &AssociatedKeys.textDidBeginEditingKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         textFieldDidBeginEditingObserver()
         return self
     }
@@ -287,7 +368,7 @@ public extension UITextView {
     
     @discardableResult
     func onEndEditing(_ action: @escaping (UITextView) -> Void) -> Self {
-        objc_setAssociatedObject(self, &AssociatedKeys.textDidEndEditingKey, observer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &AssociatedKeys.textDidEndEditingKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         textFieldDidEndEditingObserver()
         return self
     }
@@ -446,8 +527,19 @@ private extension UITextView {
         let originalSelector = #selector(layoutSubviews)
         let swizzledSelector = #selector(swizzled_layoutSubviews)
         UIView.swizzleMethod(clas: self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
+        
+        let originalSelector1 = #selector(setter: UITextView.text)
+        let swizzledSelector1 = #selector(swizzled_setText(_:))
+        UIView.swizzleMethod(clas: self, originalSelector: originalSelector1, swizzledSelector: swizzledSelector1)
+        
     }
-
+    
+    @objc func swizzled_setText(_ text: String?) {
+        swizzled_setText(text)
+        updatePlaceholderVisibility()
+        updatePlaceholderMaxLayoutWidth()
+    }
+    
     @objc func swizzled_layoutSubviews() {
         swizzled_layoutSubviews()
         updatePlaceholderMaxLayoutWidth()
