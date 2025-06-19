@@ -316,13 +316,13 @@ public extension UITextView {
         self.mathExpressionCompletionType = type
         return self
     }
-    
-    @available(iOS 18.4, *)
-    @discardableResult
-    func conversationContext(_ context: UIConversationContext?) -> Self {
-        self.conversationContext = context
-        return self
-    }
+        
+//    @available(iOS 18.4, *)
+//    @discardableResult
+//    func conversationContext(_ context: UIConversationContext?) -> Self {
+//        self.conversationContext = context
+//        return self
+//    }
 #endif
 }
 
