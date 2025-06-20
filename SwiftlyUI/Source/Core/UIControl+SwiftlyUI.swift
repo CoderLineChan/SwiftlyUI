@@ -47,34 +47,42 @@ public extension UIControl {
     /// .onAction(target: self, action: { $0.doSomething() })
     @discardableResult
     func onAction<T: AnyObject>(target: T, for event: UIControl.Event = .touchUpInside, action: @escaping (T) -> Void) -> Self {
-        if let oldWrapper = actionClosures[event.rawValue] {
+        var actionClosure = actionClosures
+        if let oldWrapper = actionClosure[event.rawValue] {
             removeTarget(oldWrapper, action: nil, for: event)
+            actionClosure.removeValue(forKey: event.rawValue)
         }
         
-        if let oldHandler = actionClosures[event.rawValue] as? ActionSingleHandler<T> {
+        if let oldHandler = actionClosure[event.rawValue] as? ActionSingleHandler<T> {
             removeTarget(oldHandler, action: nil, for: event)
+            actionClosure.removeValue(forKey: event.rawValue)
         }
         
         let handler = ActionSingleHandler(target: target, action: action)
         addTarget(handler, action: #selector(ActionSingleHandler<T>.invoke), for: event)
-        actionClosures[event.rawValue] = handler
+        actionClosure[event.rawValue] = handler
+        actionClosures = actionClosure
         return self
     }
     
     /// .onAction(target: self, action: { (vc: ViewController, btn: UIButton) in vc.doSomething(with: btn) })
     @discardableResult
     func onAction<T: AnyObject, ControlType: UIControl>(target: T, for event: UIControl.Event = .touchUpInside, action: @escaping (T, ControlType) -> Void) -> Self {
-        if let oldWrapper = actionClosures[event.rawValue] {
+        var actionClosure = actionClosures
+        if let oldWrapper = actionClosure[event.rawValue] {
             removeTarget(oldWrapper, action: nil, for: event)
+            actionClosure.removeValue(forKey: event.rawValue)
         }
         
-        if let oldHandler = actionClosures[event.rawValue] as? ActionHandler<T, ControlType> {
+        if let oldHandler = actionClosure[event.rawValue] as? ActionHandler<T, ControlType> {
             removeTarget(oldHandler, action: nil, for: event)
+            actionClosure.removeValue(forKey: event.rawValue)
         }
         
         let handler = ActionHandler(target: target, action: action)
         addTarget(handler, action: #selector(ActionHandler<T, ControlType>.invoke(_:)), for: event)
-        actionClosures[event.rawValue] = handler
+        actionClosure[event.rawValue] = handler
+        actionClosures = actionClosure
         return self
     }
     
@@ -88,14 +96,16 @@ public extension UIControl {
     /// button.onAction { [weak self] (btn: UIButton) in self?.doSomething() }
     @discardableResult
     func onAction<T: UIControl>(for event: UIControl.Event = .touchUpInside, action: @escaping (T) -> Void) -> Self {
+        var actionClosure = actionClosures
         if let oldWrapper = actionClosures[event.rawValue] {
             removeTarget(oldWrapper, action: nil, for: event)
+            actionClosure.removeValue(forKey: event.rawValue)
         }
         
         let wrapper = ClosureWrapper<T>(button: self as! T, closure: action)
         addTarget(wrapper, action: #selector(ClosureWrapper.invoke), for: event)
         
-        var closures = actionClosures
+        var closures = actionClosure
         closures[event.rawValue] = wrapper
         actionClosures = closures
         return self
@@ -157,23 +167,16 @@ private class ClosureWrapper<T: UIControl>: NSObject {
 }
 
 private extension UIControl {
-    struct AssociatedKeys {
+    struct UIControlAssociatedKeys {
         nonisolated(unsafe) static var actionClosuresKey: Void?
     }
     private var actionClosures: [UInt: Any] {
         get {
-            return objc_getAssociatedObject(
-                self,
-                withUnsafePointer(to: &AssociatedKeys.actionClosuresKey) { UnsafeRawPointer($0) }
-            ) as? [UInt: ClosureWrapper] ?? [:]
+            let aaa = objc_getAssociatedObject(self, &UIControlAssociatedKeys.actionClosuresKey)
+            return objc_getAssociatedObject(self, &UIControlAssociatedKeys.actionClosuresKey) as? [UInt: Any] ?? [:]
         }
         set {
-            objc_setAssociatedObject(
-                self,
-                withUnsafePointer(to: &AssociatedKeys.actionClosuresKey) { UnsafeRawPointer($0) },
-                newValue,
-                .OBJC_ASSOCIATION_RETAIN_NONATOMIC
-            )
+            objc_setAssociatedObject(self, &UIControlAssociatedKeys.actionClosuresKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
    
