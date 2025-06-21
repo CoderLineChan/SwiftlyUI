@@ -172,7 +172,6 @@ private extension UIControl {
     }
     private var actionClosures: [UInt: Any] {
         get {
-            let aaa = objc_getAssociatedObject(self, &UIControlAssociatedKeys.actionClosuresKey)
             return objc_getAssociatedObject(self, &UIControlAssociatedKeys.actionClosuresKey) as? [UInt: Any] ?? [:]
         }
         set {
