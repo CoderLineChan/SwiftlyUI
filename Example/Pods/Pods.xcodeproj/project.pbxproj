@@ -27,6 +27,8 @@
 		14C2C69C2DF1690F00B658DA /* UIDatePicker+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C69B2DF1690A00B658DA /* UIDatePicker+SwiftlyUI.swift */; };
 		14C2C69E2DF169EB00B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C69D2DF169E600B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift */; };
 		14DCD3572DDEC39D00C2378E /* UIImage+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */; };
+		14F2D2DB2E0CF9C700CD0E91 /* UIActivityIndicatorView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2D2DA2E0CF9C200CD0E91 /* UIActivityIndicatorView+SwiftlyUI.swift */; };
+		14F2D4A42E0FAB2D00CD0E91 /* UIBarButtonItem+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F2D4A32E0FAB2800CD0E91 /* UIBarButtonItem+SwiftlyUI.swift */; };
 		1DC9A01C168B4C3B63B08D6C02E1677E /* UIImage-SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 425B2BE0B6C36A2653C6EAB2C39200C8 /* UIImage-SwiftlyUI.swift */; };
 		240F1A3E0B2919B5789E0B2E82C6AC1F /* UILabel+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */; };
 		267E8A91E92293A60A131F1E3D34CCDA /* SwiftlyUI-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC712E481D6A2422EAE60A4C245546F /* SwiftlyUI-dummy.m */; };
@@ -81,6 +83,8 @@
 		14C2C69B2DF1690A00B658DA /* UIDatePicker+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDatePicker+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14C2C69D2DF169E600B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewFlowLayout+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14F2D2DA2E0CF9C200CD0E91 /* UIActivityIndicatorView+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		14F2D4A32E0FAB2800CD0E91 /* UIBarButtonItem+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		1F667CC0E19EAF34E5A4119E2121F585 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UILabel+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		243410B9535472556EA4BB6DBC133A0D /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -168,33 +172,35 @@
 		944F74D647F63767C4E75959DC1B4176 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				41888869CD9BBBF0BA9F6825F2D7DEE0 /* UIButton+SwiftlyUI.swift */,
+				14F2D2DA2E0CF9C200CD0E91 /* UIActivityIndicatorView+SwiftlyUI.swift */,
 				14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */,
-				115817B25BDFD24B22CE4CC418688C99 /* UIColor+SwiftlyUI.swift */,
-				14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */,
-				FB4BFEC6935F27BD9AED2618571C4B7C /* UIControl+SwiftlyUI.swift */,
-				FFD35A5F5D7F3FB6B6A03BBC822B4D20 /* UIFont+SwiftlyUI.swift */,
-				8DF2520D371829E88598A202900B6DDC /* UIImageView+SwiftlyUI.swift */,
-				209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */,
-				EE790D0AC9B3BB53B26C537FB6260E35 /* UIStackView+SwiftlyUI.swift */,
-				6DC294B8EAB971F7F8722BEC055CFCE0 /* UITextField+SwiftlyUI.swift */,
-				CBAAE4D2B65D842AD6DEF63FEA1B128D /* UITextView+SwiftlyUI.swift */,
-				E7A6F3FE7EBB8918C69CA7F2C918C691 /* UIView+SwiftlyUI.swift */,
-				14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */,
-				14C2C6832DF1335200B658DA /* UISwitch+SwiftlyUI.swift */,
-				14C2C6852DF13CF000B658DA /* UISlider+SwiftlyUI.swift */,
-				14C2C6872DF13E4100B658DA /* UISegmentedControl+SwiftlyUI.swift */,
-				14C2C6892DF13FA100B658DA /* UIRefreshControl+SwiftlyUI.swift */,
-				14C2C68B2DF1414800B658DA /* UITableView+SwiftlyUI.swift */,
-				14C2C68D2DF1416400B658DA /* UITableViewCell+SwiftlyUI.swift */,
+				14F2D4A32E0FAB2800CD0E91 /* UIBarButtonItem+SwiftlyUI.swift */,
+				41888869CD9BBBF0BA9F6825F2D7DEE0 /* UIButton+SwiftlyUI.swift */,
 				14C2C68F2DF14A6200B658DA /* UICollectionView+SwiftlyUI.swift */,
 				14C2C6912DF14C9900B658DA /* UICollectionViewCell+SwiftlyUI.swift */,
 				14C2C69D2DF169E600B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift */,
-				14C2C6932DF1661000B658DA /* UIInputView+SwiftlyUI.swift */,
-				14C2C6952DF1664F00B658DA /* UIVisualEffectView+SwiftlyUI.swift */,
-				14C2C6972DF167B500B658DA /* UIStepper+SwiftlyUI.swift */,
-				14C2C6992DF1688600B658DA /* UIPickerView+SwiftlyUI.swift */,
+				115817B25BDFD24B22CE4CC418688C99 /* UIColor+SwiftlyUI.swift */,
+				FB4BFEC6935F27BD9AED2618571C4B7C /* UIControl+SwiftlyUI.swift */,
 				14C2C69B2DF1690A00B658DA /* UIDatePicker+SwiftlyUI.swift */,
+				FFD35A5F5D7F3FB6B6A03BBC822B4D20 /* UIFont+SwiftlyUI.swift */,
+				14DCD3562DDEC39700C2378E /* UIImage+SwiftlyUI.swift */,
+				8DF2520D371829E88598A202900B6DDC /* UIImageView+SwiftlyUI.swift */,
+				14C2C6932DF1661000B658DA /* UIInputView+SwiftlyUI.swift */,
+				209F1453EFCC7E539E4082B277484ACD /* UILabel+SwiftlyUI.swift */,
+				14C2C6992DF1688600B658DA /* UIPickerView+SwiftlyUI.swift */,
+				14C2C6892DF13FA100B658DA /* UIRefreshControl+SwiftlyUI.swift */,
+				14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */,
+				14C2C6872DF13E4100B658DA /* UISegmentedControl+SwiftlyUI.swift */,
+				14C2C6852DF13CF000B658DA /* UISlider+SwiftlyUI.swift */,
+				EE790D0AC9B3BB53B26C537FB6260E35 /* UIStackView+SwiftlyUI.swift */,
+				14C2C6972DF167B500B658DA /* UIStepper+SwiftlyUI.swift */,
+				14C2C6832DF1335200B658DA /* UISwitch+SwiftlyUI.swift */,
+				14C2C68B2DF1414800B658DA /* UITableView+SwiftlyUI.swift */,
+				14C2C68D2DF1416400B658DA /* UITableViewCell+SwiftlyUI.swift */,
+				6DC294B8EAB971F7F8722BEC055CFCE0 /* UITextField+SwiftlyUI.swift */,
+				CBAAE4D2B65D842AD6DEF63FEA1B128D /* UITextView+SwiftlyUI.swift */,
+				E7A6F3FE7EBB8918C69CA7F2C918C691 /* UIView+SwiftlyUI.swift */,
+				14C2C6952DF1664F00B658DA /* UIVisualEffectView+SwiftlyUI.swift */,
 			);
 			name = Core;
 			path = SwiftlyUI/Source/Core;
@@ -406,6 +412,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14F2D2DB2E0CF9C700CD0E91 /* UIActivityIndicatorView+SwiftlyUI.swift in Sources */,
 				267E8A91E92293A60A131F1E3D34CCDA /* SwiftlyUI-dummy.m in Sources */,
 				7A3D86A159CA140CB6E79E67F33B2A7E /* UIButton+SwiftlyUI.swift in Sources */,
 				14C2C68C2DF1414E00B658DA /* UITableView+SwiftlyUI.swift in Sources */,
@@ -433,6 +440,7 @@
 				69ACFCC73ADA2C68AE51674C9853388F /* UITextField+SwiftlyUI.swift in Sources */,
 				14C2C6842DF1335700B658DA /* UISwitch+SwiftlyUI.swift in Sources */,
 				143107442DEEA1BF00B14C9E /* UIKitPreviewable-SwiftlyUI.swift in Sources */,
+				14F2D4A42E0FAB2D00CD0E91 /* UIBarButtonItem+SwiftlyUI.swift in Sources */,
 				14C2C6922DF14C9F00B658DA /* UICollectionViewCell+SwiftlyUI.swift in Sources */,
 				58E4919DFB1598DBC7EF9515F251DCE6 /* UITextView+SwiftlyUI.swift in Sources */,
 				A207879B1D6BB56DA532C8153F36BCFD /* UIView+SwiftlyUI.swift in Sources */,

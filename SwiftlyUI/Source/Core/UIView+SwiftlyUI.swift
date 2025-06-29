@@ -165,6 +165,13 @@ public extension UIView {
     }
     
     @discardableResult
+    func layerCornerRadius(_ radius: CGFloat) -> Self {
+        self.layer.cornerRadius = radius
+        self.layer.masksToBounds = true
+        return self
+    }
+    
+    @discardableResult
     func masksToBounds(_ isEnabled: Bool = true) -> Self {
         self.layer.masksToBounds = isEnabled
         return self
@@ -1410,6 +1417,12 @@ public extension UIView {
     }
     
     @discardableResult
+    func width(_ value: Int) -> Self {
+        width(CGFloat(value))
+        return self
+    }
+    
+    @discardableResult
     func width(to anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
         let config = ConstraintConfig(type: .width, targetType: .other, offset: 0, multiplier: multiplier, Dimension: anchor)
         var holder = constraintHolder
@@ -1453,6 +1466,12 @@ public extension UIView {
             heightAnchor.constraint(equalToConstant: value),
             type: .height
         )
+        return self
+    }
+    
+    @discardableResult
+    func height(_ value: Int) -> Self {
+        height(CGFloat(value))
         return self
     }
     
@@ -1581,6 +1600,17 @@ public extension UIView {
     /// Returns the constraint for the specified type
     func constraint(_ constraintType: ConstraintType) -> NSLayoutConstraint? {
         return constraintHolder.constraints[constraintType]
+    }
+    
+    /// removes the constraint for the specified type
+    func removeConstraint(_ constraintType: ConstraintType) {
+        if let constraint = constraintHolder.constraints[constraintType] {
+            constraint.isActive = false
+            constraintHolder.constraints.removeValue(forKey: constraintType)
+        }
+        if constraintHolder.pendingConstraints[constraintType] != nil {
+            constraintHolder.pendingConstraints.removeValue(forKey: constraintType)
+        }
     }
     
     /// Manually activate constraints

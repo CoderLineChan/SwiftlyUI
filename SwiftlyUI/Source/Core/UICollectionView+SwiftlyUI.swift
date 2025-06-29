@@ -11,6 +11,63 @@ import UIKit
 public extension UICollectionView {
     
     @discardableResult
+    func registerCell<T: UICollectionViewCell>(withCellClass name: T.Type) -> Self {
+        register(T.self, forCellWithReuseIdentifier: String(describing: name))
+        return self
+    }
+    
+    @discardableResult
+    func registerView<T: UICollectionReusableView>(ofKind kind: String, withCellClass name: T.Type) -> Self {
+        register(T.self, forSupplementaryViewOfKind: kind, withReuseIdentifier: String(describing: name))
+        return self
+    }
+    
+    @discardableResult
+    func registerNib(nib: UINib?, withCellClass name: (some UICollectionViewCell).Type) -> Self {
+        register(nib, forCellWithReuseIdentifier: String(describing: name))
+        return self
+    }
+    
+    @discardableResult
+    func registerNib(nib: UINib?, forSupplementaryViewOfKind kind: String,
+                  withClass name: (some UICollectionReusableView).Type) -> Self {
+        register(nib, forSupplementaryViewOfKind: kind, withReuseIdentifier: String(describing: name))
+        return self
+    }
+
+    @discardableResult
+    func registerNib(withCellClass name: (some UICollectionViewCell).Type, at bundleClass: AnyClass? = nil) -> Self {
+        let identifier = String(describing: name)
+        var bundle: Bundle?
+
+        if let bundleName = bundleClass {
+            bundle = Bundle(for: bundleName)
+        }
+        register(UINib(nibName: identifier, bundle: bundle), forCellWithReuseIdentifier: identifier)
+        return self
+    }
+    
+    func dequeueCell<T: UICollectionViewCell>(withCellClass name: T.Type, for indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableCell(withReuseIdentifier: String(describing: name), for: indexPath) as? T else {
+            fatalError(
+                "SwiftlyUI - Couldn't find UICollectionViewCell for \(String(describing: name)), make sure the cell is registered with collection view")
+        }
+        return cell
+    }
+    
+    func dequeueView<T: UICollectionReusableView>(ofKind kind: String, withCellClass name: T.Type,
+                                                                       for indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: String(describing: name),
+            for: indexPath) as? T else {
+            fatalError(
+                "SwiftlyUI - Couldn't find UICollectionReusableView for \(String(describing: name)), make sure the view is registered with collection view")
+        }
+        return cell
+    }
+    
+    @discardableResult
     func delegate(_ delegate: UICollectionViewDelegate?) -> Self {
         self.delegate = delegate
         return self

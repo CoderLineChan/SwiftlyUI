@@ -24,7 +24,55 @@ public extension UITextField {
     
     convenience init(_ placeholder: String) {
         self.init()
-        self.placeholder(placeholder, color: nil)
+        self.placeholder = placeholder
+    }
+    
+    convenience init(customPlaceholder placeholder: String, color: UIColor? = nil) {
+        self.init()
+        self.placeholder(placeholder, color: color)
+    }
+    
+    @discardableResult
+    func attributedPlaceholder(_ attributedText: NSAttributedString) -> Self {
+        self.attributedPlaceholder = attributedText
+        return self
+    }
+    
+    @discardableResult
+    func placeholder(_ text: String, color: UIColor? = nil) -> Self {
+        let attributedPlaceholder = NSAttributedString(string: text, attributes: [
+            .foregroundColor: color ?? UIColor.placeholderText,
+            .font: self.font ?? UIFont.systemFont(ofSize: 14)
+        ])
+        self.attributedPlaceholder = attributedPlaceholder
+        return self
+    }
+    
+    @discardableResult
+    func placeholderColor(_ color: UIColor? = nil) -> Self {
+        let attributedPlaceholder = self.attributedPlaceholder ?? NSAttributedString(string: self.placeholder ?? "", attributes: [
+            .foregroundColor: color ?? UIColor.placeholderText,
+            .font: self.font ?? UIFont.systemFont(ofSize: 14)
+        ])
+        self.attributedPlaceholder = attributedPlaceholder
+        return self
+    }
+    
+    @discardableResult
+    func placeholder(customPlaceholder text: String, color: UIColor? = nil) -> Self {
+        let placeholderLabel = getOrCreatePlaceholderLabel()
+        placeholderLabel.text = text
+        placeholderLabel.textColor = color ?? .placeholderText
+        placeholderLabel.isHidden = !(self.text?.isEmpty ?? true)
+        return self
+    }
+    
+    @discardableResult
+    func placeholderColor(customPlaceholder color: UIColor? = nil) -> Self {
+        let placeholderLabel = getOrCreatePlaceholderLabel()
+        placeholderLabel.textColor = color ?? .placeholderText
+        placeholderLabel.isHidden = !(self.text?.isEmpty ?? true)
+        return self
     }
     
     @discardableResult
@@ -67,41 +115,6 @@ public extension UITextField {
     }
     
     @discardableResult
-    func placeholder(_ text: String, color: UIColor? = nil) -> Self {
-        let placeholderLabel = getOrCreatePlaceholderLabel()
-        placeholderLabel.text = text
-        placeholderLabel.textColor = color ?? {
-            if #available(iOS 13.0, *) {
-                return .placeholderText
-            } else {
-                return .lightGray
-            }
-        }()
-        placeholderLabel.isHidden = !(self.text?.isEmpty ?? true)
-        return self
-    }
-    
-    @discardableResult
-    func placeholderColor(_ color: UIColor? = nil) -> Self {
-        let placeholderLabel = getOrCreatePlaceholderLabel()
-        placeholderLabel.textColor = color ?? {
-            if #available(iOS 13.0, *) {
-                return .placeholderText
-            } else {
-                return .lightGray
-            }
-        }()
-        placeholderLabel.isHidden = !(self.text?.isEmpty ?? true)
-        return self
-    }
-    
-    @discardableResult
-    func attributedPlaceholder(_ attributedText: NSAttributedString) -> Self {
-        self.attributedPlaceholder = attributedText
-        return self
-    }
-    
-    @discardableResult
     func keyboardType(_ type: UIKeyboardType) -> Self {
         self.keyboardType = type
         return self
@@ -109,6 +122,12 @@ public extension UITextField {
     
     @discardableResult
     func isSecure(_ isSecure: Bool) -> Self {
+        self.isSecureTextEntry = isSecure
+        return self
+    }
+    
+    @discardableResult
+    func secureTextEntry(_ isSecure: Bool) -> Self {
         self.isSecureTextEntry = isSecure
         return self
     }
@@ -191,6 +210,94 @@ public extension UITextField {
         self.typingAttributes = attributes
         return self
     }
+    
+    @discardableResult
+    func autocapitalizationType(_ type: UITextAutocapitalizationType) -> Self {
+        self.autocapitalizationType = type
+        return self
+    }
+    
+    @discardableResult
+    func autocorrectionType(_ type: UITextAutocorrectionType) -> Self {
+        self.autocorrectionType = type
+        return self
+    }
+    
+    @discardableResult
+    func spellCheckingType(_ type: UITextSpellCheckingType) -> Self {
+        self.spellCheckingType = type
+        return self
+    }
+    
+    @discardableResult
+    func smartQuotesType(_ type: UITextSmartQuotesType) -> Self {
+        self.smartQuotesType = type
+        return self
+    }
+    
+    @discardableResult
+    func smartDashesType(_ type: UITextSmartDashesType) -> Self {
+        self.smartDashesType = type
+        return self
+    }
+    
+    @discardableResult
+    func smartInsertDeleteType(_ type: UITextSmartInsertDeleteType) -> Self {
+        self.smartInsertDeleteType = type
+        return self
+    }
+#if compiler(>=5.9)
+    @available(iOS 17.0, *)
+    @discardableResult
+    func inlinePredictionType(_ type: UITextInlinePredictionType) -> Self {
+        self.inlinePredictionType = type
+        return self
+    }
+#endif
+#if compiler(>=6.0)
+    @available(iOS 18.0, *)
+    @discardableResult
+    func mathExpressionCompletionType(_ type: UITextMathExpressionCompletionType) -> Self {
+        self.mathExpressionCompletionType = type
+        return self
+    }
+    @available(iOS 18.0, *)
+    @discardableResult
+    func writingToolsBehavior(_ behavior: UIWritingToolsBehavior) -> Self {
+        self.writingToolsBehavior = behavior
+        return self
+    }
+    @available(iOS 18.0, *)
+    @discardableResult
+    func allowedWritingToolsResultOptions(_ options: UIWritingToolsResultOptions) -> Self {
+        self.allowedWritingToolsResultOptions = options
+        return self
+    }
+#endif
+    @discardableResult
+    func keyboardAppearance(_ appearance: UIKeyboardAppearance) -> Self {
+        self.keyboardAppearance = appearance
+        return self
+    }
+    
+    @discardableResult
+    func returnKeyType(_ type: UIReturnKeyType) -> Self {
+        self.returnKeyType = type
+        return self
+    }
+    
+    @discardableResult
+    func textContentType(_ type: UITextContentType) -> Self {
+        self.textContentType = type
+        return self
+    }
+    
+    @discardableResult
+    func passwordRules(_ rules: UITextInputPasswordRules?) -> Self {
+        self.passwordRules = rules
+        return self
+    }
+
 }
 
 // MARK: - Action

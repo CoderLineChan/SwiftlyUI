@@ -10,6 +10,77 @@ import UIKit
 
 public extension UIControl {
     
+    @discardableResult
+    func enabled(_ enabled: Bool) -> Self {
+        self.isEnabled = enabled
+        return self
+    }
+    
+    @discardableResult
+    func disabled(_ disabled: Bool = true) -> Self {
+        self.isEnabled = !disabled
+        return self
+    }
+    
+    @discardableResult
+    func selected(_ selected: Bool) -> Self {
+        self.isSelected = selected
+        return self
+    }
+    
+    @discardableResult
+    func highlighted(_ highlighted: Bool) -> Self {
+        self.isHighlighted = highlighted
+        return self
+    }
+    
+    @discardableResult
+    func contentVerticalAlignment(_ alignment: UIControl.ContentVerticalAlignment) -> Self {
+        self.contentVerticalAlignment = alignment
+        return self
+    }
+    
+    @discardableResult
+    func contentHorizontalAlignment(_ alignment: UIControl.ContentHorizontalAlignment) -> Self {
+        self.contentHorizontalAlignment = alignment
+        return self
+    }
+    
+#if compiler(>=5.3)
+    @available(iOS 14, *)
+    @discardableResult
+    func contextMenuInteractionEnabled(_ enable: Bool) -> Self {
+        self.isContextMenuInteractionEnabled = enable
+        return self
+    }
+    
+    @available(iOS 14, *)
+    @discardableResult
+    func showsMenuAsPrimaryAction(_ shows: Bool) -> Self {
+        self.showsMenuAsPrimaryAction = shows
+        return self
+    }
+    
+#endif
+#if compiler(>=5.5)
+    @available(iOS 15.0, *)
+    @discardableResult
+    func toolTip(_ text: String?) -> Self {
+        self.toolTip = text
+        return self
+    }
+    
+#endif
+    
+//    @discardableResult
+//    func symbolAnimationEnabled(_ enabled: Bool) -> Self {
+//        self.isSymbolAnimationEnabled = enabled
+//        return self
+//    }
+}
+
+public extension UIControl {
+    
     convenience init(_ action: @escaping () -> Void, @SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(content: content, action: action)
     }

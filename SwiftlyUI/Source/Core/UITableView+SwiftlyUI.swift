@@ -10,6 +10,66 @@ import UIKit
 
 public extension UITableView {
     
+    func dequeueCell<T: UITableViewCell>(withCellClass name: T.Type) -> T {
+        guard let cell = dequeueReusableCell(withIdentifier: String(describing: name)) as? T else {
+            fatalError(
+                "SwiftlyUI - Couldn't find UITableViewCell for \(String(describing: name)), make sure the cell is registered with table view")
+        }
+        return cell
+    }
+
+    func dequeueCell<T: UITableViewCell>(withCellClass name: T.Type, for indexPath: IndexPath) -> T {
+        guard let cell = dequeueReusableCell(withIdentifier: String(describing: name), for: indexPath) as? T else {
+            fatalError(
+                "SwiftlyUI - Couldn't find UITableViewCell for \(String(describing: name)), make sure the cell is registered with table view")
+        }
+        return cell
+    }
+    
+    func dequeueView<T: UITableViewHeaderFooterView>(withCellClass name: T.Type) -> T {
+        guard let headerFooterView = dequeueReusableHeaderFooterView(withIdentifier: String(describing: name)) as? T else {
+            fatalError(
+                "SwiftlyUI - Couldn't find UITableViewHeaderFooterView for \(String(describing: name)), make sure the view is registered with table view")
+        }
+        return headerFooterView
+    }
+
+    @discardableResult
+    func registerView<T: UITableViewHeaderFooterView>(headerFooterViewClassWith name: T.Type) -> Self {
+        register(T.self, forHeaderFooterViewReuseIdentifier: String(describing: name))
+        return self
+    }
+
+    @discardableResult
+    func registerCell<T: UITableViewCell>(withCellClass name: T.Type) -> Self {
+        register(T.self, forCellReuseIdentifier: String(describing: name))
+        return self
+    }
+    
+    @discardableResult
+    func registerNib(nib: UINib?, withCellClass name: (some UITableViewCell).Type) -> Self {
+        register(nib, forCellReuseIdentifier: String(describing: name))
+        return self
+    }
+    
+    @discardableResult
+    func registerNib(withCellClass name: (some UITableViewCell).Type, at bundleClass: AnyClass? = nil) -> Self {
+        let identifier = String(describing: name)
+        var bundle: Bundle?
+        if let bundleName = bundleClass {
+            bundle = Bundle(for: bundleName)
+        }
+        register(UINib(nibName: identifier, bundle: bundle), forCellReuseIdentifier: identifier)
+        return self
+    }
+    
+    @discardableResult
+    func registerNib(nib: UINib?, withHeaderFooterViewClass name: (some UITableViewHeaderFooterView).Type) -> Self {
+        register(nib, forHeaderFooterViewReuseIdentifier: String(describing: name))
+        return self
+    }
+    
+    
     @discardableResult
     func dataSource(_ dataSource: UITableViewDataSource?) -> Self {
         self.dataSource = dataSource

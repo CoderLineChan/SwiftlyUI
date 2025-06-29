@@ -47,7 +47,7 @@ public extension UIImageView {
     }
     
     @discardableResult
-    func image(_ image: UIImage, highlightedImage: UIImage? = nil) -> Self {
+    func image(_ image: UIImage?, highlightedImage: UIImage? = nil) -> Self {
         self.image = image
         self.highlightedImage = highlightedImage
         return self
