@@ -10,65 +10,77 @@ import UIKit
 
 // MARK: - basics
 public extension UIButton {
+    
+    /// SwiftlyUI extension for `UIButton`.
     convenience init(_ text: String) {
         self.init()
         self.title(text)
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func font(_ font: UIFont) -> Self {
         self.titleLabel?.font = font
         return self
     }
-       
+    
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func imageName(_ imageName: String, state: UIControl.State = .normal) -> Self {
         self.setImage(UIImage(named: imageName), for: state)
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func image(_ image: UIImage?, state: UIControl.State = .normal) -> Self {
         self.setImage(image, for: state)
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func backgroundImage(_ image: UIImage?, state: UIControl.State = .normal) -> Self {
         self.setBackgroundImage(image, for: state)
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func backgroundImageName(_ imageName: String, state: UIControl.State = .normal) -> Self {
         self.setBackgroundImage(UIImage(named: imageName), for: state)
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func backgroundImage(_ color: UIColor?, state: UIControl.State = .normal) -> Self {
         self.setBackgroundImage(color?.image(), for: state)
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func title(_ title: String, state: UIControl.State = .normal) -> Self {
         self.setTitle(title, for: state)
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func titleColor(_ color: UIColor, state: UIControl.State = .normal) -> Self {
         self.setTitleColor(color, for: state)
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func textColor(_ color: UIColor, state: UIControl.State = .normal) -> Self {
         self.setTitleColor(color, for: state)
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func foregroundColor(_ color: UIColor, state: UIControl.State = .normal) -> Self {
         self.setTitleColor(color, for: state)
@@ -77,8 +89,8 @@ public extension UIButton {
 }
 
 
-// MARK: - ImagePosition
 public extension UIButton {
+    /// SwiftlyUI extension for `UIButton`.
     enum ImagePosition {
         case left
         case right
@@ -86,6 +98,7 @@ public extension UIButton {
         case bottom
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func resetImagePosition(_ position: ImagePosition = .left, withTitleSpacing spacing: CGFloat = 0) -> Self {
         guard let image = imageView?.image else { return self }
@@ -169,16 +182,19 @@ public extension UIButton {
 @available(iOS 15.0, watchOS 8.0, *)
 public extension UIButton {
     
+    /// SwiftlyUI extension for `UIButton`.
     convenience init(configuration: () -> UIButton.Configuration) {
         self.init(configuration: configuration())
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func configuration(_ builder: () -> UIButton.Configuration, state: UIButton.State = .normal) -> Self {
         configuration(builder(), state: state)
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func configuration(_ configuration: UIButton.Configuration, state: UIButton.State = .normal) -> Self {
         stateConfigurations[state.rawValue] = configuration
@@ -190,6 +206,7 @@ public extension UIButton {
         return self
     }
     
+    /// SwiftlyUI extension for `UIButton`.
     @discardableResult
     func configurationUpdateHandler(_ handler: @escaping (UIButton) -> Void) -> Self {
         self.configurationUpdateHandler = handler
@@ -199,6 +216,7 @@ public extension UIButton {
 
 @available(iOS 15.0, watchOS 8.0, *)
 public extension UIButton.Configuration {
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     static func plain(title: String, subtitle: String = "") -> Self {
         var config = UIButton.Configuration.plain()
         config.title = title
@@ -206,6 +224,7 @@ public extension UIButton.Configuration {
         return config
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     static func filled(title: String, subtitle: String = "") -> Self {
         var config = UIButton.Configuration.filled()
         config.title = title
@@ -213,6 +232,7 @@ public extension UIButton.Configuration {
         return config
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func title(_ title: String) -> Self {
         var newConfig = self
@@ -220,6 +240,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func titleTextAttributesTransformer(_ transformer: UIConfigurationTextAttributesTransformer) -> Self {
         var newConfig = self
@@ -227,6 +248,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func attributedTitle(_ title: AttributedString) -> Self {
         var newConfig = self
@@ -234,6 +256,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func attributedTitle(_ title: String, font: UIFont) -> Self {
         var newConfig = self
@@ -243,6 +266,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func attributedSubTitle(_ title: AttributedString) -> Self {
         var newConfig = self
@@ -250,6 +274,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func attributedSubTitle(_ title: String, font: UIFont) -> Self {
         var newConfig = self
@@ -259,7 +284,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
-    
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func subtitle(_ subtitle: String) -> Self {
         var newConfig = self
@@ -267,6 +292,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func subtitleTextAttributesTransformer(_ transformer: UIConfigurationTextAttributesTransformer) -> Self {
         var newConfig = self
@@ -274,7 +300,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
 
-    
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func image(systemName: String) -> Self {
         var newConfig = self
@@ -282,6 +308,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func image(_ image: UIImage) -> Self {
         var newConfig = self
@@ -289,6 +316,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func imagePlacement(_ placement: NSDirectionalRectEdge) -> Self {
         var newConfig = self
@@ -296,6 +324,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func imagePadding(_ padding: CGFloat) -> Self {
         var newConfig = self
@@ -303,6 +332,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func baseForegroundColor(_ color: UIColor) -> Self {
         var newConfig = self
@@ -310,6 +340,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func baseBackgroundColor(_ color: UIColor) -> Self {
         var newConfig = self
@@ -317,6 +348,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func background(_ background: UIBackgroundConfiguration) -> Self {
         var newConfig = self
@@ -324,6 +356,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func background(_ background: () -> UIBackgroundConfiguration) -> Self {
         var newConfig = self
@@ -331,6 +364,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func titlePadding(_ padding: CGFloat) -> Self {
         var newConfig = self
@@ -338,6 +372,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func titleAlignment(_ alignment: UIButton.Configuration.TitleAlignment) -> Self {
         var newConfig = self
@@ -345,6 +380,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func showsActivityIndicator(_ shows: Bool) -> Self {
         var newConfig = self
@@ -352,6 +388,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func activityIndicatorColorTransformer(_ transformer: UIConfigurationColorTransformer) -> Self {
         var newConfig = self
@@ -359,6 +396,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @available(iOS 16.0, watchOS 9.0, *)
     @discardableResult
     func indicator(_ indicator: UIButton.Configuration.Indicator) -> Self {
@@ -367,6 +405,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @available(iOS 16.0, watchOS 9.0, *)
     @discardableResult
     func indicatorColorTransformer(_ transformer: UIConfigurationColorTransformer) -> Self {
@@ -375,6 +414,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func contentInsets(_ insets: NSDirectionalEdgeInsets) -> Self {
         var newConfig = self
@@ -382,6 +422,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func cornerStyle(_ style: UIButton.Configuration.CornerStyle) -> Self {
         var newConfig = self
@@ -389,6 +430,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func automaticallyUpdateForSelection(_ automaticallyUpdate: Bool) -> Self {
         var newConfig = self
@@ -396,6 +438,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func buttonSize(_ size: UIButton.Configuration.Size) -> Self {
         var newConfig = self
@@ -403,6 +446,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func macIdiomStyle(_ style: UIButton.Configuration.MacIdiomStyle) -> Self {
         var newConfig = self
@@ -410,6 +454,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func imageColorTransformer(_ transformer: UIConfigurationColorTransformer) -> Self {
         var newConfig = self
@@ -417,6 +462,7 @@ public extension UIButton.Configuration {
         return newConfig
     }
     
+    /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
     func preferredSymbolConfigurationForImage(_ config: UIImage.SymbolConfiguration) -> Self {
         var newConfig = self

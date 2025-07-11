@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		140E75A42E1CCCD200A0FBB0 /* UISearchBar+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140E75A32E1CCCCB00A0FBB0 /* UISearchBar+SwiftlyUI.swift */; };
 		143107442DEEA1BF00B14C9E /* UIKitPreviewable-SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143107432DEEA1BE00B14C9E /* UIKitPreviewable-SwiftlyUI.swift */; };
 		14B119B92DCDFC5C003856F0 /* CAGradientLayer-SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119B82DCDFC57003856F0 /* CAGradientLayer-SwiftlyUI.swift */; };
 		14B119BB2DCE1195003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */; };
@@ -63,6 +64,7 @@
 		0D8A9647DA1B79D5BC720DA87BEEBE45 /* SwiftlyUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftlyUI.debug.xcconfig; sourceTree = "<group>"; };
 		0EC4971538B4625ECC513743133F50DE /* SwiftlyUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftlyUI.release.xcconfig; sourceTree = "<group>"; };
 		115817B25BDFD24B22CE4CC418688C99 /* UIColor+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIColor+SwiftlyUI.swift"; sourceTree = "<group>"; };
+		140E75A32E1CCCCB00A0FBB0 /* UISearchBar+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		143107432DEEA1BE00B14C9E /* UIKitPreviewable-SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKitPreviewable-SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14B119B82DCDFC57003856F0 /* CAGradientLayer-SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer-SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBackgroundConfiguration+SwiftlyUI.swift"; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				6DC294B8EAB971F7F8722BEC055CFCE0 /* UITextField+SwiftlyUI.swift */,
 				CBAAE4D2B65D842AD6DEF63FEA1B128D /* UITextView+SwiftlyUI.swift */,
 				E7A6F3FE7EBB8918C69CA7F2C918C691 /* UIView+SwiftlyUI.swift */,
+				140E75A32E1CCCCB00A0FBB0 /* UISearchBar+SwiftlyUI.swift */,
 				14C2C6952DF1664F00B658DA /* UIVisualEffectView+SwiftlyUI.swift */,
 			);
 			name = Core;
@@ -434,6 +437,7 @@
 				7F340E15C6E3FA46045C2C11AC2BBBBA /* UIImageView+SwiftlyUI.swift in Sources */,
 				14B119B92DCDFC5C003856F0 /* CAGradientLayer-SwiftlyUI.swift in Sources */,
 				14C2C6882DF13E4600B658DA /* UISegmentedControl+SwiftlyUI.swift in Sources */,
+				140E75A42E1CCCD200A0FBB0 /* UISearchBar+SwiftlyUI.swift in Sources */,
 				14C2C69E2DF169EB00B658DA /* UICollectionViewFlowLayout+SwiftlyUI.swift in Sources */,
 				240F1A3E0B2919B5789E0B2E82C6AC1F /* UILabel+SwiftlyUI.swift in Sources */,
 				D90E4468F7C468DD05452908FB98160C /* UIStackView+SwiftlyUI.swift in Sources */,

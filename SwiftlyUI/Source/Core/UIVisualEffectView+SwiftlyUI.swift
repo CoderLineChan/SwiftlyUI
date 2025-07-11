@@ -9,6 +9,7 @@
 import UIKit
 
 public extension UIVisualEffectView {
+    /// SwiftlyUI extension for `UIVisualEffectView`.
     @discardableResult
     func effect(_ effect: UIVisualEffect?) -> Self {
         self.effect = effect

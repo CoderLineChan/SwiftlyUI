@@ -10,6 +10,7 @@ import UIKit
 
 public extension UIRefreshControl {
     
+    /// SwiftlyUI extension for `UIRefreshControl`.
     @discardableResult
     func attributedTitle(_ title: NSAttributedString?) -> Self {
         self.attributedTitle = title

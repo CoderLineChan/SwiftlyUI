@@ -10,6 +10,8 @@ import UIKit
 
 
 public extension UICollectionViewCell {
+    
+    /// SwiftlyUI extension for `UICollectionViewCell`.
     @discardableResult
     func backgroundView(_ view: UIView?) -> UICollectionViewCell {
         self.backgroundView = view
@@ -17,6 +19,7 @@ public extension UICollectionViewCell {
     }
     
 #if compiler(>=5.3)
+    /// SwiftlyUI extension for `UICollectionViewCell`.
     @available(iOS 14.0, *)
     @discardableResult
     func automaticallyUpdatesContentConfiguration(_ updates: Bool) -> Self {
@@ -24,6 +27,7 @@ public extension UICollectionViewCell {
         return self
     }
     
+    /// SwiftlyUI extension for `UICollectionViewCell`.
     @available(iOS 14.0, *)
     @discardableResult
     func automaticallyUpdatesBackgroundConfiguration(_ updates: Bool) -> Self {
@@ -32,18 +36,21 @@ public extension UICollectionViewCell {
     }
 #endif
     
+    /// SwiftlyUI extension for `UICollectionViewCell`.
     @discardableResult
     func selected(_ selected: Bool) -> Self {
         self.isSelected = selected
         return self
     }
     
+    /// SwiftlyUI extension for `UICollectionViewCell`.
     @discardableResult
     func highlighted(_ highlighted: Bool) -> Self {
         self.isHighlighted = highlighted
         return self
     }
     
+    /// SwiftlyUI extension for `UICollectionViewCell`.
     @discardableResult
     func selectedBackgroundView(_ view: UIView?) -> Self {
         self.selectedBackgroundView = view
@@ -51,6 +58,7 @@ public extension UICollectionViewCell {
     }
     
 #if compiler(>=5.3)
+    /// SwiftlyUI extension for `UICollectionViewCell`.
     @available(iOS 14.0, *)
     @discardableResult
     func contentConfiguration(_ configuration: UIContentConfiguration) -> Self {
@@ -58,6 +66,7 @@ public extension UICollectionViewCell {
         return self
     }
     
+    /// SwiftlyUI extension for `UICollectionViewCell`.
     @available(iOS 14.0, *)
     @discardableResult
     func backgroundConfiguration(_ configuration: UIBackgroundConfiguration?) -> Self {
@@ -66,6 +75,7 @@ public extension UICollectionViewCell {
     }
 #endif
 #if compiler(>=5.5)
+    /// SwiftlyUI extension for `UICollectionViewCell`.
     @available(iOS 15.0, *)
     @discardableResult
     func configurationUpdateHandler(_ handler: UICollectionViewCell.ConfigurationUpdateHandler?) -> Self {

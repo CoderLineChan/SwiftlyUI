@@ -8,6 +8,7 @@
 import UIKit
 
 public extension CAGradientLayer {
+    /// SwiftlyUI - Extension for `CAGradientLayer`. creates a gradient layer with specified colors and direction.
     static func gradient(colors: [UIColor], direction: GradientDirection) -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = colors.map { $0.cgColor }

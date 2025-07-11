@@ -8,6 +8,8 @@
 #if canImport(UIKit)
 import UIKit
 
+/// SwiftlyUI - `ForEach` 用于迭代集合并创建视图。
+/// SwiftlyUI - `ForEach` structure for iterating over collections and creating views.
 public struct ForEach<Data, Content>: SwiftlyUIViewBuildingProtocol where Data: Collection, Content: SwiftlyUIViewBuildingProtocol {
     private let data: Data
     private let content: (Data.Element) -> Content

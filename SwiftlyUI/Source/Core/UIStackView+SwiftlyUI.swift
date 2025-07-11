@@ -10,11 +10,15 @@ import UIKit
 
 #if swift(>=5.5)
 public final class VStackView: UIStackView {
+    /// SwiftlyUI 扩展重写axis方法，限制为垂直方向。
+    /// SwiftlyUI extension overrides the axis method to restrict it to vertical direction.
     public override var axis: NSLayoutConstraint.Axis {
         get { .vertical }
         set { super.axis = .vertical }
     }
     
+    /// SwiftlyUI 扩展，使用@resultBuilder构建垂直堆栈视图。
+    /// SwiftlyUI extension for creating a vertical stack view using a @resultBuilder.
     @discardableResult
     public convenience init(spacing: CGFloat = 0, @SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
@@ -24,6 +28,7 @@ public final class VStackView: UIStackView {
         content().forEach { addArrangedSubview($0) }
     }
     
+    /// SwiftlyUI extension for initializing a vertical stack view with a frame.
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.axis = .vertical
@@ -43,11 +48,15 @@ public final class VStackView: UIStackView {
 }
 
 public final class HStackView: UIStackView {
+    /// SwiftlyUI 扩展重写axis方法，限制为水平方向。
+    /// SwiftlyUI extension overrides the axis method to restrict it to horizontal direction.
     public override var axis: NSLayoutConstraint.Axis {
         get { .horizontal }
         set { super.axis = .horizontal }
     }
     
+    /// SwiftlyUI 扩展，使用@resultBuilder构建水平堆栈视图。
+    /// SwiftlyUI extension for creating a horizontal stack view using a @resultBuilder.
     @discardableResult
     public convenience init(spacing: CGFloat = 0, @SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
@@ -57,6 +66,7 @@ public final class HStackView: UIStackView {
         content().forEach { addArrangedSubview($0) }
     }
     
+    /// SwiftlyUI extension for initializing a horizontal stack view with a frame.
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.axis = .horizontal
@@ -82,6 +92,8 @@ public final class HStackView: UIStackView {
 // MARK: - Layout
 public extension UIStackView {
     
+    /// SwiftlyUI 扩展 重写layoutMargins方法，设置isLayoutMarginsRelativeArrangement。
+    /// SwiftlyUI extension overrides the layoutMargins method to set isLayoutMarginsRelativeArrangement.
     @discardableResult
     override func layoutMargins(_ edge: UIEdgeInsets) -> Self {
         super.layoutMargins(edge)
@@ -89,24 +101,32 @@ public extension UIStackView {
         return self
     }
     
+    /// SwiftlyUI 扩展 设置axis方法。
+    /// SwiftlyUI extension for setting the axis method.
     @discardableResult
     func axis(_ axis: NSLayoutConstraint.Axis) -> Self {
         self.axis = axis
         return self
     }
     
+    /// SwiftlyUI 扩展 设置alignment方法。
+    /// SwiftlyUI extension for setting the alignment method.
     @discardableResult
     func alignment(_ alignment: UIStackView.Alignment) -> Self {
         self.alignment = alignment
         return self
     }
     
+    /// SwiftlyUI 扩展 设置distribution方法。
+    /// SwiftlyUI extension for setting the distribution method.
     @discardableResult
     func distribution(_ distribution: UIStackView.Distribution) -> Self {
         self.distribution = distribution
         return self
     }
     
+    /// SwiftlyUI 扩展 设置spacing方法。
+    /// SwiftlyUI extension for setting the spacing method.
     @discardableResult
     func spacing(_ spacing: CGFloat) -> Self {
         self.spacing = spacing
@@ -116,6 +136,8 @@ public extension UIStackView {
 
 // MARK: - separator
 public extension UIStackView {
+    /// SwiftlyUI 扩展 设置分隔线颜色、大小。
+    /// SwiftlyUI extension for setting the separator color and size.
     @discardableResult
     func separator(color: UIColor, size: CGSize) -> Self {
         separatorColor = color
@@ -125,12 +147,16 @@ public extension UIStackView {
         return self
     }
     
+    /// SwiftlyUI 扩展 设置分隔线圆角。
+    /// SwiftlyUI extension for setting the separator corner radius.
     @discardableResult
     func separator(cornerRadius: CGFloat) -> Self {
         separatorCornerRadius = cornerRadius
         return self
     }
     
+    /// SwiftlyUI 扩展 设置分隔线颜色。
+    /// SwiftlyUI extension for setting the separator color.
     var separatorColor: UIColor {
         get { separatorHelper.color }
         set {
@@ -139,6 +165,8 @@ public extension UIStackView {
         }
     }
     
+    /// SwiftlyUI 扩展 设置分隔线大小。
+    /// SwiftlyUI extension for setting the separator size.
     var separatorSize: CGSize {
         get { separatorHelper.size }
         set {
@@ -147,6 +175,8 @@ public extension UIStackView {
         }
     }
     
+    /// SwiftlyUI 扩展 设置分隔线圆角。
+    /// SwiftlyUI extension for setting the separator corner radius.
     var separatorCornerRadius: CGFloat {
         get { separatorHelper.cornerRadius }
         set {

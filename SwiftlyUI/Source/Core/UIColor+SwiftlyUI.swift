@@ -12,6 +12,7 @@ import UIKit
 
 // MARK: - basics
 public extension UIColor {
+    /// SwiftlyUI extension for `UIColor`.
     convenience init(light: UIColor, dark: UIColor) {
         if #available(iOS 13.0, tvOS 13.0, *) {
             self.init(dynamicProvider: { $0.userInterfaceStyle == .dark ? dark : light })
@@ -20,10 +21,12 @@ public extension UIColor {
         }
     }
     
+    /// SwiftlyUI extension for `UIColor`.
     static func dynamic(light: UIColor, dark: UIColor) -> UIColor {
         return UIColor(light: light, dark: dark)
     }
     
+    /// SwiftlyUI extension for `UIColor`.
     static func color(with hexString: String, alpha: CGFloat = 1.0) -> UIColor {
         let cString: String = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
             .replacingOccurrences(of: "#", with: "")
@@ -45,10 +48,12 @@ public extension UIColor {
         )
     }
     
+    /// SwiftlyUI extension for `UIColor`.
     static func hexColor(_ hexStr: String, alpha: CGFloat = 1.0) -> UIColor {
         return UIColor.color(with: hexStr, alpha: alpha)
     }
     
+    /// SwiftlyUI extension for `UIColor`.
     static func random(_ alpha: CGFloat = 1.0) -> UIColor {
         let r: CGFloat = CGFloat(arc4random_uniform(256)) / 255.0
         let g: CGFloat = CGFloat(arc4random_uniform(256)) / 255.0
@@ -56,6 +61,7 @@ public extension UIColor {
         return UIColor(red: r, green: g, blue: b, alpha: alpha)
     }
     
+    /// SwiftlyUI extension for `UIColor`.
     func image(withSize size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
         let format = UIGraphicsImageRendererFormat()
         format.scale = 1
@@ -67,6 +73,7 @@ public extension UIColor {
         }
     }
     
+    /// SwiftlyUI extension for `UIColor`.
     func opacity(_ value: CGFloat) -> UIColor {
         let alpha = max(0, min(value, 1))
         return withAlphaComponent(alpha)

@@ -10,6 +10,7 @@ import UIKit
 
 // MARK: - Layout
 public extension UITextField {
+    /// SwiftlyUI override for `UITextField` to set layout margins.
     @discardableResult
     override func layoutMargins(_ edge: UIEdgeInsets) -> Self {
         super.layoutMargins(edge)
@@ -22,22 +23,26 @@ public extension UITextField {
 // MARK: - basics
 public extension UITextField {
     
+    /// SwiftlyUI extension for `UITextField`.
     convenience init(_ placeholder: String) {
         self.init()
         self.placeholder = placeholder
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     convenience init(customPlaceholder placeholder: String, color: UIColor? = nil) {
         self.init()
         self.placeholder(placeholder, color: color)
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func attributedPlaceholder(_ attributedText: NSAttributedString) -> Self {
         self.attributedPlaceholder = attributedText
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func placeholder(_ text: String, color: UIColor? = nil) -> Self {
         let attributedPlaceholder = NSAttributedString(string: text, attributes: [
@@ -48,6 +53,7 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func placeholderColor(_ color: UIColor? = nil) -> Self {
         let attributedPlaceholder = self.attributedPlaceholder ?? NSAttributedString(string: self.placeholder ?? "", attributes: [
@@ -58,6 +64,7 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func placeholder(customPlaceholder text: String, color: UIColor? = nil) -> Self {
         let placeholderLabel = getOrCreatePlaceholderLabel()
@@ -67,6 +74,7 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func placeholderColor(customPlaceholder color: UIColor? = nil) -> Self {
         let placeholderLabel = getOrCreatePlaceholderLabel()
@@ -75,12 +83,70 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
+    @discardableResult
+    func clearButtonMode(_ mode: UITextField.ViewMode) -> Self {
+        self.clearButtonMode = mode
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextField`.
+    @discardableResult
+    func leftViewMode(_ mode: UITextField.ViewMode) -> Self {
+        self.leftViewMode = mode
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextField`.
+    @discardableResult
+    func leftView(_ view: UIView?) -> Self {
+        self.leftView = view
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextField`.
+    @discardableResult
+    func rightViewMode(_ mode: UITextField.ViewMode) -> Self {
+        self.rightViewMode = mode
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextField`.
+    @discardableResult
+    func rightView(_ view: UIView?) -> Self {
+        self.rightView = view
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextField`.
+    @discardableResult
+    func inputView(_ view: UIView?) -> Self {
+        self.inputView = view
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextField`.
+    @discardableResult
+    func inputAccessoryView(_ view: UIView?) -> Self {
+        self.inputAccessoryView = view
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextField`.
+    @discardableResult
+    func clearsOnInsertion(_ clears: Bool) -> Self {
+        self.clearsOnInsertion = clears
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func cursorColor(_ color: UIColor) -> Self {
         tintColor = color
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func font(_ font: UIFont) -> Self {
         self.font = font
@@ -88,18 +154,21 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func textColor(_ color: UIColor) -> Self {
         self.textColor = color
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func foregroundColor(_ color: UIColor) -> Self {
         self.textColor = color
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func text(_ text: String) -> Self {
         self.text = text
@@ -107,6 +176,7 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func alignment(_ alignment: NSTextAlignment) -> Self {
         self.textAlignment = alignment
@@ -114,66 +184,85 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
+    @discardableResult
+    func textAlignment(_ alignment: NSTextAlignment) -> Self {
+        self.textAlignment = alignment
+        placeholderLabel?.textAlignment = alignment
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func keyboardType(_ type: UIKeyboardType) -> Self {
         self.keyboardType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func isSecure(_ isSecure: Bool) -> Self {
         self.isSecureTextEntry = isSecure
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func secureTextEntry(_ isSecure: Bool) -> Self {
         self.isSecureTextEntry = isSecure
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func maxLength(_ length: Int) -> Self {
         objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, length, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func sizeToFitWidth() -> Self {
         self.adjustsFontSizeToFitWidth = true
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func adjustsFontSizeToFitWidth(_ adjusts: Bool) -> Self {
         self.adjustsFontSizeToFitWidth = adjusts
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func minimumFontSize(_ size: CGFloat) -> Self {
         self.minimumFontSize = size
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func clearOnBeginEditing(_ clear: Bool = true) -> Self {
         self.clearsOnBeginEditing = clear
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func borderStyle(_ style: UITextField.BorderStyle) -> Self {
         self.borderStyle = style
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func delegate(_ delegate: UITextFieldDelegate?) -> Self {
         self.delegate = delegate
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func attributedText(_ attributedText: NSAttributedString) -> Self {
         self.attributedText = attributedText
@@ -181,72 +270,95 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func defaultTextAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
         self.defaultTextAttributes = attributes
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func background(_ image: UIImage?) -> Self {
         self.background = image
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func disabledBackground(_ image: UIImage?) -> Self {
         self.disabledBackground = image
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func allowsEditingTextAttributes(_ allows: Bool) -> Self {
         self.allowsEditingTextAttributes = allows
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func typingAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
         self.typingAttributes = attributes
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func autocapitalizationType(_ type: UITextAutocapitalizationType) -> Self {
         self.autocapitalizationType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func autocorrectionType(_ type: UITextAutocorrectionType) -> Self {
         self.autocorrectionType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func spellCheckingType(_ type: UITextSpellCheckingType) -> Self {
         self.spellCheckingType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func smartQuotesType(_ type: UITextSmartQuotesType) -> Self {
         self.smartQuotesType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func smartDashesType(_ type: UITextSmartDashesType) -> Self {
         self.smartDashesType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func smartInsertDeleteType(_ type: UITextSmartInsertDeleteType) -> Self {
         self.smartInsertDeleteType = type
         return self
     }
+    
+#if compiler(>=5.5)
+    /// SwiftlyUI extension for `UITextField`.
+    @available(iOS 15.0, *)
+    @discardableResult
+    func interactionState(_ state: Any) -> Self {
+        self.interactionState = state
+        return self
+    }
+#endif
+    
 #if compiler(>=5.9)
+    /// SwiftlyUI extension for `UITextField`.
     @available(iOS 17.0, *)
     @discardableResult
     func inlinePredictionType(_ type: UITextInlinePredictionType) -> Self {
@@ -255,18 +367,22 @@ public extension UITextField {
     }
 #endif
 #if compiler(>=6.0)
+    /// SwiftlyUI extension for `UITextField`.
     @available(iOS 18.0, *)
     @discardableResult
     func mathExpressionCompletionType(_ type: UITextMathExpressionCompletionType) -> Self {
         self.mathExpressionCompletionType = type
         return self
     }
+    
+    /// SwiftlyUI extension for `UITextField`.
     @available(iOS 18.0, *)
     @discardableResult
     func writingToolsBehavior(_ behavior: UIWritingToolsBehavior) -> Self {
         self.writingToolsBehavior = behavior
         return self
     }
+    /// SwiftlyUI extension for `UITextField`.
     @available(iOS 18.0, *)
     @discardableResult
     func allowedWritingToolsResultOptions(_ options: UIWritingToolsResultOptions) -> Self {
@@ -274,24 +390,28 @@ public extension UITextField {
         return self
     }
 #endif
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func keyboardAppearance(_ appearance: UIKeyboardAppearance) -> Self {
         self.keyboardAppearance = appearance
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func returnKeyType(_ type: UIReturnKeyType) -> Self {
         self.returnKeyType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func textContentType(_ type: UITextContentType) -> Self {
         self.textContentType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
     @discardableResult
     func passwordRules(_ rules: UITextInputPasswordRules?) -> Self {
         self.passwordRules = rules
@@ -302,6 +422,8 @@ public extension UITextField {
 
 // MARK: - Action
 public extension UITextField {
+    /// SwiftlyUI extension for `UITextField`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @MainActor
     @discardableResult
     func onTextChange(_ action: @escaping (String) -> Void) -> Self {
@@ -310,6 +432,8 @@ public extension UITextField {
         }
     }
     
+    /// SwiftlyUI extension for `UITextField`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onTextChange(_ action: @escaping (UITextField) -> Void) -> Self {
         textChangeObserver()
@@ -317,6 +441,8 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onBeginEditing(_ action: @escaping (UITextField) -> Void) -> Self {
         textFieldDidBeginEditingObserver()
@@ -324,6 +450,8 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onBeginEditing(_ action: @escaping () -> Void) -> Self {
         return onBeginEditing { _ in
@@ -331,6 +459,8 @@ public extension UITextField {
         }
     }
     
+    /// SwiftlyUI extension for `UITextField`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onEndEditing(_ action: @escaping (UITextField) -> Void) -> Self {
         textFieldDidEndEditingObserver()
@@ -338,6 +468,8 @@ public extension UITextField {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextField`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onEndEditing(_ action: @escaping () -> Void) -> Self {
         return onEndEditing { _ in

@@ -10,6 +10,7 @@ import UIKit
 
 // MARK: - Layout
 public extension UITextView {
+    /// SwiftlyUI override for `UITextView` to set layout margins.
     @discardableResult
     override func layoutMargins(_ edge: UIEdgeInsets) -> Self {
         super.layoutMargins(edge)
@@ -20,42 +21,55 @@ public extension UITextView {
 
 // MARK: - basics
 public extension UITextView {
-    
+    /// SwiftlyUI extension for `UITextView`.
     convenience init(_ placeholder: String) {
         self.init()
         self.placeholder(placeholder, color: nil)
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func font(_ font: UIFont) -> Self {
         self.font = font
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func textColor(_ color: UIColor) -> Self {
         self.textColor = color
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func text(_ text: String) -> Self {
         self.text = text
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func foregroundColor(_ color: UIColor) -> Self {
         self.textColor = color
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func alignment(_ alignment: NSTextAlignment) -> Self {
         self.textAlignment = alignment
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
+    @discardableResult
+    func textAlignment(_ alignment: NSTextAlignment) -> Self {
+        self.textAlignment = alignment
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func placeholder(_ text: String, color: UIColor? = nil) -> Self {
         let placeholderLabel = getOrCreatePlaceholderLabel()
@@ -65,6 +79,7 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func placeholderColor(_ color: UIColor? = nil) -> Self {
         let placeholderLabel = getOrCreatePlaceholderLabel()
@@ -73,174 +88,203 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func editable(_ isEditable: Bool) -> Self {
         self.isEditable = isEditable
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func selectable(_ isSelectable: Bool) -> Self {
         self.isSelectable = isSelectable
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func keyboardType(_ type: UIKeyboardType) -> Self {
         self.keyboardType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func keyboardAppearance(_ appearance: UIKeyboardAppearance) -> Self {
         self.keyboardAppearance = appearance
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func autocapitalizationType(_ type: UITextAutocapitalizationType) -> Self {
         self.autocapitalizationType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func autocorrectionType(_ type: UITextAutocorrectionType) -> Self {
         self.autocorrectionType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func spellCheckingType(_ type: UITextSpellCheckingType) -> Self {
         self.spellCheckingType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func smartQuotesType(_ type: UITextSmartQuotesType) -> Self {
         self.smartQuotesType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func smartDashesType(_ type: UITextSmartDashesType) -> Self {
         self.smartDashesType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func smartInsertDeleteType(_ type: UITextSmartInsertDeleteType) -> Self {
         self.smartInsertDeleteType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func isSecure(_ isSecure: Bool) -> Self {
         self.isSecureTextEntry = isSecure
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func maxLength(_ length: Int) -> Self {
         objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, length, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func delegate(_ delegate: UITextViewDelegate?) -> Self {
         self.delegate = delegate
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func selectedRange(_ range: NSRange) -> Self {
         self.selectedRange = range
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func dataDetectorTypes(_ types: UIDataDetectorTypes) -> Self {
         self.dataDetectorTypes = types
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func allowsEditingTextAttributes(_ allows: Bool) -> Self {
         self.allowsEditingTextAttributes = allows
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func attributedText(_ attributedText: NSAttributedString) -> Self {
         self.attributedText = attributedText
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func typingAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
         self.typingAttributes = attributes
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func inputView(_ view: UIView?) -> Self {
         self.inputView = view
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func inputAccessoryView(_ view: UIView?) -> Self {
         self.inputAccessoryView = view
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func clearsOnInsertion(_ clears: Bool) -> Self {
         self.clearsOnInsertion = clears
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func textContainerInset(_ inset: UIEdgeInsets) -> Self {
         self.textContainerInset = inset
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func linkTextAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
         self.linkTextAttributes = attributes
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func usesStandardTextScaling(_ uses: Bool) -> Self {
         self.usesStandardTextScaling = uses
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func returnKeyType(_ type: UIReturnKeyType) -> Self {
         self.returnKeyType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func enablesReturnKeyAutomatically(_ enables: Bool) -> Self {
         self.enablesReturnKeyAutomatically = enables
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func secureTextEntry(_ isSecure: Bool) -> Self {
         self.isSecureTextEntry = isSecure
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func textContentType(_ type: UITextContentType) -> Self {
         self.textContentType = type
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @discardableResult
     func passwordRules(_ rules: UITextInputPasswordRules?) -> Self {
         self.passwordRules = rules
@@ -248,6 +292,7 @@ public extension UITextView {
     }
     
 #if compiler(>=5.5)
+    /// SwiftlyUI extension for `UITextView`.
     @available(iOS 15.0, *)
     @discardableResult
     func interactionState(_ state: Any) -> Self {
@@ -257,6 +302,7 @@ public extension UITextView {
 #endif
     
 #if compiler(>=5.7)
+    /// SwiftlyUI extension for `UITextView`.
     @available(iOS 16.0, *)
     @discardableResult
     func findInteractionEnabled(_ enabled: Bool) -> Self {
@@ -266,6 +312,7 @@ public extension UITextView {
 #endif
     
 #if compiler(>=5.9)
+    /// SwiftlyUI extension for `UITextView`.
     @available(iOS 17.0, *)
     @discardableResult
     func borderStyle(_ style: UITextView.BorderStyle) -> Self {
@@ -273,6 +320,7 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @available(iOS 17.0, *)
     @discardableResult
     func inlinePredictionType(_ type: UITextInlinePredictionType) -> Self {
@@ -282,6 +330,7 @@ public extension UITextView {
 #endif
     
 #if compiler(>=6.0)
+    /// SwiftlyUI extension for `UITextView`.
     @available(iOS 18.0, *)
     @discardableResult
     func textHighlightAttributes(_ attributes: [NSAttributedString.Key: Any]) -> Self {
@@ -289,6 +338,7 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @available(iOS 18.0, *)
     @discardableResult
     func writingToolsBehavior(_ behavior: UIWritingToolsBehavior) -> Self {
@@ -296,6 +346,7 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @available(iOS 18.0, *)
     @discardableResult
     func allowedWritingToolsResultOptions(_ options: UIWritingToolsResultOptions) -> Self {
@@ -303,6 +354,7 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @available(iOS 18.0, *)
     @discardableResult
     func textFormattingConfiguration(_ configuration: UITextFormattingViewController.Configuration?) -> Self {
@@ -310,6 +362,7 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
     @available(iOS 18.0, *)
     @discardableResult
     func mathExpressionCompletionType(_ type: UITextMathExpressionCompletionType) -> Self {
@@ -328,6 +381,8 @@ public extension UITextView {
 
 // MARK: - Action
 public extension UITextView {
+    /// SwiftlyUI extension for `UITextView`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onTextChange(_ action: @escaping (String) -> Void) -> Self {
         onTextChange { textView in
@@ -336,6 +391,8 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onTextChange(_ action: @escaping (UITextView) -> Void) -> Self {
         objc_setAssociatedObject(self, &AssociatedKeys.textDidChangeKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -343,6 +400,8 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onBeginEditing(_ action: @escaping () -> Void) -> Self {
         onBeginEditing { _ in
@@ -351,6 +410,8 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onBeginEditing(_ action: @escaping (UITextView) -> Void) -> Self {
         objc_setAssociatedObject(self, &AssociatedKeys.textDidBeginEditingKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
@@ -358,6 +419,8 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onEndEditing(_ action: @escaping () -> Void) -> Self {
         onEndEditing { _ in
@@ -366,6 +429,8 @@ public extension UITextView {
         return self
     }
     
+    /// SwiftlyUI extension for `UITextView`.
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     @discardableResult
     func onEndEditing(_ action: @escaping (UITextView) -> Void) -> Self {
         objc_setAssociatedObject(self, &AssociatedKeys.textDidEndEditingKey, action, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

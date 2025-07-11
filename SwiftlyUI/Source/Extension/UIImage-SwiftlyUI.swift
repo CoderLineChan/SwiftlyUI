@@ -9,6 +9,8 @@ import UIKit
 
 // MARK: - gradient Image from colors
 public extension UIImage {
+    /// SwiftlyUI - 扩展 `UIImage`，用于从颜色数组创建渐变图像。
+    /// SwiftlyUI - extension for `UIImage` to create a gradient image from an array of colors.
     static func gradient(colors: [UIColor], direction: GradientDirection, size: CGSize) -> UIImage? {
         guard !colors.isEmpty, size.width > 0, size.height > 0 else {
             return nil

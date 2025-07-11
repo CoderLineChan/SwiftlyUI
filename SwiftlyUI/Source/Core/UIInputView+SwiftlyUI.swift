@@ -9,6 +9,7 @@
 import UIKit
 
 public extension UIInputView {
+    /// SwiftlyUI extension for `UIInputView`.
     @discardableResult
     func allowsSelfSizing(_ allows: Bool) -> Self {
         self.allowsSelfSizing = allows

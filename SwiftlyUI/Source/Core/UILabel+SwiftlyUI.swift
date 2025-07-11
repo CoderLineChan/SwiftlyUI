@@ -8,13 +8,15 @@
 #if canImport(UIKit)
 import UIKit
 
-
+/// SwiftlyUI extension for `UILabel`.
 public final class Label: UILabel {
     
+    /// SwiftlyUI override - The layout margins for the label.
     public override func drawText(in rect: CGRect) {
         super.drawText(in: rect.inset(by: layoutMargins))
     }
     
+    /// SwiftlyUI override - The layout margins for the label.
     public override var intrinsicContentSize: CGSize {
         let size = super.intrinsicContentSize
         return CGSize(
@@ -27,71 +29,83 @@ public final class Label: UILabel {
 // MARK: - basics
 public extension UILabel {
     
+    /// SwiftlyUI extension for `UILabel`.
     convenience init(_ text: String) {
         self.init()
         self.text = text
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func font(_ font: UIFont) -> Self {
         self.font = font
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func textColor(_ color: UIColor) -> Self {
         self.textColor = color
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func foregroundColor(_ color: UIColor) -> Self {
         self.textColor = color
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func numberOfLines(_ lines: Int) -> Self {
         self.numberOfLines = lines
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func text(_ text: String?) -> Self {
         self.text = text
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func alignment(_ alignment: NSTextAlignment) -> Self {
         self.textAlignment = alignment
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func textAlignment(_ alignment: NSTextAlignment) -> Self {
         self.textAlignment = alignment
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func lineBreak(_ mode: NSLineBreakMode) -> Self {
         self.lineBreakMode = mode
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func sizeToFitWidth() -> Self {
         self.adjustsFontSizeToFitWidth = true
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func minimumScale(_ factor: CGFloat) -> Self {
         self.minimumScaleFactor = factor
         return self
     }
     
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func lineSpacing(_ spacing: CGFloat, wordSpacing: CGFloat = 0) -> Self {
         if let text = self.text {

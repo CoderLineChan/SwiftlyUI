@@ -10,31 +10,32 @@ import UIKit
 
 // MARK: - basics
 public extension UIView {
+    /// SwiftlyUI extension for `UIView`.
     var height: CGFloat {
         get { return frame.size.height }
         set { frame.size.height = newValue }
     }
-    
+    /// SwiftlyUI extension for `UIView`.
     var width: CGFloat {
         get { return frame.size.width }
         set { frame.size.width = newValue }
     }
-    
+    /// SwiftlyUI extension for `UIView`.
     var x: CGFloat {
         get { return frame.origin.x }
         set { frame.origin.x = newValue }
     }
-    
+    /// SwiftlyUI extension for `UIView`.
     var y: CGFloat {
         get { return frame.origin.y }
         set { frame.origin.y = newValue }
     }
-    
+    /// SwiftlyUI extension for `UIView`.
     var size: CGSize {
         get { return frame.size }
         set { frame.size = newValue }
     }
-    
+    /// SwiftlyUI extension for `UIView`.
     var origin: CGPoint {
         get { return frame.origin }
         set { frame.origin = newValue }
@@ -43,30 +44,35 @@ public extension UIView {
 
 private let backgroundViewTag: Int = 98367682
 private let defaultPadding: CGFloat = 16
+private let overlayViewTag: Int = 92387682
 public extension UIView {
-    
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func padding(_ margin: CGFloat? = nil) -> Self {
         padding(.all, margin ?? defaultPadding)
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func padding(_ edge: EdgeSet = .all, _ length: CGFloat? = nil) -> Self {
         layoutMargins(edge, length)
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func padding(_ edge: UIEdgeInsets) -> Self {
         return layoutMargins(edge)
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func layoutMargins(_ margin: CGFloat? = nil) -> Self {
         return layoutMargins(.all, margin ?? defaultPadding)
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     @objc func layoutMargins(_ edge: UIEdgeInsets) -> Self {
         translatesAutoresizingMaskIntoConstraints = false
@@ -74,6 +80,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func layoutMargins(_ edge: EdgeSet = .all, _ length: CGFloat? = nil) -> Self {
         let margin = length ?? defaultPadding
@@ -86,6 +93,7 @@ public extension UIView {
         return layoutMargins(insets)
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func border(_ color: UIColor, _ width: CGFloat = 1) -> Self {
         self.layer.borderColor = color.cgColor
@@ -93,66 +101,77 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func borderColor(_ color: UIColor) -> Self {
         self.layer.borderColor = color.cgColor
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func borderWidth(_ width: CGFloat) -> Self {
         self.layer.borderWidth = width
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func clipsToBounds(_ isEnabled: Bool = true) -> Self {
         self.clipsToBounds = isEnabled
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func opaque(_ isEnabled: Bool = true) -> Self {
         self.isOpaque = isEnabled
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func clearsContextBeforeDrawing(_ isEnabled: Bool = true) -> Self {
         self.clearsContextBeforeDrawing = isEnabled
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func contentMode(_ mode: UIView.ContentMode) -> Self {
         self.contentMode = mode
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func mask(_ mask: UIView) -> Self {
         self.mask = mask
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func tintColor(_ color: UIColor) -> Self {
         self.tintColor = color
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func tintAdjustmentMode(_ mode: UIView.TintAdjustmentMode) -> Self {
         self.tintAdjustmentMode = mode
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func cornerRadius(_ radius: CGFloat) -> Self {
         self.layer.cornerRadius = radius
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func radius(_ radius: CGFloat, corners: UIRectCorner = .allCorners) -> Self {
         if corners == .allCorners {
@@ -164,6 +183,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func layerCornerRadius(_ radius: CGFloat) -> Self {
         self.layer.cornerRadius = radius
@@ -171,12 +191,14 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func masksToBounds(_ isEnabled: Bool = true) -> Self {
         self.layer.masksToBounds = isEnabled
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func roundCorners(_ radius: CGFloat, corners: UIRectCorner) -> Self {
         if self.bounds == .zero {
@@ -191,12 +213,14 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func backgroundColor(_ color: UIColor) -> Self {
         self.backgroundColor = color
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func backgroundView(_ view: @escaping () -> UIView?) -> Self {
         subviews.forEach({ if $0.tag == backgroundViewTag { $0.removeFromSuperview() } })
@@ -209,6 +233,8 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
+    /// 在View的底部（背景）添加View
     @discardableResult
     func background(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
         subviews.forEach({ if $0.tag == backgroundViewTag { $0.removeFromSuperview() } })
@@ -222,6 +248,22 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
+    /// 在View的顶部（上面）覆盖View
+    @discardableResult
+    func overlay(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
+        subviews.forEach({ if $0.tag == overlayViewTag { $0.removeFromSuperview() } })
+        let subviews = content()
+        userInteractionEnabled(true)
+        subviews.forEach { sub in
+            sub.tag = overlayViewTag
+            addSubview(sub)
+            sub.fillSuper()
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func shadow(
         color: UIColor = .black,
@@ -236,54 +278,63 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func opacity(_ value: CGFloat) -> Self {
         self.alpha = value
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func alpha(_ value: CGFloat) -> Self {
         self.alpha = value
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func hidden(_ isHidden: Bool = true) -> Self {
         self.isHidden = isHidden
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func userInteractionEnabled(_ isEnabled : Bool = true) -> Self {
         self.isUserInteractionEnabled = isEnabled
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func tag(_ tag: Int) -> Self {
         self.tag = tag
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func contentHuggingPriority(_ priority: UILayoutPriority, for axis: NSLayoutConstraint.Axis) -> Self {
         self.setContentHuggingPriority(priority, for: axis)
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func contentCompressionResistancePriority(_ priority: UILayoutPriority, for axis: NSLayoutConstraint.Axis) -> Self {
         self.setContentCompressionResistancePriority(priority, for: axis)
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func semanticContentAttribute(_ attribute: UISemanticContentAttribute) -> Self {
         self.semanticContentAttribute = attribute
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func scaleEffect(_ scale: CGFloat, anchor: UnitPoint = .center) -> Self {
         if anchor != .center {
@@ -295,78 +346,91 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func transform(_ transform: CGAffineTransform) -> Self {
         self.transform = transform
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func transform3D(_ transform: CATransform3D) -> Self {
         self.transform3D = transform
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func contentScaleFactor(_ scale: CGFloat) -> Self {
         self.contentScaleFactor = scale
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func multipleTouchEnabled(_ isEnabled: Bool = true) -> Self {
         self.isMultipleTouchEnabled = isEnabled
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func exclusiveTouch(_ isExclusive: Bool = true) -> Self {
         self.isExclusiveTouch = isExclusive
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func autoresizesSubviews(_ isEnabled: Bool = true) -> Self {
         self.autoresizesSubviews = isEnabled
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func autoresizingMask(_ mask: UIView.AutoresizingMask) -> Self {
         self.autoresizingMask = mask
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func gestureRecognizers(_ recognizers: [UIGestureRecognizer]?) -> Self {
         self.gestureRecognizers = recognizers
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func motionEffects(_ effects: [UIMotionEffect]) -> Self {
         self.motionEffects = effects
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func translatesAutoresizingMaskIntoConstraints(_ isEnabled: Bool = false) -> Self {
         self.translatesAutoresizingMaskIntoConstraints = isEnabled
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func restorationIdentifier(_ identifier: String?) -> Self {
         self.restorationIdentifier = identifier
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @discardableResult
     func overrideUserInterfaceStyle(_ style: UIUserInterfaceStyle) -> Self {
         self.overrideUserInterfaceStyle = style
         return self
     }
 #if compiler(>=5.7)
+    /// SwiftlyUI extension for `UIView`.
     @available(iOS 16.0, *)
     @discardableResult
     func anchorPoint(_ point: CGPoint) -> Self {
@@ -375,6 +439,7 @@ public extension UIView {
     }
 #endif
 #if compiler(>=5.5)
+    /// SwiftlyUI extension for `UIView`.
     @available(iOS 15.0, *)
     @discardableResult
     func minimumContentSizeCategory(_ category: UIContentSizeCategory?) -> Self {
@@ -382,6 +447,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @available(iOS 15.0, *)
     @discardableResult
     func maximumContentSizeCategory(_ category: UIContentSizeCategory?) -> Self {
@@ -389,6 +455,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @available(iOS 15, *)
     @discardableResult
     func focusGroupPriority(_ priority: UIFocusGroupPriority) -> Self {
@@ -396,6 +463,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
     @available(iOS 15, *)
     @discardableResult
     func focusEffect(_ effect: UIFocusEffect?) -> Self {
@@ -404,6 +472,7 @@ public extension UIView {
     }
 #endif
 #if compiler(>=5.3)
+    /// SwiftlyUI extension for `UIView`.
     @available(iOS 14, *)
     @discardableResult
     func focusGroupIdentifier(_ identifier: String) -> Self {
@@ -412,8 +481,9 @@ public extension UIView {
     }
 #endif
 }
-
+/// SwiftlyUI extension for `UIView`.
 public final class ZStackView: UIView {
+    /// SwiftlyUI extension for `UIView`.
     public convenience init(@SwiftlyUIBuilder content: () -> [UIView]) {
         self.init(frame: .zero)
         let views = content()
@@ -433,6 +503,7 @@ public final class ZStackView: UIView {
 // MARK: - Layout
 public extension UIView {
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     var left: Self {
         var types = constraintTypes
         if let index = types.firstIndex(of: .left) {
@@ -446,6 +517,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     var right: Self {
         var types = constraintTypes
         if let index = types.firstIndex(of: .right) {
@@ -459,6 +531,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     var leading: Self {
         var types = constraintTypes
         if let index = types.firstIndex(of: .leading) {
@@ -472,6 +545,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     var trailing: Self {
         var types = constraintTypes
         if let index = types.firstIndex(of: .trailing) {
@@ -485,6 +559,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     var top: Self {
         var types = constraintTypes
         if let index = types.firstIndex(of: .top) {
@@ -495,6 +570,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     var bottom: Self {
         var types = constraintTypes
         if let index = types.firstIndex(of: .bottom) {
@@ -505,6 +581,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     var centerX: Self {
         var types = constraintTypes
         if let index = types.firstIndex(of: .centerX) {
@@ -515,6 +592,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     var centerY: Self {
         var types = constraintTypes
         if let index = types.firstIndex(of: .centerY) {
@@ -525,6 +603,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     var edges: Self {
         var types: [ConstraintType] = []
         types.append(.top)
@@ -535,6 +614,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func equalToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         let types = constraintTypes
@@ -568,6 +648,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func equal(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         let types = constraintTypes
@@ -604,6 +685,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func fillSuper(edge: UIEdgeInsets = .zero) -> Self {
         leftToSuper(isMargins: false, offset: edge.left)
@@ -613,6 +695,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func fillSuperMargins(edge: UIEdgeInsets = .zero) -> Self {
         leftToSuper(isMargins: true, offset: edge.left)
@@ -622,12 +705,14 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func fill(toMargins view: UIView, edge: UIEdgeInsets = .zero) -> Self {
         fill(to: view, isMargins: true, edge: edge)
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func fill(to view: UIView, isMargins: Bool = false, edge: UIEdgeInsets = .zero) -> Self {
         leading(to: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: edge.left)
@@ -637,6 +722,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func frame(
         width: CGFloat? = nil,
@@ -661,6 +747,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func frame(size: CGSize) -> Self {
         handleDimensionConstraints(
@@ -679,6 +766,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func centerToSuper() -> Self {
         if !constraintTypes.isEmpty {
@@ -705,6 +793,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func center(to view: UIView) -> Self {
         if !constraintTypes.isEmpty {
@@ -731,6 +820,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func topToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -751,6 +841,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func top(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -764,6 +855,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func top(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -781,6 +873,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func top(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -798,6 +891,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func top(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -811,6 +905,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func top(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -828,6 +923,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func top(lessThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -841,6 +937,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func leftToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -861,6 +958,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func left(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -874,6 +972,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func left(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -891,6 +990,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func left(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -908,6 +1008,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func left(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -921,6 +1022,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func left(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -938,6 +1040,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func left(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -951,6 +1054,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func leadingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -971,6 +1075,7 @@ public extension UIView {
         return self
     }
         
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func leading(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -984,6 +1089,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func leading(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1001,6 +1107,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func leading(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1018,6 +1125,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func leading(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1031,6 +1139,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func leading(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1048,6 +1157,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func leading(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1061,6 +1171,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func bottomToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1081,6 +1192,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func bottom(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1094,6 +1206,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func bottom(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1111,6 +1224,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func bottom(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1128,6 +1242,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func bottom(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1141,6 +1256,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func bottom(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1158,6 +1274,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func bottom(lessThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1171,6 +1288,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func rightToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1191,6 +1309,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func right(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1204,6 +1323,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func right(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1221,6 +1341,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func right(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1238,6 +1359,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func right(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1251,6 +1373,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func right(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1268,6 +1391,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func right(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1281,6 +1405,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func trailingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1301,6 +1426,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func trailing(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1314,6 +1440,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func trailing(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1331,6 +1458,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func trailing(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1348,6 +1476,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func trailing(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1361,6 +1490,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func trailing(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1378,6 +1508,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func trailing(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1391,6 +1522,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func widthToSuper(multiplier: CGFloat = 1) -> Self {
         if let superview = superview {
@@ -1407,6 +1539,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func width(_ value: CGFloat) -> Self {
         addNewConstraint(
@@ -1416,12 +1549,14 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func width(_ value: Int) -> Self {
         width(CGFloat(value))
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func width(to anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
         let config = ConstraintConfig(type: .width, targetType: .other, offset: 0, multiplier: multiplier, Dimension: anchor)
@@ -1431,6 +1566,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func width(to view: UIView, multiplier: CGFloat = 1) -> Self {
         if view == superview {
@@ -1444,6 +1580,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func heightToSuper(multiplier: CGFloat = 1) -> Self {
         if let superview = superview {
@@ -1460,6 +1597,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func height(_ value: CGFloat) -> Self {
         addNewConstraint(
@@ -1469,12 +1607,14 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func height(_ value: Int) -> Self {
         height(CGFloat(value))
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func height(to anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
         let config = ConstraintConfig(type: .height, targetType: .other, offset: 0, Dimension: anchor)
@@ -1484,6 +1624,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func height(to view: UIView, multiplier: CGFloat = 1) -> Self {
         if view == superview {
@@ -1497,6 +1638,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func centerXToSuper(offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1517,6 +1659,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func centerX(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1530,6 +1673,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func centerX(to view: UIView, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1547,6 +1691,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func centerYToSuper(offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1567,6 +1712,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func centerY(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1580,6 +1726,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func centerY(to view: UIView, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1597,11 +1744,13 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     /// Returns the constraint for the specified type
     func constraint(_ constraintType: ConstraintType) -> NSLayoutConstraint? {
         return constraintHolder.constraints[constraintType]
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     /// removes the constraint for the specified type
     func removeConstraint(_ constraintType: ConstraintType) {
         if let constraint = constraintHolder.constraints[constraintType] {
@@ -1613,6 +1762,7 @@ public extension UIView {
         }
     }
     
+    /// SwiftlyUI extension for `UIView`. Set Layout
     /// Manually activate constraints
     @discardableResult
     func activeConstraints(_ activeSubViews: Bool = false) -> Self {
@@ -2039,6 +2189,7 @@ extension UIView {
 }
 
 // MARK: - Animation
+/// SwiftlyUI extension for `UIView`. Animation
 @MainActor
 public func withAnimation(
     _ animation: UIKitAnimation = .default,
@@ -2046,6 +2197,8 @@ public func withAnimation(
 ) {
     withAnimation(animation: animation, animations: animations, completion: nil)
 }
+
+/// SwiftlyUI extension for `UIView`. Animation
 @MainActor
 public func withAnimation(
     _ animation: UIKitAnimation = .default,
@@ -2054,6 +2207,8 @@ public func withAnimation(
 ) {
     withAnimation(animation: animation, animations: animations, completion: completion)
 }
+
+/// SwiftlyUI extension for `UIView`. Animation
 @MainActor
 public func withAnimation(
     _ animation: UIKitAnimation = .default,
@@ -2063,6 +2218,7 @@ public func withAnimation(
     withAnimation(animation: animation, animations: animations, completion: completion)
 }
 
+/// SwiftlyUI extension for `UIView`. Animation
 @MainActor
 private func withAnimation(
     animation: UIKitAnimation = .default,
@@ -2079,6 +2235,8 @@ private func withAnimation(
 
 // MARK: - Gesture
 public extension UIView {
+    /// SwiftlyUI extension for `UIView`. Gesture
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     /// .onGesture(.tap , target: self, action: { $0.doSomething() })
     @discardableResult
     func onGesture<T: AnyObject>(_ type: GestureType, target: T, action: @escaping (T) -> Void) -> Self {
@@ -2105,6 +2263,8 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Gesture
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     /// .onGesture(.tap , target: self, action: { (vc: ViewController, btn: UIGestureRecognizer) in vc.doSomething() })
     @discardableResult
     func onGesture<T: AnyObject, GestureRecognizer: UIGestureRecognizer>(_ type: GestureType, target: T, action: @escaping (T, GestureRecognizer) -> Void) -> Self {
@@ -2131,6 +2291,8 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Gesture
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     /// .onGesture(.tap, action: {[weak self] in self?.doSomething() })
     @discardableResult
     func onGesture(_ type: GestureType, action: @escaping () -> Void) -> Self {
@@ -2158,6 +2320,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Gesture
     @discardableResult
     func onGesture<T>(_ type: GestureType, target: T, action: Selector) -> Self {
         isUserInteractionEnabled = true
@@ -2176,6 +2339,7 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`. Gesture
     enum GestureType: Equatable, Hashable {
         case tap
         case doubleTap
@@ -2361,7 +2525,9 @@ private extension UIView {
     private func createGestureRecognizer(for type: GestureType) -> UIGestureRecognizer {
         switch type {
         case .tap:
-            return UITapGestureRecognizer()
+            let tap = UITapGestureRecognizer()
+            tap.cancelsTouchesInView = false
+            return tap
         case .doubleTap:
             let gesture = UITapGestureRecognizer()
             gesture.numberOfTapsRequired = 2

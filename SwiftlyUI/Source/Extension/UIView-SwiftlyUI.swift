@@ -110,42 +110,57 @@ public struct UIKitAnimation {
     
     private static let defaultDuration: TimeInterval = 0.3
     
+    /// SwiftlyUI - Default Animation
     public static var `default`: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseInOut, .allowUserInteraction])
     }
     
+    /// SwiftlyUI - Default Animation with custom duration
     public static func `default`(duration: TimeInterval? = nil) -> Self {
         Self(duration: duration ?? defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseInOut, .allowUserInteraction])
     }
     
+    /// SwiftlyUI - Default Animation with custom duration and delay
     public static var linear: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveLinear, .allowUserInteraction])
     }
+    
+    /// SwiftlyUI - Default Animation with custom duration and delay
     public static func linear(duration: TimeInterval? = nil, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
         Self(duration: duration ?? defaultDuration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveLinear, .allowUserInteraction])
     }
     
+    /// SwiftlyUI - Ease In Animation
     public static var easeIn: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseIn, .allowUserInteraction])
     }
+    
+    /// SwiftlyUI - Ease In Animation with custom duration and delay
     public static func easeIn(duration: TimeInterval? = nil, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
         Self(duration: duration ?? defaultDuration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveEaseIn, .allowUserInteraction])
     }
     
+    /// SwiftlyUI - Ease Out Animation
     public static var easeOut: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseOut, .allowUserInteraction])
     }
+    
+    /// SwiftlyUI - Ease Out Animation with custom duration and delay
     public static func easeOut(duration: TimeInterval? = nil, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
         Self(duration: duration ?? defaultDuration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveEaseOut, .allowUserInteraction])
     }
     
+    /// SwiftlyUI - Ease In Out Animation
     public static var easeInOut: Self {
         Self(duration: defaultDuration, delayInterval: 0, refreshAllViews: false, options: [.curveEaseInOut, .allowUserInteraction])
     }
+    
+    /// SwiftlyUI - Ease In Out Animation with custom duration and delay
     public static func easeInOut(duration: TimeInterval? = nil, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
         Self(duration: duration ?? defaultDuration, delayInterval: delay, refreshAllViews: refreshAllViews, options: [.curveEaseInOut, .allowUserInteraction])
     }
     
+    /// SwiftlyUI - Spring Animation
     public static func spring(duration: TimeInterval, dampingRatio: CGFloat, initialVelocity: CGFloat = 0, delay: TimeInterval = 0, refreshAllViews: Bool = false) -> Self {
         Self(
             duration: duration,
@@ -155,6 +170,7 @@ public struct UIKitAnimation {
         
     }
     
+    /// SwiftlyUI - delay Animation
     public static func delay(_ delay: TimeInterval, animation: Self, refreshAllViews: Bool = false) -> Self {
         Self(
             duration: animation.duration,
@@ -163,6 +179,7 @@ public struct UIKitAnimation {
         )
     }
     
+    /// SwiftlyUI - repeat Animation
     public static func repeatCount(_ count: Float, autoreverses: Bool = true, animation: Self) -> Self {
         var options = animation.options
         if autoreverses {
@@ -176,6 +193,7 @@ public struct UIKitAnimation {
         )
     }
     
+    /// SwiftlyUI - repeat forever Animation
     public static func repeatForever(autoreverses: Bool = true, animation: Self) -> Self {
         var options = animation.options
         if autoreverses {
@@ -192,6 +210,7 @@ public struct UIKitAnimation {
 
 // MARK: - <#desc#>
 public extension UIView {
+    /// SwiftlyUI - Create a gradient layer with specified colors and direction.
     func createGradientLayer(colors: [UIColor], direction: GradientDirection) -> CAGradientLayer {
         return CAGradientLayer.gradient(colors: colors, direction: direction)
     }
