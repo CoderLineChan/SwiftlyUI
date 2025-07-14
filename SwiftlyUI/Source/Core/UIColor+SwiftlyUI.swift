@@ -75,8 +75,8 @@ public extension UIColor {
     }
     
     /// SwiftlyUI - Create Color with hex string.
-    static func color(withHexStr hex: String, alpha: CGFloat = 1.0) -> UIColor {
-        return UIColor(hexStr: hex, alpha: alpha) ?? UIColor.clear
+    static func color(with hexString: String, alpha: CGFloat = 1.0) -> UIColor {
+        return UIColor(hexStr: hexString, alpha: alpha) ?? UIColor.clear
     }
     
     /// SwiftlyUI -  Create Color with hex Int.
@@ -86,7 +86,7 @@ public extension UIColor {
     
     /// SwiftlyUI - Create Color with hex string.
     static func hexColor(_ hex: String, alpha: CGFloat = 1.0) -> UIColor {
-        return UIColor.color(withHexStr: hex, alpha: alpha)
+        return UIColor.color(with: hex, alpha: alpha)
     }
     
     /// SwiftlyUI -  Create Color with hex Int.
