@@ -23,15 +23,15 @@ public extension UIColor {
     }
     
     /// SwiftlyUI - Create Color with hex string.
-    convenience init?(hex: String, alpha: CGFloat = 1) {
+    convenience init?(hexStr: String, alpha: CGFloat = 1) {
         var string = ""
-        let lowercaseHexStr = hex.lowercased()
+        let lowercaseHexStr = hexStr.lowercased()
         if lowercaseHexStr.hasPrefix("0x") {
             string = lowercaseHexStr.replacingOccurrences(of: "0x", with: "")
-        } else if hex.hasPrefix("#") {
-            string = hex.replacingOccurrences(of: "#", with: "")
+        } else if hexStr.hasPrefix("#") {
+            string = hexStr.replacingOccurrences(of: "#", with: "")
         } else {
-            string = hex
+            string = hexStr
         }
         if string.count == 3 {
             var str = ""
@@ -51,24 +51,19 @@ public extension UIColor {
     }
     
     /// SwiftlyUI - Create Color with hex integer.
-    convenience init?(hex: Int, alpha: CGFloat = 1) {
+    convenience init?(hexInt: Int, alpha: CGFloat = 1) {
         var trans = alpha
         if trans < 0 { trans = 0 }
         if trans > 1 { trans = 1 }
 
-        let red = (hex >> 16) & 0xFF
-        let green = (hex >> 8) & 0xFF
-        let blue = hex & 0xFF
+        let red = (hexInt >> 16) & 0xFF
+        let green = (hexInt >> 8) & 0xFF
+        let blue = hexInt & 0xFF
         self.init(r: red, g: green, b: blue, alpha: trans)
     }
     
     /// SwiftlyUI - Create Color with RGB values.
     convenience init?(r: Int, g: Int, b: Int, alpha: CGFloat = 1) {
-        self.init(r: CGFloat(r) / 255.0, g: CGFloat(g) / 255.0, b: CGFloat(b) / 255.0, alpha: alpha)
-    }
-    
-    /// SwiftlyUI - Create Color with RGB values.
-    convenience init?(r: CGFloat, g: CGFloat, b: CGFloat, alpha: CGFloat = 1) {
         guard r >= 0, r <= 255 else { return nil }
         guard g >= 0, g <= 255 else { return nil }
         guard b >= 0, b <= 255 else { return nil }
@@ -76,18 +71,27 @@ public extension UIColor {
         var trans = alpha
         if trans < 0 { trans = 0 }
         if trans > 1 { trans = 1 }
-
-        self.init(red: r / 255.0, green: g / 255.0, blue: b / 255.0, alpha: trans)
+        self.init(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: trans)
     }
     
     /// SwiftlyUI - Create Color with hex string.
-    static func color(with hexString: String, alpha: CGFloat = 1.0) -> UIColor {
-        return UIColor(hex: hexString, alpha: alpha) ?? UIColor.clear
+    static func color(withHexStr hex: String, alpha: CGFloat = 1.0) -> UIColor {
+        return UIColor(hexStr: hex, alpha: alpha) ?? UIColor.clear
+    }
+    
+    /// SwiftlyUI -  Create Color with hex Int.
+    static func color(withHexInt hex: Int, alpha: CGFloat = 1.0) -> UIColor {
+        return UIColor(hexInt: hex, alpha: alpha) ?? UIColor.clear
     }
     
     /// SwiftlyUI - Create Color with hex string.
-    static func hexColor(_ hexStr: String, alpha: CGFloat = 1.0) -> UIColor {
-        return UIColor.color(with: hexStr, alpha: alpha)
+    static func hexStrColor(_ hex: String, alpha: CGFloat = 1.0) -> UIColor {
+        return UIColor.color(withHexStr: hex, alpha: alpha)
+    }
+    
+    /// SwiftlyUI -  Create Color with hex Int.
+    static func hexIntColor(_ hex: Int, alpha: CGFloat = 1.0) -> UIColor {
+        return UIColor.color(withHexInt: hex, alpha: alpha)
     }
     
     /// SwiftlyUI - Create random color.
