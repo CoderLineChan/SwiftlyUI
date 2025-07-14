@@ -258,7 +258,6 @@ public extension UIView {
         subviews.forEach { sub in
             sub.tag = overlayViewTag
             addSubview(sub)
-            sub.fillSuper()
         }
         return self
     }

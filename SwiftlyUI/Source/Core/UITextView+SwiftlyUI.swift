@@ -31,6 +31,9 @@ public extension UITextView {
     @discardableResult
     func font(_ font: UIFont) -> Self {
         self.font = font
+        if placeholderLabel != nil {
+            placeholderLabel?.font(font)
+        }
         return self
     }
     
@@ -38,6 +41,9 @@ public extension UITextView {
     @discardableResult
     func textColor(_ color: UIColor) -> Self {
         self.textColor = color
+        if placeholderLabel != nil {
+            placeholderLabel?.textColor(color)
+        }
         return self
     }
     
@@ -59,6 +65,9 @@ public extension UITextView {
     @discardableResult
     func alignment(_ alignment: NSTextAlignment) -> Self {
         self.textAlignment = alignment
+        if placeholderLabel != nil {
+            placeholderLabel?.textAlignment = alignment
+        }
         return self
     }
     
@@ -66,6 +75,9 @@ public extension UITextView {
     @discardableResult
     func textAlignment(_ alignment: NSTextAlignment) -> Self {
         self.textAlignment = alignment
+        if placeholderLabel != nil {
+            placeholderLabel?.textAlignment = alignment
+        }
         return self
     }
     
