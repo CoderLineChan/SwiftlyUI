@@ -268,7 +268,7 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func attributedSubTitle(_ title: AttributedString) -> Self {
+    func attributedSubTitle(_ title: AttributedString?) -> Self {
         var newConfig = self
         newConfig.attributedSubtitle = title
         return newConfig
@@ -294,7 +294,7 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func subtitleTextAttributesTransformer(_ transformer: UIConfigurationTextAttributesTransformer) -> Self {
+    func subtitleTextAttributesTransformer(_ transformer: UIConfigurationTextAttributesTransformer?) -> Self {
         var newConfig = self
         newConfig.subtitleTextAttributesTransformer = transformer
         return newConfig
@@ -310,9 +310,17 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func image(_ image: UIImage) -> Self {
+    func image(_ image: UIImage?) -> Self {
         var newConfig = self
         newConfig.image = image
+        return newConfig
+    }
+    
+    /// SwiftlyUI extension for `UIButton.Configuration`.
+    @discardableResult
+    func imageName(_ imageName: String) -> Self {
+        var newConfig = self
+        newConfig.image = UIImage(named: imageName)
         return newConfig
     }
     
@@ -334,7 +342,7 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func baseForegroundColor(_ color: UIColor) -> Self {
+    func baseForegroundColor(_ color: UIColor?) -> Self {
         var newConfig = self
         newConfig.baseForegroundColor = color
         return newConfig
@@ -342,7 +350,7 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func baseBackgroundColor(_ color: UIColor) -> Self {
+    func baseBackgroundColor(_ color: UIColor?) -> Self {
         var newConfig = self
         newConfig.baseBackgroundColor = color
         return newConfig
@@ -390,7 +398,7 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func activityIndicatorColorTransformer(_ transformer: UIConfigurationColorTransformer) -> Self {
+    func activityIndicatorColorTransformer(_ transformer: UIConfigurationColorTransformer?) -> Self {
         var newConfig = self
         newConfig.activityIndicatorColorTransformer = transformer
         return newConfig
@@ -456,7 +464,7 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func imageColorTransformer(_ transformer: UIConfigurationColorTransformer) -> Self {
+    func imageColorTransformer(_ transformer: UIConfigurationColorTransformer?) -> Self {
         var newConfig = self
         newConfig.imageColorTransformer = transformer
         return newConfig
@@ -464,7 +472,7 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func preferredSymbolConfigurationForImage(_ config: UIImage.SymbolConfiguration) -> Self {
+    func preferredSymbolConfigurationForImage(_ config: UIImage.SymbolConfiguration?) -> Self {
         var newConfig = self
         newConfig.preferredSymbolConfigurationForImage = config
         return newConfig

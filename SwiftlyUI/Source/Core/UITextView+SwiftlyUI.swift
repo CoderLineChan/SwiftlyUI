@@ -530,9 +530,9 @@ private extension UITextView {
             DispatchQueue.main.async {
                 self.handleMaxLength()
                 self.updatePlaceholderVisibility()
-            }
-            if let action = objc_getAssociatedObject(self, &AssociatedKeys.textDidChangeKey) as? (UITextView) -> Void {
-                action(self)
+                if let action = objc_getAssociatedObject(self, &AssociatedKeys.textDidChangeKey) as? (UITextView) -> Void {
+                    action(self)
+                }
             }
         }
     }

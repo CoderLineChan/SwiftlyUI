@@ -132,6 +132,18 @@ public extension UIStackView {
         self.spacing = spacing
         return self
     }
+    
+    /// Swiftly 扩展 反正 arrangedSubviews的 Z 轴顺序
+    /// SwiftlyUI extension to reverse the Z-order of arrangedSubviews.
+    @discardableResult
+    func reverseArrangedSubviewsZOrder() -> Self {
+        guard !arrangedSubviews.isEmpty else {
+            fatalError("SwiftlyUI: UIStackView has no arrangedSubviews to reverse.")
+        }
+        arrangedSubviews.reversed().forEach { bringSubviewToFront($0) }
+        return self
+    }
+
 }
 
 // MARK: - separator

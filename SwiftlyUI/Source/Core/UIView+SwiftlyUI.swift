@@ -44,7 +44,6 @@ public extension UIView {
 
 private let backgroundViewTag: Int = 98367682
 private let defaultPadding: CGFloat = 16
-private let overlayViewTag: Int = 92387682
 public extension UIView {
     /// SwiftlyUI extension for `UIView`.
     @discardableResult
@@ -234,29 +233,22 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`.
-    /// 在View的底部（背景）添加View
+    /// 在View的底部 插入View
     @discardableResult
     func background(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
-        subviews.forEach({ if $0.tag == backgroundViewTag { $0.removeFromSuperview() } })
         let subviews = content()
         subviews.forEach { sub in
-            sub.isUserInteractionEnabled = false
-            sub.tag = backgroundViewTag
             insertSubview(sub, at: 0)
-            sub.fillSuper()
         }
         return self
     }
     
     /// SwiftlyUI extension for `UIView`.
-    /// 在View的顶部（上面）覆盖View
+    /// 在View的顶部 覆盖View
     @discardableResult
     func overlay(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
-        subviews.forEach({ if $0.tag == overlayViewTag { $0.removeFromSuperview() } })
         let subviews = content()
-        userInteractionEnabled(true)
         subviews.forEach { sub in
-            sub.tag = overlayViewTag
             addSubview(sub)
         }
         return self

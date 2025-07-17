@@ -553,9 +553,9 @@ fileprivate extension UITextField {
             DispatchQueue.main.async {
                 self.handleMaxLength()
                 self.updatePlaceholderVisibility()
-            }
-            if let action = objc_getAssociatedObject(self, &AssociatedKeys.textChangeActionKey) as? (UITextField) -> Void {
-                action(self)
+                if let action = objc_getAssociatedObject(self, &AssociatedKeys.textChangeActionKey) as? (UITextField) -> Void {
+                    action(self)
+                }
             }
         }
     }

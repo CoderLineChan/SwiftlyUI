@@ -33,8 +33,34 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("viewDidLoad")
-        test9()
+        test10()
     }
+    
+    func test10() {
+        let textView = UITextView("记录这一刻，晒给懂你的人～")
+            .backgroundColor(.lightGray.opacity(0.1))
+            .leftToSuper(offset: 50)
+            .rightToSuper(offset: 50)
+            .topToSuper(offset: 100)
+            .maxLength(40)
+            .height(200)
+            .onTextChange { [weak self] text in
+                self?.textCountLabel.text = "\(text.count)/200"
+            }
+        
+        view.addSubview(textView)
+        textCountLabel
+            .right(to: textView)
+            .top(to: textView.bottomAnchor)
+        view.addSubview(textCountLabel)
+    }
+    lazy var textCountLabel: UILabel = {
+        UILabel()
+            .textColor(.lightGray)
+            .font(.regular(12))
+            .text("0/200")
+            
+    }()
     func test9() {
         let view1 = UIView()
             .backgroundColor(.red)
