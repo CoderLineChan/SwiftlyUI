@@ -109,14 +109,20 @@ view.addSubview(zView)
 - 内置分割线系统，一行代码设置分割线，子视图增删/隐藏/显示时自动更新分隔线
 ```swift
 let stackView = UIStackView()
+    /// 系统方法
     .axis(.vertical)
     .spacing(10)
     .alignment(.center)
     .distribution(.fillEqually)
+    /// 扩展方法
+    //1、 设置任意边距
     .padding(.top, 20)
     .padding(.left, 20)
     .padding(.horizontal, 16)
-    .padding(16)
+    .padding(.vertical, 10)
+    .padding(16)//设置上左下右边距都是16
+    .padding(UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16))
+    //2、设置分割线
     .separator(color: .red, size: CGSize(width: 20, height: 2))
 ```
 
@@ -124,22 +130,35 @@ let stackView = UIStackView()
 - 扩展SwiftUI语法配置：(.border);(.radius);(.background)
 ```swift
 let view = UIView()
-    .backgroundColor(.clear)
-    .border(.orange)
-    .border(.black, 2)
-    .cornerRadius(8)
-    .alpha(0.5)
-    .opacity(0.5)
+    /// 系统方法
     .hidden(false)
     .hidden()
     .tag(100)
     .userInteractionEnabled(false)
     .userInteractionEnabled()
     .shadow(color: .black, radius: 3, opacity: 0.3, offset: .zero)
-    .background {
+    .backgroundColor(.clear)
+    .cornerRadius(8)
+    .alpha(0.5)
+    /// 扩展方法
+    .border(.orange)
+    .border(.black, 2)//设置边框颜色与大小
+    .radius(10)
+    .radius(10, corners: .topLeft | .topRight)//设置圆角
+    .opacity(0.5)//与alpha一致
+    .background {//在底部添加视图
         UIImageView()// 嵌入式背景视图
             .imageName("icon")
             .contentMode(.scaleAspectFill)
+            .fillSuper()
+        //... 可以添加任何UIView
+    }
+    .overlay {//在主视图上面叠加视图
+        UIView()//可以是分割线
+            .backgroundColor(.lightGray)
+            .height(0.5)
+            .left.top.right.equalToSuper()
+        //... 可以添加任意UIView
     }
 ```
 
