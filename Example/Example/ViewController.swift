@@ -33,7 +33,54 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("viewDidLoad")
-        test10()
+        test2()
+    }
+    
+    func test11() {
+        let view1 = UIView()
+            .frame(width: 300, height: 400)
+            .backgroundColor(.orange.opacity(0.1))
+            .centerToSuper()
+            .onGesture(.tap) {
+                print("view1 tapped")
+            }
+//            .onGesture(.doubleTap) {
+//                print("view1 double tapped")
+//            }
+            .onGesture(.longPress(minimumDuration: 0.5)) { ges in
+                print("view1 long pressed: \(ges.state)")
+            }
+//            .onGesture(.pan) { ges in
+//                print("view1 panned: \(ges.state)")
+//            }
+            .onGesture(.swipe(direction: .down)) { ges in
+                print("view1 swiped down: \(ges.state)")
+            }
+            .onGesture(.rotation) { ges in
+                print("view1 rotated: \(ges.state)")
+            }
+            .onGesture(.pinch) { ges in
+                print("view1 pinched: \(ges.state)")
+            }
+        
+        view.addSubview(view1)
+        
+        let view2 = HStackView {
+            UILabel("Title")
+            UIButton("Button")
+                .frame(width: 40, height: 40)
+                .titleColor(.random)
+                .onAction {
+                    print("Button tapped")
+                    
+                    let ges = view1.getGesture(for: .tap)
+                    print("Gesture: \(ges)")
+                }
+            
+        }
+            .centerToSuper()
+        
+        view1.addSubview(view2)
     }
     
     func test10() {
@@ -53,6 +100,18 @@ class ViewController: UIViewController {
             .right(to: textView)
             .top(to: textView.bottomAnchor)
         view.addSubview(textCountLabel)
+        
+        
+        let btn = UIButton()
+            .backgroundColor(.orange)
+            .frame(width: 100, height: 40)
+            .centerToSuper()
+            .onAction {
+                textView.attributedText = NSAttributedString(string: "这是一")
+            }
+        
+        view.addSubview(btn)
+        
     }
     lazy var textCountLabel: UILabel = {
         UILabel()
@@ -397,6 +456,7 @@ class ViewController: UIViewController {
                     UITextField("input ACC")
                         .height(35)
                         .width(180)
+                        .maxLength(5)
                     
                 }
                     .border(.orange)
@@ -410,6 +470,7 @@ class ViewController: UIViewController {
                     UITextField("input PWD")
                         .height(35)
                         .width(180)
+                        .maxLength(5)
                 }
                     .border(.orange)
                     .cornerRadius(5)

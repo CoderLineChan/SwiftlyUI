@@ -12,7 +12,7 @@ import UIKit
 public extension UIButton {
     
     /// SwiftlyUI extension for `UIButton`.
-    convenience init(_ text: String) {
+    convenience init(_ text: String?) {
         self.init()
         self.title(text)
     }
@@ -61,28 +61,28 @@ public extension UIButton {
     
     /// SwiftlyUI extension for `UIButton`.
     @discardableResult
-    func title(_ title: String, state: UIControl.State = .normal) -> Self {
+    func title(_ title: String?, state: UIControl.State = .normal) -> Self {
         self.setTitle(title, for: state)
         return self
     }
     
     /// SwiftlyUI extension for `UIButton`.
     @discardableResult
-    func titleColor(_ color: UIColor, state: UIControl.State = .normal) -> Self {
+    func titleColor(_ color: UIColor?, state: UIControl.State = .normal) -> Self {
         self.setTitleColor(color, for: state)
         return self
     }
     
     /// SwiftlyUI extension for `UIButton`.
     @discardableResult
-    func textColor(_ color: UIColor, state: UIControl.State = .normal) -> Self {
+    func textColor(_ color: UIColor?, state: UIControl.State = .normal) -> Self {
         self.setTitleColor(color, for: state)
         return self
     }
     
     /// SwiftlyUI extension for `UIButton`.
     @discardableResult
-    func foregroundColor(_ color: UIColor, state: UIControl.State = .normal) -> Self {
+    func foregroundColor(_ color: UIColor?, state: UIControl.State = .normal) -> Self {
         self.setTitleColor(color, for: state)
         return self
     }
@@ -217,7 +217,7 @@ public extension UIButton {
 @available(iOS 15.0, watchOS 8.0, *)
 public extension UIButton.Configuration {
     /// SwiftlyUI extension for `UIButton.Configuration`.
-    static func plain(title: String, subtitle: String = "") -> Self {
+    static func plain(title: String?, subtitle: String? = nil) -> Self {
         var config = UIButton.Configuration.plain()
         config.title = title
         config.subtitle = subtitle
@@ -225,7 +225,7 @@ public extension UIButton.Configuration {
     }
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
-    static func filled(title: String, subtitle: String = "") -> Self {
+    static func filled(title: String?, subtitle: String? = nil) -> Self {
         var config = UIButton.Configuration.filled()
         config.title = title
         config.subtitle = subtitle
@@ -234,7 +234,7 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func title(_ title: String) -> Self {
+    func title(_ title: String?) -> Self {
         var newConfig = self
         newConfig.title = title
         return newConfig
@@ -286,7 +286,7 @@ public extension UIButton.Configuration {
     
     /// SwiftlyUI extension for `UIButton.Configuration`.
     @discardableResult
-    func subtitle(_ subtitle: String) -> Self {
+    func subtitle(_ subtitle: String?) -> Self {
         var newConfig = self
         newConfig.subtitle = subtitle
         return newConfig

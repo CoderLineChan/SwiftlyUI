@@ -89,25 +89,27 @@ public extension UIColor {
         return UIColor.color(with: hex, alpha: alpha)
     }
     
+    /// SwiftlyUI - Create Color with hex string.
+    static func hex(_ hex: String, alpha: CGFloat = 1.0) -> UIColor {
+        return UIColor.color(with: hex, alpha: alpha)
+    }
+    
     /// SwiftlyUI -  Create Color with hex Int.
-    static func hexIntColor(_ hex: Int, alpha: CGFloat = 1.0) -> UIColor {
+    static func hexInt(_ hex: Int, alpha: CGFloat = 1.0) -> UIColor {
         return UIColor.color(withHexInt: hex, alpha: alpha)
     }
     
     /// SwiftlyUI - Create random color.
     static func random(_ alpha: CGFloat = 1.0) -> UIColor {
-        let r: CGFloat = CGFloat(arc4random_uniform(256)) / 255.0
-        let g: CGFloat = CGFloat(arc4random_uniform(256)) / 255.0
-        let b: CGFloat = CGFloat(arc4random_uniform(256)) / 255.0
-        return UIColor(red: r, green: g, blue: b, alpha: alpha)
+        let r = CGFloat(Int.random(in: 0...255)) / 255.0
+        let g = CGFloat(Int.random(in: 0...255)) / 255.0
+        let b = CGFloat(Int.random(in: 0...255)) / 255.0
+        return UIColor(red: r, green: g, blue: b, alpha: 1)
     }
     
     /// SwiftlyUI - Create random color.
     static var random: UIColor {
-        let r = Int.random(in: 0...255)
-        let g = Int.random(in: 0...255)
-        let b = Int.random(in: 0...255)
-        return UIColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: 1)
+       return random()
     }
     
     /// SwiftlyUI - coverts `UIColor` to `UIImage`.
@@ -122,8 +124,14 @@ public extension UIColor {
         }
     }
     
-    /// SwiftlyUI - Set the opacity of the color.
+    /// SwiftlyUI - Set the alpha of the color.
     func opacity(_ value: CGFloat) -> UIColor {
+        let alpha = max(0, min(value, 1))
+        return withAlphaComponent(alpha)
+    }
+    
+    /// SwiftlyUI - Set the alpha of the color.
+    func alpha(_ value: CGFloat) -> UIColor {
         let alpha = max(0, min(value, 1))
         return withAlphaComponent(alpha)
     }

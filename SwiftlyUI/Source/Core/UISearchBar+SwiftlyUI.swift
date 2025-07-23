@@ -11,7 +11,7 @@ import UIKit
 
 public extension UISearchBar {
     /// SwiftlyUI - extension for `UISearchBar`.
-    convenience init(_ placeholder: String) {
+    convenience init(_ placeholder: String?) {
         self.init(frame: .zero)
         self.placeholder = placeholder
     }

@@ -14,7 +14,7 @@ import UIKit
 public extension UIBackgroundConfiguration {
     
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set custom view.
     /// - Parameter content: A closure that builds an array of `UIView` elements to be used as the custom view.
     /// - Returns: A new `UIBackgroundConfiguration` instance with the custom view set.
     @discardableResult
@@ -24,7 +24,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set custom view.
     @discardableResult
     func customView(_ view: UIView?) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -32,7 +32,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set corner radius.
     @discardableResult
     func cornerRadius(_ radius: CGFloat) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -40,7 +40,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set background insets.
     @discardableResult
     func backgroundInsets(_ insets: NSDirectionalEdgeInsets) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -48,7 +48,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set background insets.
     @discardableResult
     func edgesAddingLayoutMargins(_ edges: NSDirectionalRectEdge) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -56,7 +56,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set background insets.
     @discardableResult
     func backgroundColor(_ color: UIColor?) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -64,7 +64,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set background color transformer.
     @discardableResult
     func backgroundColorTransformer(_ transformer: UIConfigurationColorTransformer?) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -72,7 +72,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set visual effect.
     @discardableResult
     func visualEffect(_ effect: UIVisualEffect?) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -80,7 +80,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set image.
     @available(iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     @discardableResult
     func image(_ image: UIImage?) -> UIBackgroundConfiguration {
@@ -89,7 +89,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set image content mode.
     @available(iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     @discardableResult
     func imageContentMode(_ mode: UIView.ContentMode) -> UIBackgroundConfiguration {
@@ -98,7 +98,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set stroke color.
     @discardableResult
     func strokeColor(_ color: UIColor?) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -106,7 +106,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set stroke color transformer.
     @discardableResult
     func strokeColorTransformer(_ transformer: UIConfigurationColorTransformer?) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -114,7 +114,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set stroke width.
     @discardableResult
     func strokeWidth(_ width: CGFloat) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -122,7 +122,7 @@ public extension UIBackgroundConfiguration {
         return newConfig
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set stroke outset.
     @discardableResult
     func strokeOutset(_ outset: CGFloat) -> UIBackgroundConfiguration {
         var newConfig = self
@@ -132,7 +132,7 @@ public extension UIBackgroundConfiguration {
     
     // MARK: - 阴影属性 (iOS 18+/watchOS 11+)
 #if compiler(>=6.0)
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set shadow properties.
     @available(iOS 18.0, watchOS 11.0, tvOS 18.0, visionOS 2.0, *)
     @discardableResult
     func shadowProperties(_ properties: UIShadowProperties) -> UIBackgroundConfiguration {
@@ -142,13 +142,13 @@ public extension UIBackgroundConfiguration {
     }
 #endif
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - update the configuration for a specific state.
     @discardableResult
     func update(for state: UIConfigurationState) -> UIBackgroundConfiguration {
         self.updated(for: state)
     }
     
-    /// SwiftlyUI extension for `UIBackgroundConfiguration`.
+    /// SwiftlyUI - Set background insets with individual parameters.
     @discardableResult
     func backgroundInsets(top: CGFloat = 0, leading: CGFloat = 0, bottom: CGFloat = 0, trailing: CGFloat = 0) -> UIBackgroundConfiguration {
         var newConfig = self

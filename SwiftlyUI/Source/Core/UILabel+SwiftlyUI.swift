@@ -30,7 +30,7 @@ public final class Label: UILabel {
 public extension UILabel {
     
     /// SwiftlyUI extension for `UILabel`.
-    convenience init(_ text: String) {
+    convenience init(_ text: String?) {
         self.init()
         self.text = text
     }

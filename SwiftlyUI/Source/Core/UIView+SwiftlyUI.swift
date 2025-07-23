@@ -466,7 +466,7 @@ public extension UIView {
     /// SwiftlyUI extension for `UIView`.
     @available(iOS 14, *)
     @discardableResult
-    func focusGroupIdentifier(_ identifier: String) -> Self {
+    func focusGroupIdentifier(_ identifier: String?) -> Self {
         self.focusGroupIdentifier = identifier
         return self
     }
@@ -2286,7 +2286,7 @@ public extension UIView {
     /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
     /// .onGesture(.tap, action: {[weak self] in self?.doSomething() })
     @discardableResult
-    func onGesture(_ type: GestureType, action: @escaping () -> Void) -> Self {
+    func onGesture(_ type: GestureType, action: @escaping (UIGestureRecognizer) -> Void) -> Self {
         isUserInteractionEnabled = true
         gestureRecognizers?.forEach({ gesture in
             if gesture.gestureType == type {
@@ -2297,9 +2297,7 @@ public extension UIView {
             }
         })
         
-        let handler = GestureClosureWrapper<UIGestureRecognizer>(gesture: createGestureRecognizer(for: type), closure: { _ in
-            action()
-        })
+        let handler = GestureClosureWrapper<UIGestureRecognizer>(gesture: createGestureRecognizer(for: type), closure: action)
         handler.gesture.addTarget(handler, action: #selector(GestureClosureWrapper<UIGestureRecognizer>.invoke))
         
         var handlers = gestureHandlers
@@ -2309,6 +2307,17 @@ public extension UIView {
         addGestureRecognizer(handler.gesture)
         handleGestureDependencies(for: type, gesture: handler.gesture)
         return self
+    }
+    
+    
+    /// SwiftlyUI extension for `UIView`. Gesture
+    /// 需要注意循环引用的问题，使用时请注意避免强引用循环。
+    /// .onGesture(.tap, action: {[weak self] in self?.doSomething() })
+    @discardableResult
+    func onGesture(_ type: GestureType, action: @escaping () -> Void) -> Self {
+        return onGesture(type) { _ in
+            action()
+        }
     }
     
     /// SwiftlyUI extension for `UIView`. Gesture
@@ -2330,13 +2339,19 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI - get gesture by type
+    /// SwiftlyUI - 获取指定类型的手势识别器
+    func getGesture(for type: GestureType) -> UIGestureRecognizer? {
+        return gestureRecognizers?.first(where: { $0.gestureType == type })
+    }
+    
     /// SwiftlyUI extension for `UIView`. Gesture
     enum GestureType: Equatable, Hashable {
         case tap
         case doubleTap
         case longPress(minimumDuration: TimeInterval = 0.5)
         case pan
-        case swipe(direction: UISwipeGestureRecognizer.Direction = .right)
+        case swipe(direction: UISwipeGestureRecognizer.Direction = .right, numberOfTouchesRequired: Int = 1)
         case pinch
         case rotation
         
@@ -2350,8 +2365,8 @@ public extension UIView {
                 return leftDuration == rightDuration
             case (.pan, .pan):
                 return true
-            case let (.swipe(leftDirection), .swipe(rightDirection)):
-                return leftDirection == rightDirection
+            case let (.swipe(leftDirection, leftNumberOfTouchesRequired), .swipe(rightDirection, rightNumberOfTouchesRequired)):
+                return leftDirection == rightDirection && leftNumberOfTouchesRequired == rightNumberOfTouchesRequired
             case (.pinch, .pinch):
                 return true
             case (.rotation, .rotation):
@@ -2372,9 +2387,10 @@ public extension UIView {
                 hasher.combine(duration)
             case .pan:
                 hasher.combine(3)
-            case .swipe(let direction):
+            case .swipe(let direction, let numberOfTouchesRequired):
                 hasher.combine(4)
                 hasher.combine(direction.rawValue)
+                hasher.combine(numberOfTouchesRequired)
             case .pinch:
                 hasher.combine(5)
             case .rotation:
@@ -2392,10 +2408,19 @@ public extension UIView {
         
         var swipeValue: UISwipeGestureRecognizer.Direction {
             switch self {
-            case .swipe(let direction):
+            case .swipe(let direction, _):
                 return direction
             default:
                 return .right
+            }
+        }
+        
+        var swipeTouchesValue: Int {
+            switch self {
+            case .swipe(_, let numberOfTouchesRequired):
+                return numberOfTouchesRequired
+            default:
+                return 0
             }
         }
     }
@@ -2517,26 +2542,36 @@ private extension UIView {
         switch type {
         case .tap:
             let tap = UITapGestureRecognizer()
-            tap.cancelsTouchesInView = false
+            tap.gestureType = type
             return tap
         case .doubleTap:
             let gesture = UITapGestureRecognizer()
             gesture.numberOfTapsRequired = 2
+            gesture.gestureType = type
             return gesture
         case .longPress(let minimumDuration):
             let gesture = UILongPressGestureRecognizer()
             gesture.minimumPressDuration = minimumDuration
+            gesture.gestureType = type
             return gesture
         case .pan:
-            return UIPanGestureRecognizer()
-        case .swipe(let direction):
+            let gesture = UIPanGestureRecognizer()
+            gesture.gestureType = type
+            return gesture
+        case .swipe(let direction, let numberOfTouchesRequired):
             let gesture = UISwipeGestureRecognizer()
             gesture.direction = direction
+            gesture.numberOfTouchesRequired = numberOfTouchesRequired
+            gesture.gestureType = type
             return gesture
         case .pinch:
-            return UIPinchGestureRecognizer()
+            let gesture = UIPinchGestureRecognizer()
+            gesture.gestureType = type
+            return gesture
         case .rotation:
-            return UIRotationGestureRecognizer()
+            let gesture = UIRotationGestureRecognizer()
+            gesture.gestureType = type
+            return gesture
         }
     }
     

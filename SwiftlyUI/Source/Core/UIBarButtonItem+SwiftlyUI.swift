@@ -11,63 +11,63 @@ import UIKit
 
 public extension UIBarItem {
     
-    /// SwiftlyUI extension for `UIBarItem`.
+    /// SwiftlyUI - Set title.
     @discardableResult
     func title(_ title: String?) -> Self {
         self.title = title
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarItem`.
+    /// SwiftlyUI - Set enabled.
     @discardableResult
     func enabled(_ enabled: Bool) -> Self {
         self.isEnabled = enabled
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarItem`.
+    /// SwiftlyUI - Set image.
     @discardableResult
     func image(_ image: UIImage?) -> Self {
         self.image = image
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarItem`.
+    /// SwiftlyUI - Set landscape image for phone.
     @discardableResult
     func landscapeImagePhone(_ image: UIImage?) -> Self {
         self.landscapeImagePhone = image
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarItem`.
+    /// SwiftlyUI - Set large content size image.
     @discardableResult
     func largeContentSizeImage(_ image: UIImage?) -> Self {
         self.largeContentSizeImage = image
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarItem`.
+    /// SwiftlyUI - Set alternate image.
     @discardableResult
     func imageInsets(_ insets: UIEdgeInsets) -> Self {
         self.imageInsets = insets
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarItem`.
+    /// SwiftlyUI - Set landscape image phone insets.
     @discardableResult
     func landscapeImagePhoneInsets(_ insets: UIEdgeInsets) -> Self {
         self.landscapeImagePhoneInsets = insets
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarItem`.
+    /// SwiftlyUI - Set large content size image insets.
     @discardableResult
     func largeContentSizeImageInsets(_ insets: UIEdgeInsets) -> Self {
         self.largeContentSizeImageInsets = insets
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarItem`.
+    /// SwiftlyUI - Set tag.
     @discardableResult
     func tag(_ tag: Int) -> Self {
         self.tag = tag
@@ -87,28 +87,28 @@ public extension UIBarButtonItem {
         self.init(customView: content)
     }
     
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set title.
     @discardableResult
     func possibleTitles(_ titles: Set<String>?) -> Self {
         self.possibleTitles = titles
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set custom view.
     @discardableResult
     func customView(_ view: UIView?) -> Self {
         self.customView = view
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set style.
     @discardableResult
     func style(_ style: UIBarButtonItem.Style) -> Self {
         self.style = style
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set target and action.
     @discardableResult
     func target(_ target: AnyObject?, action: Selector?) -> Self {
         self.target = target
@@ -116,7 +116,7 @@ public extension UIBarButtonItem {
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set tint color.
     @discardableResult
     func tintColor(_ color: UIColor?) -> Self {
         self.tintColor = color
@@ -124,7 +124,7 @@ public extension UIBarButtonItem {
     }
     
 #if compiler(>=5.3)
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set menu.
     @available(iOS 14, *)
     @discardableResult
     func menu(_ menu: UIMenu?) -> Self {
@@ -132,7 +132,7 @@ public extension UIBarButtonItem {
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set action.
     @available(iOS 14, *)
     @discardableResult
     func primaryAction(_ action: UIAction?) -> Self {
@@ -142,7 +142,7 @@ public extension UIBarButtonItem {
     
 #endif
 #if compiler(>=5.5)
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set primary action.
     @available(iOS 15.0, *)
     @discardableResult
     func changesSelectionAsPrimaryAction(_ changes: Bool) -> Self {
@@ -150,7 +150,7 @@ public extension UIBarButtonItem {
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set selected.
     @available(iOS 15.0, *)
     @discardableResult
     func selected(_ selected: Bool) -> Self {
@@ -161,7 +161,7 @@ public extension UIBarButtonItem {
 #endif
     
 #if compiler(>=5.7)
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set hidden.
     @available(iOS 16.0, *)
     @discardableResult
     func hidden(_ hidden: Bool = true) -> Self {
@@ -169,7 +169,7 @@ public extension UIBarButtonItem {
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set preferred menu element order.
     @available(iOS 16.0, *)
     @discardableResult
     func preferredMenuElementOrder(_ order: UIContextMenuConfiguration.ElementOrder) -> Self {
@@ -177,7 +177,7 @@ public extension UIBarButtonItem {
         return self
     }
     
-    /// SwiftlyUI extension for `UIBarButtonItem`.
+    /// SwiftlyUI - Set menu representation.
     @available(iOS 16.0, *)
     @discardableResult
     func menuRepresentation(_ representation: UIMenuElement?) -> Self {

@@ -22,7 +22,7 @@ public extension UITextView {
 // MARK: - basics
 public extension UITextView {
     /// SwiftlyUI extension for `UITextView`.
-    convenience init(_ placeholder: String) {
+    convenience init(_ placeholder: String?) {
         self.init()
         self.placeholder(placeholder, color: nil)
     }
@@ -83,7 +83,7 @@ public extension UITextView {
     
     /// SwiftlyUI extension for `UITextView`.
     @discardableResult
-    func placeholder(_ text: String, color: UIColor? = nil) -> Self {
+    func placeholder(_ text: String?, color: UIColor? = nil) -> Self {
         let placeholderLabel = getOrCreatePlaceholderLabel()
         placeholderLabel.text = text
         placeholderLabel.textColor = color ?? .placeholderText
@@ -181,6 +181,7 @@ public extension UITextView {
     @discardableResult
     func maxLength(_ length: Int) -> Self {
         objc_setAssociatedObject(self, &AssociatedKeys.maxLengthKey, length, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        textChangeObserver()
         return self
     }
     
@@ -527,7 +528,7 @@ private extension UITextView {
             object: self
         ) { [weak self] _ in
             guard let self = self else { return }
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 self.handleMaxLength()
                 self.updatePlaceholderVisibility()
                 if let action = objc_getAssociatedObject(self, &AssociatedKeys.textDidChangeKey) as? (UITextView) -> Void {
@@ -576,9 +577,14 @@ private extension UITextView {
     func handleMaxLength() {
         guard let maxLength = objc_getAssociatedObject(self, &AssociatedKeys.maxLengthKey) as? Int,
               maxLength > 0,
-              let text = self.text,
-              text.count > maxLength else { return }
+              let text = self.text else { return }
         
+        let lang = UIApplication.shared.textInputMode?.primaryLanguage
+        if lang == "zh-Hans" || lang == "zh-Hant" {
+            if let markedTextRange = markedTextRange, !markedTextRange.isEmpty {
+                return
+            }
+        }
         self.text = String(text.prefix(maxLength))
     }
     @MainActor
@@ -609,10 +615,20 @@ private extension UITextView {
         let swizzledSelector1 = #selector(swizzled_setText(_:))
         UIView.swizzleMethod(clas: self, originalSelector: originalSelector1, swizzledSelector: swizzledSelector1)
         
+        let originalSelector2 = #selector(setter: UITextView.attributedText)
+        let swizzledSelector2 = #selector(swizzled_setAttributedText(_:))
+        UIView.swizzleMethod(clas: self, originalSelector: originalSelector2, swizzledSelector: swizzledSelector2)
+        
     }
     
     @objc func swizzled_setText(_ text: String?) {
         swizzled_setText(text)
+        updatePlaceholderVisibility()
+        updatePlaceholderMaxLayoutWidth()
+    }
+    
+    @objc func swizzled_setAttributedText(_ attributedText: NSAttributedString?) {
+        swizzled_setAttributedText(attributedText)
         updatePlaceholderVisibility()
         updatePlaceholderMaxLayoutWidth()
     }
@@ -635,7 +651,7 @@ private struct __UITextViewDisposableClass {
 private class __UITextViewBlockObserver {
     private var observer: NSObjectProtocol?
     
-    init(notificationName: Notification.Name, object: Any? = nil, queue: OperationQueue? = nil, block: @Sendable @escaping (Notification) -> Void) {
+    init(notificationName: Notification.Name, object: Any? = nil, queue: OperationQueue? = .main, block: @Sendable @escaping (Notification) -> Void) {
         observer = NotificationCenter.default.addObserver(forName: notificationName, object: object, queue: queue, using: block)
     }
     

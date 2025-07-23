@@ -101,6 +101,22 @@ public extension UIStackView {
         return self
     }
     
+    /// SwiftlyUI 扩展 设置isLayoutMarginsRelativeArrangement方法。
+    /// SwiftlyUI extension for setting the isLayoutMarginsRelativeArrangement property.
+    @discardableResult
+    func layoutMarginsRelativeArrangement(_ relativeArrangement: Bool) -> Self {
+        isLayoutMarginsRelativeArrangement = relativeArrangement
+        return self
+    }
+    
+    /// SwiftlyUI 扩展 设置isBaselineRelativeArrangement方法。
+    /// SwiftlyUI extension for setting the isBaselineRelativeArrangement property.
+    @discardableResult
+    func baselineRelativeArrangement(_ baselineRelativeArrangement: Bool) -> Self {
+        self.isBaselineRelativeArrangement = baselineRelativeArrangement
+        return self
+    }
+    
     /// SwiftlyUI 扩展 设置axis方法。
     /// SwiftlyUI extension for setting the axis method.
     @discardableResult
@@ -133,7 +149,7 @@ public extension UIStackView {
         return self
     }
     
-    /// Swiftly 扩展 反正 arrangedSubviews的 Z 轴顺序
+    /// Swiftly 扩展 反转 arrangedSubviews的 Z 轴顺序
     /// SwiftlyUI extension to reverse the Z-order of arrangedSubviews.
     @discardableResult
     func reverseArrangedSubviewsZOrder() -> Self {
