@@ -172,8 +172,16 @@ public extension UIStackView {
     /// SwiftlyUI 扩展 添加一个 arrangedSubview。
     /// SwiftlyUI extension for adding an arrangedSubview.
     @discardableResult
-    func addArrangedSubviews(_ views: [UIView]) -> Self {
+    func addArrangedContents(_ views: [UIView]) -> Self {
         views.forEach { addArrangedSubview($0) }
+        return self
+    }
+    
+    /// SwiftlyUI 扩展 添加一个 arrangedSubview。
+    /// SwiftlyUI extension for adding an arrangedSubview.
+    @discardableResult
+    func addArrangedContents(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
+        content().forEach { addArrangedSubview($0) }
         return self
     }
 }
