@@ -60,6 +60,13 @@ public extension UIScrollView {
     
     /// SwiftlyUI extension for `UIScrollView`.
     @discardableResult
+    func delegate(_ delegate: UIScrollViewDelegate?) -> Self {
+        self.delegate = delegate
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIScrollView`.
+    @discardableResult
     func alwaysBounceVertical(_ enabled: Bool) -> Self {
         self.alwaysBounceVertical = enabled
         return self

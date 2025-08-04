@@ -25,6 +25,7 @@ public final class VStackView: UIStackView {
         self.axis = .vertical
         self.spacing = spacing
         self.alignment = .center
+        self.ignoreSelfHit = true
         content().forEach { addArrangedSubview($0) }
     }
     
@@ -32,16 +33,20 @@ public final class VStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.axis = .vertical
+        self.ignoreSelfHit = true
         self.alignment = .center
     }
     
+    /// SwiftlyUI extension for initializing a vertical stack view with a coder.
     required init(coder: NSCoder) {
         super.init(coder: coder)
         self.axis = .vertical
+        self.ignoreSelfHit = true
         self.alignment = .center
     }
     
-    @available(*, unavailable, message: "use init(spacing:content:)")
+    /// SwiftlyUI extension for initializing a vertical stack view with arranged subviews.
+    @available(*, unavailable, message: "SwiftlyUI - use init(spacing:content:)")
     convenience init(arrangedSubviews views: [UIView]) {
         fatalError("SwiftlyUI VStackView can not user init(arrangedSubviews:)")
     }
@@ -63,6 +68,7 @@ public final class HStackView: UIStackView {
         self.axis = .horizontal
         self.spacing = spacing
         self.alignment = .center
+        self.ignoreSelfHit = true
         content().forEach { addArrangedSubview($0) }
     }
     
@@ -70,20 +76,23 @@ public final class HStackView: UIStackView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.axis = .horizontal
+        self.ignoreSelfHit = true
         self.alignment = .center
     }
     
+    /// SwiftlyUI extension for initializing a horizontal stack view with a coder.
     required init(coder: NSCoder) {
         super.init(coder: coder)
         self.axis = .horizontal
+        self.ignoreSelfHit = true
         self.alignment = .center
     }
     
-    @available(*, unavailable, message: "use init(spacing:content:)")
+    /// SwiftlyUI extension for initializing a horizontal stack view with arranged subviews.
+    @available(*, unavailable, message: "SwiftlyUI - use init(spacing:content:)")
     convenience init(arrangedSubviews views: [UIView]) {
         fatalError("SwiftlyUI HStackView can not user init(arrangedSubviews:)")
     }
-
 }
 #endif
 
@@ -159,7 +168,14 @@ public extension UIStackView {
         arrangedSubviews.reversed().forEach { bringSubviewToFront($0) }
         return self
     }
-
+    
+    /// SwiftlyUI 扩展 添加一个 arrangedSubview。
+    /// SwiftlyUI extension for adding an arrangedSubview.
+    @discardableResult
+    func addArrangedSubviews(_ views: [UIView]) -> Self {
+        views.forEach { addArrangedSubview($0) }
+        return self
+    }
 }
 
 // MARK: - separator
@@ -221,9 +237,7 @@ private extension UIStackView {
         let originalSelector = #selector(layoutSubviews)
         let swizzledSelector = #selector(swizzled_layoutSubviews)
         UIView.swizzleMethod(clas: UIStackView.self, originalSelector: originalSelector, swizzledSelector: swizzledSelector)
-        
     }
-    
     
     @objc func swizzled_layoutSubviews() {
         swizzled_layoutSubviews()
@@ -249,9 +263,6 @@ private extension UIStackView {
         return helper
     }
 }
-
-
-
 
 @MainActor
 private struct __UIStackViewDisposableClass {

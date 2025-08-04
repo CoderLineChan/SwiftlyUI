@@ -33,9 +33,47 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("viewDidLoad")
-        test2()
+        test12()
     }
-    
+    /// Test: func  ignoreSelfHit() 忽略自身hit事件
+    func test12() {
+        let imageView = UIImageView()
+            .centerToSuper()
+            .frame(width: 100, height: 100)
+            .backgroundColor(.orange)
+            .onGesture(.tap) {
+                print("imageView tapped")
+            }
+        
+        view.addSubview(imageView)
+        
+        let stack = HStackView {
+            UIButton("Button1")
+                .frame(width: 30, height: 30)
+                .backgroundColor(.blue)
+                .onAction {
+                    print("Button1 tapped")
+                    
+                }
+            
+            UIView()
+            
+            UIButton("Button2")
+                .frame(width: 30, height: 30)
+                .backgroundColor(.blue)
+                .onAction {
+                    print("Button2 tapped")
+                    
+                }
+                
+        }
+            .ignoreSelfHit()//忽略自身hit事件
+            .centerToSuper()
+            .left.right.equal(to: imageView)
+        
+        view.addSubview(stack)
+    }
+    /// Test: Gesture 多手势处理
     func test11() {
         let view1 = UIView()
             .frame(width: 300, height: 400)
@@ -68,7 +106,7 @@ class ViewController: UIViewController {
         let view2 = HStackView {
             UILabel("Title")
             UIButton("Button")
-                .frame(width: 40, height: 40)
+                .frame(height: 40)
                 .titleColor(.random)
                 .onAction {
                     print("Button tapped")
@@ -78,6 +116,7 @@ class ViewController: UIViewController {
                 }
             
         }
+        
             .centerToSuper()
         
         view1.addSubview(view2)
