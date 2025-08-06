@@ -3,7 +3,21 @@
 Inject SwiftUI-like development efficiency into UIKit through chained syntax and modern API design. Develop with UIKit more concisely and efficiently while maintaining full control, achieving a "zero conversion cost" SwiftUI-like development experience.  
 
 **为 UIKit 注入 SwiftUI 的开发效率**  
-通过链式语法和现代化 API 设计，让 UIKit 开发更简洁高效，同时保持完整控制权，实现「零转换成本」的 SwiftUI 式开发体验。  
+通过链式语法和现代化 API 设计，让 UIKit 开发更简洁高效，同时保持完整控制权，实现「零转换成本」的 SwiftUI 式开发体验。 
+
+**1、如果你是一名长期使用 UIKit 的开发者，想要体验 SwiftUI 的现代化开发方式但又不愿/不能完全重写现有项目，SwiftlyUI 是你的完美选择。它通过：**
+- **链式语法**​​ 实现 SwiftUI 式的声明式开发体验
+- **@resultBuilder**​​ 支持容器嵌套，完美复刻 SwiftUI 的布局逻辑
+- **零迁移成本**​​ 允许你在现有 UIKit 项目中逐步采用新写法
+- **完整保留** UIKit 能力​​ 不引入额外抽象层，随时可以回退到传统写法
+"就像给 UIKit 装上了 SwiftUI 的引擎，既享受新语法的高效，又保留旧框架的掌控力。"
+
+**2、当你不得不回到 UIKit 世界时（比如维护旧项目或实现某些 SwiftUI 尚不支持的功能），SwiftlyUI 能让你：**
+- **无缝切换**​​ 使用几乎相同的语法风格编写 UIKit 代码
+- **减少** 60% 的样板代码​​ 用 .method()链式调用替代繁琐的属性设置
+- **内置** SwiftUI 最佳实践​​ 如声明式动画、便捷手势处理、智能布局系统等
+- **​​保持开发思维连贯性**​​ 不再需要频繁切换 SwiftUI 和 UIKit 的思维方式
+"就像带着 SwiftUI 的编程习惯回到 UIKit，让旧框架写起来像新框架一样优雅。"
 
 
 ## Quick Navigation | 快速导航 
