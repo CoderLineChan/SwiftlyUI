@@ -98,6 +98,12 @@ public extension UILabel {
         return self
     }
     
+    @discardableResult
+    func adjustsFontSizeToFitWidth(_ adjusts: Bool) -> Self {
+        self.adjustsFontSizeToFitWidth = adjusts
+        return self
+    }
+    
     /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func minimumScale(_ factor: CGFloat) -> Self {

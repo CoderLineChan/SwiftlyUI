@@ -3254,6 +3254,7 @@ public extension UIView {
     @discardableResult
     func onGesture<T: AnyObject>(_ type: GestureType, target: T, action: @escaping (T) -> Void) -> Self {
         isUserInteractionEnabled = true
+        ignoreSelfHit(false)
         gestureRecognizers?.forEach({ gesture in
             if gesture.gestureType == type {
                 removeGestureRecognizer(gesture)
@@ -3282,6 +3283,7 @@ public extension UIView {
     @discardableResult
     func onGesture<T: AnyObject, GestureRecognizer: UIGestureRecognizer>(_ type: GestureType, target: T, action: @escaping (T, GestureRecognizer) -> Void) -> Self {
         isUserInteractionEnabled = true
+        ignoreSelfHit(false)
         gestureRecognizers?.forEach({ gesture in
             if gesture.gestureType == type {
                 removeGestureRecognizer(gesture)
@@ -3310,6 +3312,7 @@ public extension UIView {
     @discardableResult
     func onGesture(_ type: GestureType, action: @escaping (UIGestureRecognizer) -> Void) -> Self {
         isUserInteractionEnabled = true
+        ignoreSelfHit(false)
         gestureRecognizers?.forEach({ gesture in
             if gesture.gestureType == type {
                 removeGestureRecognizer(gesture)
@@ -3346,6 +3349,7 @@ public extension UIView {
     @discardableResult
     func onGesture<T>(_ type: GestureType, target: T, action: Selector) -> Self {
         isUserInteractionEnabled = true
+        ignoreSelfHit(false)
         gestureRecognizers?.forEach({ gesture in
             if gesture.gestureType == type {
                 removeGestureRecognizer(gesture)
