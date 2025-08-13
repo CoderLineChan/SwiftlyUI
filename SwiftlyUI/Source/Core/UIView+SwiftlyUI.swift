@@ -3167,10 +3167,23 @@ extension UIView {
         }()
         
         if constraint.secondItem == nil {
-            return true
+            return isValidView(firstView)
         } else {
-            return firstView?.superview != nil && secondView?.superview != nil
+            return isValidView(firstView) && isValidView(secondView)
         }
+    }
+    
+    private func isValidView(_ view: UIView?) -> Bool {
+        guard let view = view else { return false }
+        
+        if view is UIWindow { return true }
+        
+        if view.superview != nil { return true }
+        
+        if let vc = view.next as? UIViewController, vc.view == view {
+            return true
+        }
+        return false
     }
     
     @objc private func swizzled_didAddSubview(_ view: UIView) {

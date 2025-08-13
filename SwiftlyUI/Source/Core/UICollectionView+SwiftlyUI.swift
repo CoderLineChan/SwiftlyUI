@@ -10,6 +10,18 @@ import UIKit
 
 public extension UICollectionView {
     
+    /// SwiftlyUI 扩展 初始化 `UICollectionView`。
+    convenience init(layout: UICollectionViewLayout) {
+        self.init(frame: .zero, collectionViewLayout: layout)
+        self.backgroundColor(.clear)
+    }
+    
+    /// SwiftlyUI 扩展 初始化 `UICollectionView`。
+    convenience init(layout: () -> UICollectionViewLayout) {
+        self.init(frame: .zero, collectionViewLayout: layout())
+        self.backgroundColor(.clear)
+    }
+    
     /// SwiftlyUI 扩展 注册 `UICollectionViewCell`。
     /// SwiftlyUI extension register  `UICollectionViewCell`.
     @discardableResult
