@@ -2813,10 +2813,14 @@ extension UIView {
         removeConstraint(type: type)
         var holder = constraintHolder
         if let _ = superview {
-            constraint.isActive = true
+            if checkCanActive(constraint: constraint) {
+                constraint.isActive = true
+            }
             holder.constraints[type] = constraint
         }else {
-            constraint.isActive = false
+            if constraint.isActive {
+                NSLayoutConstraint.deactivate([constraint])
+            }
             holder.constraints[type] = constraint
         }
         constraintHolder = holder
@@ -2825,7 +2829,7 @@ extension UIView {
     func removeConstraint(type: ConstraintType) {
         var holder = constraintHolder
         if let constraint = holder.constraints[type] {
-            constraint.isActive = false
+            NSLayoutConstraint.deactivate([constraint])
             holder.constraints.removeValue(forKey: type)
         }
         constraintHolder = holder
@@ -3133,8 +3137,39 @@ extension UIView {
         holder.pendingConstraints = [:]
         constraintHolder = holder
         
-        constraintHolder.constraints.forEach { (type, constraint) in
-            constraint.isActive = true
+        holder.constraints.forEach { [weak self] (type, constraint) in
+            guard let self else { return }
+            if checkCanActive(constraint: constraint) {
+                if constraint.isActive == false {
+                    constraint.isActive = true
+                }
+            }
+        }
+    }
+    
+    private func checkCanActive(constraint: NSLayoutConstraint) -> Bool {
+        let firstView: UIView? = {
+            if let view = constraint.firstItem as? UIView {
+                return view
+            } else if let guide = constraint.firstItem as? UILayoutGuide {
+                return guide.owningView
+            }
+            return nil
+        }()
+        
+        let secondView: UIView? = {
+            if let view = constraint.secondItem as? UIView {
+                return view
+            } else if let guide = constraint.secondItem as? UILayoutGuide {
+                return guide.owningView
+            }
+            return nil
+        }()
+        
+        if constraint.secondItem == nil {
+            return true
+        } else {
+            return firstView?.superview != nil && secondView?.superview != nil
         }
     }
     
