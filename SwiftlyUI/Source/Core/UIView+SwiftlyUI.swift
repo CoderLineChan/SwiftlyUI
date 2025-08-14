@@ -42,6 +42,78 @@ public extension UIView {
     }
 }
 
+/// SwiftlyUI - 拉伸UI
+public final class UISpacer: UIView {
+    /// SwiftlyUI - 初始化一个UISpacer
+    init(_ axis: NSLayoutConstraint.Axis) {
+        super.init(frame: .zero)
+        self.axis(axis)
+    }
+    /// SwiftlyUI - 初始化一个UISpacer
+    init(axis: NSLayoutConstraint.Axis) {
+        super.init(frame: .zero)
+        self.axis(axis)
+    }
+    
+    /// SwiftlyUI - 设置轴向
+    @discardableResult
+    private func axis(_ axis: NSLayoutConstraint.Axis) -> Self {
+        contentHuggingPriority(.defaultLow, for: axis)
+        contentCompressionResistancePriority(.defaultLow, for: axis)
+        if axis == .horizontal {
+            width(1)
+        } else {
+            height(1)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI - 设置最小宽度
+    @discardableResult
+    func minWidth(_ value: CGFloat) -> Self {
+        frame(minWidth: value)
+        return self
+    }
+    
+    /// SwiftlyUI - 设置最小高度
+    @discardableResult
+    func minHeight(_ value: CGFloat) -> Self {
+        frame(minHeight: value)
+        return self
+    }
+    
+    /// SwiftlyUI - 设置最大宽度
+    @discardableResult
+    func maxWidth(_ value: CGFloat) -> Self {
+        frame(maxWidth: value)
+        return self
+    }
+    
+    /// SwiftlyUI - 设置最大高度
+    @discardableResult
+    func maxHeight(_ value: CGFloat) -> Self {
+        frame(maxHeight: value)
+        return self
+    }
+    
+    /// SwiftlyUI - 废弃
+    @available(*, unavailable, message: "Use init(axis:) or init(_ axis:) instead.")
+    public convenience init() {
+        fatalError("SwiftlyUI UISpacer cannot be initialized with init(). Use init(axis:) or init(_ axis:) instead.")
+    }
+    
+    /// SwiftlyUI - 废弃
+    @available(*, unavailable, message: "Use init(axis:) instead.")
+    public override init(frame: CGRect) {
+        fatalError("SwiftlyUI UISpacer can not user init(frame:)")
+    }
+    
+    /// SwiftlyUI - 废弃
+    required init?(coder: NSCoder) {
+        fatalError("SwiftlyUI init(coder:) has not been implemented")
+    }
+}
+
 private let backgroundViewTag: Int = 98367682
 private let defaultPadding: CGFloat = 16
 public extension UIView {
@@ -1309,7 +1381,7 @@ public extension UIView {
     /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func heightTo(_ anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
-        let config = ConstraintConfig(type: .height, targetType: .other, offset: 0, Dimension: anchor)
+        let config = ConstraintConfig(type: .height, targetType: .other, offset: 0, multiplier: multiplier, Dimension: anchor)
         var holder = constraintHolder
         holder.pendingConstraints[.height] = config
         constraintHolder = holder
