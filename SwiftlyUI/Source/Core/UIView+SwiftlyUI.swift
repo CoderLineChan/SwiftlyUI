@@ -3241,7 +3241,9 @@ extension UIView {
         if constraint.secondItem == nil {
             return isValidView(firstView)
         } else {
-            return isValidView(firstView) && isValidView(secondView)
+            let hasSuper = isValidView(firstView) && firstView?.superview == secondView
+            let isValid = isValidView(firstView) && isValidView(secondView)
+            return isValid || hasSuper
         }
     }
     
