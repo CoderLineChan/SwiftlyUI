@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		140E75A42E1CCCD200A0FBB0 /* UISearchBar+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140E75A32E1CCCCB00A0FBB0 /* UISearchBar+SwiftlyUI.swift */; };
 		143107442DEEA1BF00B14C9E /* UIKitPreviewable-SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143107432DEEA1BE00B14C9E /* UIKitPreviewable-SwiftlyUI.swift */; };
+		146FD13C2E4DD57C002A8FD3 /* UIPageControl+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146FD13B2E4DD577002A8FD3 /* UIPageControl+SwiftlyUI.swift */; };
 		14B119B92DCDFC5C003856F0 /* CAGradientLayer-SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119B82DCDFC57003856F0 /* CAGradientLayer-SwiftlyUI.swift */; };
 		14B119BB2DCE1195003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */; };
 		14C2C3BB2DEFF78A00B658DA /* UIScrollView+SwiftlyUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */; };
@@ -66,6 +67,7 @@
 		115817B25BDFD24B22CE4CC418688C99 /* UIColor+SwiftlyUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = "UIColor+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		140E75A32E1CCCCB00A0FBB0 /* UISearchBar+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		143107432DEEA1BE00B14C9E /* UIKitPreviewable-SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKitPreviewable-SwiftlyUI.swift"; sourceTree = "<group>"; };
+		146FD13B2E4DD577002A8FD3 /* UIPageControl+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPageControl+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14B119B82DCDFC57003856F0 /* CAGradientLayer-SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer-SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBackgroundConfiguration+SwiftlyUI.swift"; sourceTree = "<group>"; };
 		14C2C3BA2DEFF78500B658DA /* UIScrollView+SwiftlyUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+SwiftlyUI.swift"; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				14F2D2DA2E0CF9C200CD0E91 /* UIActivityIndicatorView+SwiftlyUI.swift */,
+				146FD13B2E4DD577002A8FD3 /* UIPageControl+SwiftlyUI.swift */,
 				14B119BA2DCE118F003856F0 /* UIBackgroundConfiguration+SwiftlyUI.swift */,
 				14F2D4A32E0FAB2800CD0E91 /* UIBarButtonItem+SwiftlyUI.swift */,
 				41888869CD9BBBF0BA9F6825F2D7DEE0 /* UIButton+SwiftlyUI.swift */,
@@ -420,6 +423,7 @@
 				7A3D86A159CA140CB6E79E67F33B2A7E /* UIButton+SwiftlyUI.swift in Sources */,
 				14C2C68C2DF1414E00B658DA /* UITableView+SwiftlyUI.swift in Sources */,
 				14C2C68E2DF1416A00B658DA /* UITableViewCell+SwiftlyUI.swift in Sources */,
+				146FD13C2E4DD57C002A8FD3 /* UIPageControl+SwiftlyUI.swift in Sources */,
 				14C2C68A2DF13FA600B658DA /* UIRefreshControl+SwiftlyUI.swift in Sources */,
 				998467E9375A6375152FC704B8E5A973 /* UIColor+SwiftlyUI.swift in Sources */,
 				14C2C6942DF1661700B658DA /* UIInputView+SwiftlyUI.swift in Sources */,
