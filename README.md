@@ -70,9 +70,14 @@ Xcode -> File -> Add Package Dependencies... -> https://github.com/CoderLineChan
 ### Enhanced Containers with @resultBuilder for UIView and UIStackView
 - Perfect nested containers replicating SwiftUI | 多容器嵌套完美复刻SwiftUI
 ```swift
+//扩展的类：
+UISpacer == UIView
 ZStackView == UIView
 HStackView == UIStackView
 VStackView == UIStackView
+VScrollView == UIScrollView
+Label == UILabel
+ImageView == UIImageView
 ```
 ```swift
 let zView = ZStackView {// == UIView
@@ -161,8 +166,9 @@ let view = UIView()
     .radius(10, corners: .topLeft | .topRight)//设置圆角
     .opacity(0.5)//与alpha一致
     .background {//在底部添加视图
-        UIImageView()// 嵌入式背景视图
-            .imageName("icon")
+        UIImageView("local_image_iocn_name")// 嵌入式背景视图
+            .imageName("local_image_iocn_name")//设置图片名
+            .image(UIImage(named: "local_image_iocn_name"))//直接设置图片
             .contentMode(.scaleAspectFill)
             .fillSuper()
         //... 可以添加任何UIView
@@ -172,8 +178,19 @@ let view = UIView()
             .backgroundColor(.lightGray)
             .height(0.5)
             .left.top.right.equalToSuper()
+
+        Label("文本")
+            .centerToSuper()
         //... 可以添加任意UIView
     }
+    .addSubViews {//添加子试图方式
+        UIView()//可以是分割线
+            .backgroundColor(.lightGray)
+            .height(0.5)
+            .left.top.right.equalToSuper()
+        //... 可以添加任意UIView
+    }
+
 ```
 
 ### 现代化交互封装：手势识别事件简化
@@ -242,7 +259,7 @@ let contorl = UIControl()
 ```
 
 ```swift
-let button = UIButton()
+let button = UIButton("btn")
     .font(.bold(16))
     .title("title", state: .normal)
     .titleColor(.black, state: .normal)
@@ -261,8 +278,8 @@ let button = UIButton()
 - Padding 精准设置内边距
 - 控件事件简化监听文本变化
 ```swift
-let textView = UITextView()//or
-let textField = UITextField()
+let textView = UITextView("placeholder Name")//or
+let textField = UITextField("placeholder Name")
     .font(.regular(16))
     .textColor(.black)
     .foregroundColor(.black)
