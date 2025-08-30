@@ -45,12 +45,12 @@ public extension UIView {
 /// SwiftlyUI - 拉伸UI
 public final class UISpacer: UIView {
     /// SwiftlyUI - 初始化一个UISpacer
-    init(_ axis: NSLayoutConstraint.Axis) {
+    public init(_ axis: NSLayoutConstraint.Axis) {
         super.init(frame: .zero)
         self.axis(axis)
     }
     /// SwiftlyUI - 初始化一个UISpacer
-    init(axis: NSLayoutConstraint.Axis) {
+    public init(axis: NSLayoutConstraint.Axis) {
         super.init(frame: .zero)
         self.axis(axis)
     }
@@ -70,47 +70,45 @@ public final class UISpacer: UIView {
     
     /// SwiftlyUI - 设置最小宽度
     @discardableResult
-    func minWidth(_ value: CGFloat) -> Self {
+    public func minWidth(_ value: CGFloat) -> Self {
         frame(minWidth: value)
         return self
     }
     
     /// SwiftlyUI - 设置最小高度
     @discardableResult
-    func minHeight(_ value: CGFloat) -> Self {
+    public func minHeight(_ value: CGFloat) -> Self {
         frame(minHeight: value)
         return self
     }
     
     /// SwiftlyUI - 设置最大宽度
     @discardableResult
-    func maxWidth(_ value: CGFloat) -> Self {
+    public func maxWidth(_ value: CGFloat) -> Self {
         frame(maxWidth: value)
         return self
     }
     
     /// SwiftlyUI - 设置最大高度
     @discardableResult
-    func maxHeight(_ value: CGFloat) -> Self {
+    public func maxHeight(_ value: CGFloat) -> Self {
         frame(maxHeight: value)
         return self
     }
     
-    /// SwiftlyUI - 废弃
-    @available(*, unavailable, message: "Use init(axis:) or init(_ axis:) instead.")
-    public convenience init() {
-        fatalError("SwiftlyUI UISpacer cannot be initialized with init(). Use init(axis:) or init(_ axis:) instead.")
+    /// SwiftlyUI - Use init(axis:) instead.
+    private convenience init() {
+        fatalError("UISpacer cannot be initialized with init(). Use init(axis:) instead.")
+    }
+
+    /// SwiftlyUI - Use init(axis:) instead.
+    private override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
-    /// SwiftlyUI - 废弃
-    @available(*, unavailable, message: "Use init(axis:) instead.")
-    public override init(frame: CGRect) {
-        fatalError("SwiftlyUI UISpacer can not user init(frame:)")
-    }
-    
-    /// SwiftlyUI - 废弃
-    required init?(coder: NSCoder) {
-        fatalError("SwiftlyUI init(coder:) has not been implemented")
+    /// SwiftlyUI - Use init(axis:) instead.
+    internal required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
 }
 
@@ -162,7 +160,6 @@ public extension UIView {
     /// - edge: 设置UIEdgeInsets
     @discardableResult
     @objc func layoutMargins(_ edge: UIEdgeInsets) -> Self {
-        translatesAutoresizingMaskIntoConstraints = false
         layoutMargins = edge
         return self
     }
@@ -356,10 +353,21 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 在顶部添加Views
-    /// 在View的顶部 覆盖Views，默认没有布局
+    /// SwiftlyUI - 添加子视图
+    /// 添加子视图，默认没有布局
     @discardableResult
     func overlay(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
+        let subviews = content()
+        subviews.forEach { sub in
+            addSubview(sub)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI - 添加子视图
+    /// 添加子视图，默认没有布局
+    @discardableResult
+    func addSubViews(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
         let subviews = content()
         subviews.forEach { sub in
             addSubview(sub)
