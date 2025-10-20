@@ -837,7 +837,7 @@ public extension UIView {
         }
         constraintTypes = []
         if types.contains(.top) {
-            top(to: yAnchor, offset: offset)
+            topTo(yAnchor, offset: offset)
         }
         
         if types.contains(.bottom) {
@@ -1319,12 +1319,6 @@ public extension UIView {
         constraintHolder = holder
         return self
     }
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 topTo()方法代替
-    @discardableResult
-    func top(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        topTo(anchor, offset: offset)
-    }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
@@ -1339,7 +1333,7 @@ public extension UIView {
                 type: .top
             )
         }else {
-            top(to: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: offset)
+            topTo(isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: offset)
         }
         return self
     }
@@ -2398,6 +2392,14 @@ public extension UIView {
     @discardableResult
     func top(to view: UIView, isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         topTo(view, isMargins: isMargins, offset: offset)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 topTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use topTo() method instead.")
+    @discardableResult
+    func top(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        topTo(anchor, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
