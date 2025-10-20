@@ -887,9 +887,40 @@ public extension UIView {
 // MARK: - Layout Fill & center
 public extension UIView {
     
-    /// SwiftlyUI - 填满父视图
-    /// - Parameters:
-    ///  - edge: 边距
+    /// SwiftlyUI: Fills the view to its superview's edges with optional edge insets.
+    /// SwiftlyUI: 将视图填充到父视图边缘，可设置边距
+    ///
+    /// - Parameter edge: The edge insets to apply to each side. Defaults to .zero.
+    ///                  要应用到各边的边距，默认为.zero
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///   - Positive inset values will move the edges inward from the superview's edges.
+    ///     正边距值将使边缘从父视图边缘向内移动
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is a convenient shortcut for filling the superview.
+    ///     此SwiftlyUI方法是填充父视图的便捷方式
+    ///   - Uses standard edges (not layout margins) for alignment.
+    ///     使用标准边缘（非布局边距）进行对齐
+    ///   - Sets constraints on all four edges simultaneously.
+    ///     同时设置四个边缘的约束
+    ///
+    /// Example:
+    /// ```
+    /// superView.addSubView(view)
+    /// view.fillToSuper(edge: UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
+    /// // Positions view 10pts from top/bottom, 20pts from left/right
+    /// ```
+    /// 示例：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.fillToSuper(edge: UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
+    /// // 视图距顶部/底部10点，距左侧/右侧20点
+    /// ```
     @discardableResult
     func fillToSuper(edge: UIEdgeInsets = .zero) -> Self {
         leftToSuper(isMargins: false, offset: edge.left)
@@ -899,9 +930,40 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 填满父视图的Margins
-    /// - Parameters:
-    ///  - edge: 边距
+    /// SwiftlyUI: Fills the view to its superview's layout margins with optional edge insets.
+    /// SwiftlyUI: 将视图填充到父视图的布局边距，可设置边距
+    ///
+    /// - Parameter edge: The edge insets to apply to each side. Defaults to .zero.
+    ///                  要应用到各边的边距，默认为.zero
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///   - Positive inset values will move the edges inward from the superview's margins.
+    ///     正边距值将使边缘从父视图边距向内移动
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method respects the superview's layoutMargins.
+    ///     此SwiftlyUI方法遵循父视图的layoutMargins
+    ///   - Useful when you want to respect the system-recommended margins.
+    ///     适用于需要遵循系统推荐边距的情况
+    ///   - Sets constraints on all four edges simultaneously.
+    ///     同时设置四个边缘的约束
+    ///
+    /// Example:
+    /// ```
+    /// superView.addSubView(view)
+    /// view.fillToSuperMargins(edge: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+    /// // Positions view 5pts inside superview's margins on all sides
+    /// ```
+    /// 示例：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.fillToSuperMargins(edge: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+    /// // 视图距父视图边距各边5点
+    /// ```
     @discardableResult
     func fillToSuperMargins(edge: UIEdgeInsets = .zero) -> Self {
         leftToSuper(isMargins: true, offset: edge.left)
@@ -911,21 +973,118 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 填满指定视图
+    /// SwiftlyUI: Fills the view to match another view's layout margins with optional edge insets.
+    /// SwiftlyUI: 将视图填充到另一视图的布局边距，可设置边距
+    ///
     /// - Parameters:
-    ///  - view: 指定视图
-    ///  - edge: 边距
+    ///   - view: The target view to fill to.
+    ///           要填充的目标视图
+    ///   - edge: The edge insets to apply to each side. Defaults to .zero.
+    ///           要应用到各边的边距，默认为.zero
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///   - Positive inset values will move the edges inward from the target view's margins.
+    ///     正边距值将使边缘从目标视图边距向内移动
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method respects the target view's layoutMargins.
+    ///     此SwiftlyUI方法遵循目标视图的layoutMargins
+    ///   - Convenient for aligning content within a container's margins.
+    ///     适用于在容器边距内对齐内容
+    ///   - Sets constraints on all four edges simultaneously.
+    ///     同时设置四个边缘的约束
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.fillToMargins(superView, edge: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+    /// // Auto-activated, positions view 5pts inside superview's margins
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.fillToMargins(superView, edge: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+    /// // 自动激活，视图距父视图边距各边5点
+    ///
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.fillToMargins(view2, edge: .zero).activeConstraints()
+    /// // Fills view1 to view2's margins
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.fillToMargins(view2, edge: .zero).activeConstraints()
+    /// // 将view1填充到view2的边距
+    /// ```
     @discardableResult
     func fillToMargins(_ view: UIView, edge: UIEdgeInsets = .zero) -> Self {
         fillTo(view, isMargins: true, edge: edge)
         return self
     }
     
-    /// SwiftlyUI - 填满指定视图
+    /// SwiftlyUI: Fills the view to match another view's edges with optional edge insets.
+    /// SwiftlyUI: 将视图填充到另一视图的边缘，可设置边距
+    ///
     /// - Parameters:
-    ///  - view: 指定视图
-    ///  - isMargins: 是否相对于layoutMarginsGuide布局，默认false
-    ///  - edge: 边距
+    ///   - view: The target view to fill to.
+    ///           要填充的目标视图
+    ///   - isMargins: Whether to use the target view's layout margins. Defaults to false.
+    ///               是否使用目标视图的布局边距，默认为false
+    ///   - edge: The edge insets to apply to each side. Defaults to .zero.
+    ///           要应用到各边的边距，默认为.zero
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///   - Positive inset values will move the edges inward from the target view's edges/margins.
+    ///     正边距值将使边缘从目标视图边缘/边距向内移动
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides flexible options for view alignment.
+    ///     此SwiftlyUI方法提供灵活的视图对齐选项
+    ///   - When `isMargins` is true, respects the target view's layoutMarginsGuide.
+    ///     当 `isMargins` 为 true 时，遵循目标视图的layoutMarginsGuide
+    ///   - Sets constraints on all four edges simultaneously.
+    ///     同时设置四个边缘的约束
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.fillTo(superView, edge: UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
+    /// // Auto-activated, positions view with 10pts top/bottom, 20pts left/right padding
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.fillTo(superView, edge: UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20))
+    /// // 自动激活，视图距父视图顶部/底部10点，左侧/右侧20点
+    ///
+    /// ```
+    /// Example (non-superview with margins):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.fillTo(view2, isMargins: true, edge: .zero).activeConstraints()
+    /// // Fills view1 to view2's margins
+    /// ```
+    /// 示例（非父视图，使用边距）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.fillTo(view2, isMargins: true, edge: .zero).activeConstraints()
+    /// // 将view1填充到view2的边距
+    /// ```
     @discardableResult
     func fillTo(_ view: UIView, isMargins: Bool = false, edge: UIEdgeInsets = .zero) -> Self {
         leadingTo(isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: edge.left)
@@ -935,7 +1094,48 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到父视图
+    /// SwiftlyUI: Centers the view both horizontally and vertically within its superview.
+    /// SwiftlyUI: 将视图在其父视图中水平和垂直居中
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides a convenient way to fully center a view in its superview.
+    ///     此SwiftlyUI方法提供了在父视图中完全居中视图的便捷方式
+    ///   - Sets both horizontal and vertical center constraints simultaneously.
+    ///     同时设置水平和垂直居中约束
+    ///   - Uses exact center alignment with no offset by default.
+    ///     默认使用精确居中对齐，无偏移
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerToSuper() // Auto-activated, perfectly centered in superview
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerToSuper() // 自动激活，在父视图中完美居中
+    ///
+    /// ```
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.centerToSuper() // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraints activate here (perfectly centered)
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.centerToSuper() // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活（完美居中）
+    /// ```
     @discardableResult
     func centerToSuper() -> Self {
         if !constraintTypes.isEmpty {
@@ -962,7 +1162,49 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到指定视图
+    /// SwiftlyUI: Centers the view both horizontally and vertically relative to another view.
+    /// SwiftlyUI: 将视图相对于另一视图水平和垂直居中
+    ///
+    /// - Parameter view: The target view to center relative to.
+    ///                  要居中对齐的目标视图
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides complete centering relative to any view.
+    ///     此SwiftlyUI方法提供相对于任意视图的完全居中
+    ///   - Sets both horizontal and vertical center constraints simultaneously.
+    ///     同时设置水平和垂直居中约束
+    ///   - Uses exact center alignment with no offset by default.
+    ///     默认使用精确居中对齐，无偏移
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerTo(superView) // Auto-activated, perfectly centered in superview
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerTo(superView) // 自动激活，在父视图中完美居中
+    ///
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.centerTo(view2).activeConstraints() // Perfectly centered relative to view2
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.centerTo(view2).activeConstraints() // 相对于view2完美居中
+    /// ```
     @discardableResult
     func centerTo(_ view: UIView) -> Self {
         if !constraintTypes.isEmpty {
@@ -989,9 +1231,53 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到父视图
-    /// - Parameters:
-    ///  - offset: 偏移量
+    /// SwiftlyUI: Centers the view horizontally within its superview with optional offset.
+    /// SwiftlyUI: 将视图在其父视图中水平居中，可设置偏移量
+    ///
+    /// - Parameter offset: The horizontal offset from center. Defaults to 0.
+    ///                    距离中心点的水平偏移量，默认为0
+    ///                    Positive values move right, negative values move left.
+    ///                    正值向右偏移，负值向左偏移
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is the simplest way to center a view horizontally in its superview.
+    ///     此SwiftlyUI方法是在父视图中水平居中视图的最简单方式
+    ///   - The offset allows fine-tuning of horizontal position while maintaining centered alignment.
+    ///     偏移量可以在保持居中对齐的同时微调水平位置
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerXToSuper(offset: 20)
+    /// // Auto-activated, positions view 20 points right of superview's center
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerXToSuper(offset: 20)
+    /// // 自动激活，视图位于父视图水平中心右侧20点处
+    ///
+    /// ```
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.centerXToSuper(offset: -10) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraint activates here (10 points left of center)
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.centerXToSuper(offset: -10) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活（中心点左侧10点处）
+    /// ```
     @discardableResult
     func centerXToSuper(offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1012,10 +1298,39 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到指定X轴锚点
+    /// SwiftlyUI: Centers the view horizontally relative to a specified horizontal anchor.
+    /// SwiftlyUI: 将视图相对于指定的水平锚点水平居中
+    ///
     /// - Parameters:
-    /// - anchor: X轴锚点
-    /// - offset: 偏移量
+    ///   - anchor: The horizontal anchor to align to.
+    ///             要对齐的水平锚点
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///             与锚点的常量偏移量，默认为0
+    ///             Positive values move right, negative values move left.
+    ///             正值向右移动，负值向左移动
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///   - If constraints have already been set, this will trigger an assertion failure.
+    ///     如果已经设置了约束，将会触发断言失败
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is part of a fluent interface for constraint configuration.
+    ///     此SwiftlyUI方法是约束配置的流式接口的一部分
+    ///   - The constraint won't take effect until `activeConstraints()` is called.
+    ///     在调用 `activeConstraints()` 之前约束不会生效
+    ///
+    /// Example:
+    /// ```
+    /// view.centerXTo(container.centerXAnchor, offset: 20).activeConstraints()
+    /// // Positions view 20 points right of container's horizontal center
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.centerXTo(container.centerXAnchor, offset: 20).activeConstraints()
+    /// // 视图位于容器水平中心右侧20点处
+    /// ```
     @discardableResult
     func centerXTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1029,10 +1344,54 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到指定视图
+    /// SwiftlyUI: Centers the view horizontally relative to another view.
+    /// SwiftlyUI: 将视图相对于另一视图水平居中
+    ///
     /// - Parameters:
-    /// - view: 指定视图
-    /// - offset: 偏移量
+    ///   - view: The target view to align to.
+    ///           要对齐的目标视图
+    ///   - offset: The constant offset from the center. Defaults to 0.
+    ///             与中心点的常量偏移量，默认为0
+    ///             Positive values move right, negative values move left.
+    ///             正值向右移动，负值向左移动
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides a more convenient way to center views horizontally.
+    ///     此SwiftlyUI方法提供了更便捷的水平居中对齐方式
+    ///   - When aligning to non-superviews, uses the target view's layoutMarginsGuide.
+    ///     当对齐非父视图时，使用目标视图的layoutMarginsGuide
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerXTo(superView, offset: 10) // Auto-activated, 10 points right of superview's center
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerXTo(superView, offset: 10) // 自动激活，位于父视图水平中心右侧10点处
+    ///
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.centerXTo(view2, offset: -5).activeConstraints()
+    /// // Positions view1 5 points left of view2's horizontal center
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.centerXTo(view2, offset: -5).activeConstraints()
+    /// // view1位于view2水平中心左侧5点处
+    /// ```
     @discardableResult
     func centerXTo(_ view: UIView, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1050,9 +1409,55 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到父视图
-    /// - Parameters:
-    /// - offset: 偏移量
+    /// SwiftlyUI: Centers the view vertically within its superview with optional offset.
+    /// SwiftlyUI: 将视图在其父视图中垂直居中，可设置偏移量
+    ///
+    /// - Parameter offset: The vertical offset from center. Defaults to 0.
+    ///                    距离中心点的垂直偏移量，默认为0
+    ///                    Positive values move downward, negative values move upward.
+    ///                    正值向下偏移，负值向上偏移
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is the simplest way to center a view vertically in its superview.
+    ///     此SwiftlyUI方法是在父视图中垂直居中视图的最简单方式
+    ///   - The offset allows fine-tuning of vertical position while maintaining centered alignment.
+    ///     偏移量可以在保持居中对齐的同时微调垂直位置
+    ///   - The constraint is set with equalTo relation.
+    ///     约束使用equalTo关系
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerYToSuper(offset: 20)
+    /// // Auto-activated, positions view 20 points below superview's vertical center
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerYToSuper(offset: 20)
+    /// // 自动激活，视图位于父视图垂直中心下方20点处
+    ///
+    /// ```
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.centerYToSuper(offset: -10) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraint activates here (10 points above center)
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.centerYToSuper(offset: -10) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活（中心点上方10点处）
+    /// ```
     @discardableResult
     func centerYToSuper(offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1073,10 +1478,39 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到指定Y轴锚点
+    /// SwiftlyUI: Centers the view vertically relative to a specified vertical anchor.
+    /// SwiftlyUI: 将视图相对于指定的垂直锚点垂直居中
+    ///
     /// - Parameters:
-    /// - anchor: Y轴锚点
-    /// - offset: 偏移量
+    ///   - anchor: The vertical anchor to align to.
+    ///             要对齐的垂直锚点
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///             与锚点的常量偏移量，默认为0
+    ///             Positive values move the view downward, negative values upward.
+    ///             正值使视图向下移动，负值使视图向上移动
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///   - If constraints have already been set, this will trigger an assertion failure.
+    ///     如果已经设置了约束，将会触发断言失败
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is part of a fluent interface for constraint configuration.
+    ///     此SwiftlyUI方法是约束配置的流式接口的一部分
+    ///   - The constraint won't take effect until `activeConstraints()` is called.
+    ///     在调用 `activeConstraints()` 之前约束不会生效
+    ///
+    /// Example:
+    /// ```
+    /// view.centerYTo(container.centerYAnchor, offset: 20).activeConstraints()
+    /// // Positions view 20 points below container's vertical center
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.centerYTo(container.centerYAnchor, offset: 20).activeConstraints()
+    /// // 视图位于容器垂直中心下方20点处
+    /// ```
     @discardableResult
     func centerYTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1090,10 +1524,56 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到指定视图
+    /// SwiftlyUI: Centers the view vertically relative to another view.
+    /// SwiftlyUI: 将视图相对于另一视图垂直居中
+    ///
     /// - Parameters:
-    /// - view: 指定视图
-    /// - offset: 偏移量
+    ///   - view: The target view to align to.
+    ///           要对齐的目标视图
+    ///   - offset: The constant offset from the center. Defaults to 0.
+    ///             与中心点的常量偏移量，默认为0
+    ///             Positive values move the view downward, negative values upward.
+    ///             正值使视图向下移动，负值使视图向上移动
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides a more convenient way to center views vertically.
+    ///     此SwiftlyUI方法提供了更便捷的垂直居中对齐方式
+    ///   - When aligning to non-superviews, uses the target view's layoutMarginsGuide.
+    ///     当对齐非父视图时，使用目标视图的layoutMarginsGuide
+    ///   - The constraint is set with equalTo relation.
+    ///     约束使用equalTo关系
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerYTo(superView, offset: 10) // Auto-activated, 10 points below superview's center
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.centerYTo(superView, offset: 10) // 自动激活，位于父视图垂直中心下方10点处
+    ///
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.centerYTo(view2, offset: -5).activeConstraints()
+    /// // Positions view1 5 points above view2's vertical center
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.centerYTo(view2, offset: -5).activeConstraints()
+    /// // view1位于view2垂直中心上方5点处
+    /// ```
     @discardableResult
     func centerYTo(_ view: UIView, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1115,7 +1595,56 @@ public extension UIView {
 
 // MARK: - Layout Width & Height
 public extension UIView {
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's size constraints including width and height dimensions.
+    /// SwiftlyUI: 设置视图的尺寸约束，包括宽度和高度
+    ///
+    /// - Parameters:
+    ///   - width: The exact width constraint for the view. Defaults to nil.
+    ///            视图的精确宽度约束，默认为nil
+    ///   - minWidth: The minimum width constraint for the view. Defaults to nil.
+    ///              视图的最小宽度约束，默认为nil
+    ///   - maxWidth: The maximum width constraint for the view. Defaults to nil.
+    ///              视图的最大宽度约束，默认为nil
+    ///   - height: The exact height constraint for the view. Defaults to nil.
+    ///             视图的精确高度约束，默认为nil
+    ///   - minHeight: The minimum height constraint for the view. Defaults to nil.
+    ///               视图的最小高度约束，默认为nil
+    ///   - maxHeight: The maximum height constraint for the view. Defaults to nil.
+    ///               视图的最大高度约束，默认为nil
+    ///
+    /// - Important:
+    ///   - Size constraints are automatically activated without needing `activeConstraints()`.
+    ///     尺寸约束会自动激活，无需调用 `activeConstraints()`
+    ///   - When multiple constraints are set (e.g., both width and minWidth),
+    ///     they will all be applied simultaneously.
+    ///     当设置多个约束时（如同时设置width和minWidth），它们将同时生效
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides a convenient way to set multiple size constraints at once.
+    ///     此SwiftlyUI方法提供了同时设置多个尺寸约束的便捷方式
+    ///   - Nil parameters will be ignored (no constraint will be set for that dimension).
+    ///     为nil的参数将被忽略（不会设置该维度的约束）
+    ///   - Unlike layout constraints, size constraints don't require a superview.
+    ///     与布局约束不同，尺寸约束不需要父视图
+    ///   - The constraints are set with equalTo relation by default.
+    ///     约束默认使用equalTo关系
+    ///
+    /// Example:
+    /// ```
+    /// view.frame(width: 200, height: 100)
+    /// // Sets exact width and height (auto-activated)
+    ///
+    /// view.frame(minWidth: 100, maxWidth: 300, minHeight: 50)
+    /// // Sets flexible width range and minimum height (auto-activated)
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.frame(width: 200, height: 100)
+    /// // 设置精确的宽度和高度（自动激活）
+    ///
+    /// view.frame(minWidth: 100, maxWidth: 300, minHeight: 50)
+    /// // 设置弹性宽度范围和最小高度（自动激活）
+    /// ```
     @discardableResult
     func frame(
         width: CGFloat? = nil,
@@ -1140,7 +1669,36 @@ public extension UIView {
             return self
         }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's exact size using width and height dimensions.
+    /// SwiftlyUI: 使用宽高尺寸设置视图的精确大小
+    ///
+    /// - Parameter size: The exact size for the view (width and height).
+    ///                  视图的精确尺寸（宽度和高度）
+    ///
+    /// - Important:
+    ///   - Size constraints are automatically activated without needing `activeConstraints()`.
+    ///     尺寸约束会自动激活，无需调用 `activeConstraints()`
+    ///   - This will set both width and height to fixed values.
+    ///     这将同时设置宽度和高度为固定值
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides a convenient way to set both dimensions at once.
+    ///     此SwiftlyUI方法提供了同时设置两个维度的便捷方式
+    ///   - Unlike layout constraints, size constraints don't require a superview.
+    ///     与布局约束不同，尺寸约束不需要父视图
+    ///   - The constraints are set with equalTo relation.
+    ///     约束使用equalTo关系
+    ///
+    /// Example:
+    /// ```
+    /// view.frame(size: CGSize(width: 200, height: 100))
+    /// // Sets exact width and height (auto-activated)
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.frame(size: CGSize(width: 200, height: 100))
+    /// // 设置精确的宽度和高度（自动激活）
+    /// ```
     @discardableResult
     func frame(size: CGSize) -> Self {
         handleDimensionConstraints(
@@ -1159,7 +1717,50 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's width relative to its superview's width with a multiplier.
+    /// SwiftlyUI: 根据父视图宽度按比例设置视图宽度
+    ///
+    /// - Parameter multiplier: The multiplier to apply to the superview's width. Defaults to 1.
+    ///                        应用于父视图宽度的乘数，默认为1
+    ///
+    /// - Important:
+    ///   - If the superview exists, constraints will be activated automatically.
+    ///     如果父视图存在，约束将自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is useful for proportional layouts.
+    ///     此SwiftlyUI方法适用于比例布局
+    ///   - A multiplier of 0.5 would make the view half as wide as its superview.
+    ///     乘数为0.5将使视图宽度为父视图的一半
+    ///   - The constraint is set with equalTo relation.
+    ///     约束使用equalTo关系
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.widthToSuper(multiplier: 0.8) // Auto-activated, 80% of superview's width
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.widthToSuper(multiplier: 0.8) // 自动激活，父视图宽度的80%
+    ///
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.widthToSuper(multiplier: 0.5) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraint activates here (50% width)
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.widthToSuper(multiplier: 0.5) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活（50%宽度）
+    /// ```
     @discardableResult
     func widthToSuper(multiplier: CGFloat = 1) -> Self {
         if let superview = superview {
@@ -1176,7 +1777,33 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: 使用常量值设置视图的精确宽度
+    ///
+    /// - Parameter value: The exact width for the view in points.
+    ///                   视图的精确宽度（以点为单位）
+    ///
+    /// - Important:
+    ///   - The width constraint is automatically activated without needing `activeConstraints()`.
+    ///     宽度约束会自动激活，无需调用 `activeConstraints()`
+    ///   - This will override any existing width constraints.
+    ///     这将覆盖任何现有的宽度约束
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides the simplest way to set fixed width.
+    ///     此SwiftlyUI方法提供了设置固定宽度的最简单方式
+    ///   - Unlike layout constraints, size constraints don't require a superview.
+    ///     与布局约束不同，尺寸约束不需要父视图
+    ///   - The constraint is set with equalToConstant relation.
+    ///     约束使用equalToConstant关系
+    ///
+    /// Example:
+    /// ```
+    /// view.width(200) // Sets exact width to 200 points (auto-activated)
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.width(200) // 设置精确宽度为200点（自动激活）
+    /// ```
     @discardableResult
     func width(_ value: CGFloat) -> Self {
         addAndActiveConstraint(
@@ -1186,14 +1813,72 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: 使用常量值设置视图的精确宽度
+    ///
+    /// - Parameter value: The exact width for the view in points.
+    ///                   视图的精确宽度（以点为单位）
+    ///
+    /// - Important:
+    ///   - The width constraint is automatically activated without needing `activeConstraints()`.
+    ///     宽度约束会自动激活，无需调用 `activeConstraints()`
+    ///   - This will override any existing width constraints.
+    ///     这将覆盖任何现有的宽度约束
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides the simplest way to set fixed width.
+    ///     此SwiftlyUI方法提供了设置固定宽度的最简单方式
+    ///   - Unlike layout constraints, size constraints don't require a superview.
+    ///     与布局约束不同，尺寸约束不需要父视图
+    ///   - The constraint is set with equalToConstant relation.
+    ///     约束使用equalToConstant关系
+    ///
+    /// Example:
+    /// ```
+    /// view.width(200) // Sets exact width to 200 points (auto-activated)
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.width(200) // 设置精确宽度为200点（自动激活）
+    /// ```
     @discardableResult
     func width(_ value: Int) -> Self {
         width(CGFloat(value))
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's width relative to another layout dimension with a multiplier.
+    /// SwiftlyUI: 根据另一个布局尺寸按比例设置视图宽度
+    ///
+    /// - Parameters:
+    ///   - anchor: The target layout dimension to relate to.
+    ///             要关联的目标布局尺寸
+    ///   - multiplier: The multiplier to apply to the target dimension. Defaults to 1.
+    ///                应用于目标尺寸的乘数，默认为1
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///   - This creates a proportional relationship between the two dimensions.
+    ///     这将在两个尺寸之间创建比例关系
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is useful for proportional width relationships.
+    ///     此SwiftlyUI方法适用于宽度比例关系
+    ///   - A multiplier of 0.5 would make the view half as wide as the target dimension.
+    ///     乘数为0.5将使视图宽度为目标尺寸的一半
+    ///   - The constraint is set with equalTo relation.
+    ///     约束使用equalTo关系
+    ///
+    /// Example:
+    /// ```
+    /// view.widthTo(container.widthAnchor, multiplier: 0.8).activeConstraints()
+    /// // Sets width to 80% of container's width
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.widthTo(container.widthAnchor, multiplier: 0.8).activeConstraints()
+    /// // 设置宽度为容器宽度的80%
+    /// ```
     @discardableResult
     func widthTo(_ anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
         let config = ConstraintConfig(type: .width, targetType: .other, offset: 0, multiplier: multiplier, Dimension: anchor)
@@ -1203,7 +1888,53 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's width relative to another view's width with a multiplier.
+    /// SwiftlyUI: 根据另一个视图的宽度按比例设置视图宽度
+    ///
+    /// - Parameters:
+    ///   - view: The target view to relate to.
+    ///           要关联的目标视图
+    ///   - multiplier: The multiplier to apply to the target view's width. Defaults to 1.
+    ///                应用于目标视图宽度的乘数，默认为1
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides a more convenient way to set proportional width between views.
+    ///     此SwiftlyUI方法提供了更便捷的方式来设置视图间的比例宽度
+    ///   - A multiplier of 0.5 would make the view half as wide as the target view.
+    ///     乘数为0.5将使视图宽度为目标视图的一半
+    ///   - The constraint is set with equalTo relation.
+    ///     约束使用equalTo关系
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.widthTo(superView, multiplier: 0.8) // Auto-activated, 80% of superview's width
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.widthTo(superView, multiplier: 0.8) // 自动激活，父视图宽度的80%
+    ///
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.widthTo(view2, multiplier: 0.5).activeConstraints()
+    /// // Sets view1 width to 50% of view2's width
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.widthTo(view2, multiplier: 0.5).activeConstraints()
+    /// // 设置view1宽度为view2宽度的50%
+    /// ```
     @discardableResult
     func widthTo(_ view: UIView, multiplier: CGFloat = 1) -> Self {
         if view == superview {
@@ -1217,7 +1948,50 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's height relative to its superview's height with a multiplier.
+    /// SwiftlyUI: 根据父视图宽度按比例设置视图高度
+    ///
+    /// - Parameter multiplier: The multiplier to apply to the superview's height. Defaults to 1.
+    ///                        应用于父视图宽度的乘数，默认为1
+    ///
+    /// - Important:
+    ///   - If the superview exists, constraints will be activated automatically.
+    ///     如果父视图存在，约束将自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is useful for proportional layouts.
+    ///     此SwiftlyUI方法适用于比例布局
+    ///   - A multiplier of 0.5 would make the view half as wide as its superview.
+    ///     乘数为0.5将使视图高度为父视图的一半
+    ///   - The constraint is set with equalTo relation.
+    ///     约束使用equalTo关系
+    ///
+    /// Example (height superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.heightToSuper(multiplier: 0.8) // Auto-activated, 80% of superview's height
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.heightToSuper(multiplier: 0.8) // 自动激活，父视图高度的80%
+    /// ```
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.heightToSuper(multiplier: 0.5) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraint activates here (50% height)
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.heightToSuper(multiplier: 0.5) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活（50%高度）
+    /// ```
     @discardableResult
     func heightToSuper(multiplier: CGFloat = 1) -> Self {
         if let superview = superview {
@@ -1234,7 +2008,34 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's exact height with a constant value.
+    /// SwiftlyUI: 使用常量值设置视图的精确高度
+    ///
+    /// - Parameter value: The exact height for the view in points.
+    ///                   视图的精确高度（以点为单位）
+    ///
+    /// - Important:
+    ///   - The height constraint is automatically activated without needing `activeConstraints()`.
+    ///     高度约束会自动激活，无需调用 `activeConstraints()`
+    ///   - This will override any existing height constraints.
+    ///     这将覆盖任何现有的高度约束
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides the simplest way to set fixed height.
+    ///     此SwiftlyUI方法提供了设置固定高度的最简单方式
+    ///   - Unlike layout constraints, size constraints don't require a superview.
+    ///     与布局约束不同，尺寸约束不需要父视图
+    ///   - The constraint is set with equalToConstant relation.
+    ///     约束使用equalToConstant关系
+    ///
+    /// Example:
+    /// ```
+    /// view.height(150) // Sets exact height to 150 points (auto-activated)
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.height(150) // 设置精确高度为150点（自动激活）
+    /// ```
     @discardableResult
     func height(_ value: CGFloat) -> Self {
         addAndActiveConstraint(
@@ -1244,14 +2045,73 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's exact height with a constant value.
+    /// SwiftlyUI: 使用常量值设置视图的精确高度
+    ///
+    /// - Parameter value: The exact height for the view in points.
+    ///                   视图的精确高度（以点为单位）
+    ///
+    /// - Important:
+    ///   - The height constraint is automatically activated without needing `activeConstraints()`.
+    ///     高度约束会自动激活，无需调用 `activeConstraints()`
+    ///   - This will override any existing height constraints.
+    ///     这将覆盖任何现有的高度约束
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides the simplest way to set fixed height.
+    ///     此SwiftlyUI方法提供了设置固定高度的最简单方式
+    ///   - Unlike layout constraints, size constraints don't require a superview.
+    ///     与布局约束不同，尺寸约束不需要父视图
+    ///   - The constraint is set with equalToConstant relation.
+    ///     约束使用equalToConstant关系
+    ///
+    /// Example:
+    /// ```
+    /// view.height(150) // Sets exact height to 150 points (auto-activated)
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.height(150) // 设置精确高度为150点（自动激活）
+    /// ```
     @discardableResult
     func height(_ value: Int) -> Self {
         height(CGFloat(value))
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's height relative to another layout dimension with a multiplier.
+    /// SwiftlyUI: 根据另一个布局尺寸按比例设置视图高度
+    ///
+    /// - Parameters:
+    ///   - anchor: The target layout dimension to relate to.
+    ///             要关联的目标布局尺寸
+    ///   - multiplier: The multiplier to apply to the target dimension. Defaults to 1.
+    ///                应用于目标尺寸的乘数，默认为1
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///   - This creates a proportional relationship between the two dimensions.
+    ///     这将在两个尺寸之间创建比例关系
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is useful for proportional height relationships.
+    ///     此SwiftlyUI方法适用于高度比例关系
+    ///   - A multiplier of 0.5 would make the view half as tall as the target dimension.
+    ///     乘数为0.5将使视图高度为目标尺寸的一半
+    ///   - The constraint is set with equalTo relation.
+    ///     约束使用equalTo关系
+    ///
+    /// Example:
+    /// ```
+    /// view.heightTo(container.heightAnchor, multiplier: 0.6).activeConstraints()
+    /// // Sets height to 60% of container's height
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.heightTo(container.heightAnchor, multiplier: 0.6).activeConstraints()
+    /// // 设置高度为容器高度的60%
+    /// ```
     @discardableResult
     func heightTo(_ anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
         let config = ConstraintConfig(type: .height, targetType: .other, offset: 0, multiplier: multiplier, Dimension: anchor)
@@ -1261,14 +2121,53 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 heightTo()方法代替
-    @discardableResult
-    func height(to anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
-        heightTo(anchor, multiplier: multiplier)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the view's height relative to another view's height with a multiplier.
+    /// SwiftlyUI: 根据另一个视图的高度按比例设置视图高度
+    ///
+    /// - Parameters:
+    ///   - view: The target view to relate to.
+    ///           要关联的目标视图
+    ///   - multiplier: The multiplier to apply to the target view's height. Defaults to 1.
+    ///                应用于目标视图高度的乘数，默认为1
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method provides a more convenient way to set proportional height between views.
+    ///     此SwiftlyUI方法提供了更便捷的方式来设置视图间的比例高度
+    ///   - A multiplier of 0.5 would make the view half as tall as the target view.
+    ///     乘数为0.5将使视图高度为目标视图的一半
+    ///   - The constraint is set with equalTo relation.
+    ///     约束使用equalTo关系
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.heightTo(superView, multiplier: 0.7) // Auto-activated, 70% of superview's height
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.heightTo(superView, multiplier: 0.7) // 自动激活，父视图高度的70%
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.heightTo(view2, multiplier: 0.8).activeConstraints()
+    /// // Sets view1 height to 80% of view2's height
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.heightTo(view2, multiplier: 0.8).activeConstraints()
+    /// // 设置view1高度为view2高度的80%
+    /// ```
     @discardableResult
     func heightTo(_ view: UIView, multiplier: CGFloat = 1) -> Self {
         if view == superview {
@@ -1277,7 +2176,7 @@ public extension UIView {
                 type: .height
             )
         }else {
-            height(to: view.layoutMarginsGuide.heightAnchor, multiplier: multiplier)
+            heightTo(view.layoutMarginsGuide.heightAnchor, multiplier: multiplier)
         }
         return self
     }
@@ -1285,7 +2184,52 @@ public extension UIView {
 
 // MARK: - Layout Top
 public extension UIView {
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the top edge of the view to align with its superview's top edge.
+    /// SwiftlyUI: 设置视图顶部与其父视图的顶部对齐
+    ///
+    /// - Parameters:
+    ///   - isMargins: Whether to use the superview's layout margins. Defaults to false.
+    ///               是否使用父视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This is a convenience method specifically for superview alignment.
+    ///     这是一个专门用于父视图对齐的便捷方法
+    ///   - When `isMargins` is true, respects the superview's layoutMarginsGuide.
+    ///     当 `isMargins` 为 true 时，会遵循父视图的 layoutMarginsGuide
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.topToSuper() // Auto-activated
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.topToSuper() // 自动激活
+    /// ```
+    ///
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.topToSuper(offset: 20) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraints activate here
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.topToSuper(offset: 20) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活
+    /// ```
     @discardableResult
     func topToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1306,7 +2250,29 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the top edge of the view to align with the specified vertical anchor.
+    /// SwiftlyUI: 设置视图顶部与指定垂直锚点对齐
+    ///
+    /// - Parameters:
+    ///   - anchor: The vertical anchor to align to.
+    ///            要对齐的垂直锚点
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// Example:
+    /// ```
+    /// superView.addSubView(view)
+    /// view.topTo(superview.topAnchor, offset: 20).activeConstraints()
+    /// ```
+    /// 示例：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.topTo(superview.topAnchor, offset: 20).activeConstraints()
+    /// ```
     @discardableResult
     func topTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1320,7 +2286,52 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the top edge of the view to align with another view's top edge.
+    /// SwiftlyUI: 设置视图顶部与另一视图的顶部对齐
+    ///
+    /// - Parameters:
+    ///   - view: The target view to align with.
+    ///           要对齐的目标视图
+    ///   - isMargins: Whether to use the target view's layout margins. Defaults to false.
+    ///               是否使用目标视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - When `isMargins` is true, the layout will respect the target view's margins.
+    ///     当 `isMargins` 为 true 时，布局将遵循目标视图的边距
+    ///   - This method provides a more convenient way to set constraints between views.
+    ///     此方法提供了更便捷的方式来设置视图间的约束
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.topTo(superView) // Auto-activated
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.topTo(superView) // 自动激活
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.topTo(view2, offset: 10).activeConstraints()
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.topTo(view2, offset: 10).activeConstraints()
+    /// ```
+
     @discardableResult
     func topTo(_ view: UIView, isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1448,7 +2459,52 @@ public extension UIView {
 
 // MARK: - Layout Left & leading
 public extension UIView {
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the left edge of the view to align with its superview's left edge.
+    /// SwiftlyUI: 设置视图左侧与其父视图的左侧对齐
+    ///
+    /// - Parameters:
+    ///   - isMargins: Whether to use the superview's layout margins. Defaults to false.
+    ///               是否使用父视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This is a convenience method specifically for superview alignment.
+    ///     这是一个专门用于父视图对齐的便捷方法
+    ///   - When `isMargins` is true, respects the superview's layoutMarginsGuide.
+    ///     当 `isMargins` 为 true 时，会遵循父视图的 layoutMarginsGuide
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.leftToSuper() // Auto-activated
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.leftToSuper() // 自动激活
+    /// ```
+    ///
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.leftToSuper(offset: 20) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraints activate here
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.leftToSuper(offset: 20) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活
+    /// ```
     @discardableResult
     func leftToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1469,7 +2525,52 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the left edge of the view to align with its superview's left edge.
+    /// SwiftlyUI: 设置视图左侧与其父视图的左侧对齐
+    ///
+    /// - Parameters:
+    ///   - isMargins: Whether to use the superview's layout margins. Defaults to false.
+    ///               是否使用父视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This is a convenience method specifically for superview alignment.
+    ///     这是一个专门用于父视图对齐的便捷方法
+    ///   - When `isMargins` is true, respects the superview's layoutMarginsGuide.
+    ///     当 `isMargins` 为 true 时，会遵循父视图的 layoutMarginsGuide
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.leftToSuper() // Auto-activated
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.leftToSuper() // 自动激活
+    /// ```
+    ///
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.leftToSuper(offset: 20) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraints activate here
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.leftToSuper(offset: 20) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活
+    /// ```
     @discardableResult
     func leadingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1486,6 +2587,214 @@ public extension UIView {
             var holder = constraintHolder
             holder.pendingConstraints[.leading] = config
             constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the left edge of the view to align with the specified horizontal anchor.
+    /// SwiftlyUI: 设置视图左侧与指定水平锚点对齐
+    ///
+    /// - Parameters:
+    ///   - anchor: The horizontal anchor to align to.
+    ///            要对齐的水平锚点
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///   - If constraints have already been set, this will trigger an assertion failure.
+    ///     如果已经设置了约束，将会触发断言失败
+    ///
+    /// - Note:
+    ///   - This method is part of a fluent interface for constraint configuration.
+    ///     此方法是约束配置的流式接口的一部分
+    ///   - The constraint won't take effect until `activeConstraints()` is called.
+    ///     在调用 `activeConstraints()` 之前约束不会生效
+    ///
+    /// Example:
+    /// ```
+    /// view.leftTo(container.leadingAnchor, offset: 16).activeConstraints()
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.leftTo(container.leadingAnchor, offset: 16).activeConstraints()
+    /// ```
+    @discardableResult
+    func leftTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .left, targetType: .other, offset: offset, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.left] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the left edge of the view to align with another view's left edge.
+    /// SwiftlyUI: 设置视图左侧与另一视图的左侧对齐
+    ///
+    /// - Parameters:
+    ///   - view: The target view to align with.
+    ///           要对齐的目标视图
+    ///   - isMargins: Whether to use the target view's layout margins. Defaults to false.
+    ///               是否使用目标视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - When `isMargins` is true, the layout will respect the target view's margins.
+    ///     当 `isMargins` 为 true 时，布局将遵循目标视图的边距
+    ///   - This method provides a more convenient way to set constraints between views.
+    ///     此方法提供了更便捷的方式来设置视图间的约束
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.leftTo(superView) // Auto-activated
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.leftTo(superView) // 自动激活
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.leftTo(view2, offset: 10).activeConstraints()
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.leftTo(view2, offset: 10).activeConstraints()
+    /// ```
+    @discardableResult
+    func leftTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                leftAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, constant: offset),
+                type: .left
+            )
+        }else {
+            leftTo(isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the left edge of the view to align with the specified horizontal anchor.
+    /// SwiftlyUI: 设置视图左侧与指定水平锚点对齐
+    ///
+    /// - Parameters:
+    ///   - anchor: The horizontal anchor to align to.
+    ///            要对齐的水平锚点
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///   - If constraints have already been set, this will trigger an assertion failure.
+    ///     如果已经设置了约束，将会触发断言失败
+    ///
+    /// - Note:
+    ///   - This method is part of a fluent interface for constraint configuration.
+    ///     此方法是约束配置的流式接口的一部分
+    ///   - The constraint won't take effect until `activeConstraints()` is called.
+    ///     在调用 `activeConstraints()` 之前约束不会生效
+    ///
+    /// Example:
+    /// ```
+    /// view.leftTo(container.leadingAnchor, offset: 16).activeConstraints()
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.leftTo(container.leadingAnchor, offset: 16).activeConstraints()
+    /// ```
+    @discardableResult
+    func leadingTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.leading] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the left edge of the view to align with another view's left edge.
+    /// SwiftlyUI: 设置视图左侧与另一视图的左侧对齐
+    ///
+    /// - Parameters:
+    ///   - view: The target view to align with.
+    ///           要对齐的目标视图
+    ///   - isMargins: Whether to use the target view's layout margins. Defaults to false.
+    ///               是否使用目标视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - When `isMargins` is true, the layout will respect the target view's margins.
+    ///     当 `isMargins` 为 true 时，布局将遵循目标视图的边距
+    ///   - This method provides a more convenient way to set constraints between views.
+    ///     此方法提供了更便捷的方式来设置视图间的约束
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.leftTo(superView) // Auto-activated
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.leftTo(superView) // 自动激活
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.leftTo(view2, offset: 10).activeConstraints()
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.leftTo(view2, offset: 10).activeConstraints()
+    /// ```
+    @discardableResult
+    func leadingTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                leadingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
+                type: .leading
+            )
+        }else {
+            leadingTo(isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
         }
         return self
     }
@@ -1576,38 +2885,6 @@ public extension UIView {
     
     /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
-    func leftTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .left, targetType: .other, offset: offset, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.left] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func leftTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addAndActiveConstraint(
-                leftAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, constant: offset),
-                type: .left
-            )
-        }else {
-            leftTo(isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
     func leftGreaterThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
             assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
@@ -1653,39 +2930,6 @@ public extension UIView {
         var holder = constraintHolder
         holder.pendingConstraints[.left] = config
         constraintHolder = holder
-        return self
-    }
-    
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func leadingTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.leading] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func leadingTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addAndActiveConstraint(
-                leadingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
-                type: .leading
-            )
-        }else {
-            leadingTo(isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
-        }
         return self
     }
     
@@ -1757,7 +3001,56 @@ public extension UIView {
 
 // MARK: - Layout Bottom
 public extension UIView {
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the bottom edge of the view to align with its superview's bottom edge.
+    /// SwiftlyUI: 设置视图底部与其父视图的底部对齐
+    ///
+    /// - Parameters:
+    ///   - isMargins: Whether to use the superview's layout margins. Defaults to false.
+    ///               是否使用父视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///            Note: The offset is applied as a negative value (view bottom will be offset upward)
+    ///            注意：偏移量会以负值应用（视图底部将向上偏移）
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This is a convenience method specifically for superview alignment.
+    ///     这是一个专门用于父视图对齐的便捷方法
+    ///   - When `isMargins` is true, respects the superview's layoutMarginsGuide.
+    ///     当 `isMargins` 为 true 时，会遵循父视图的 layoutMarginsGuide
+    ///   - Unlike top/leading constraints, the offset is subtracted (negative) for bottom/trailing constraints.
+    ///     与顶部/左侧约束不同，底部/右侧约束的偏移量是减去的（负值）
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.bottomToSuper(offset: 20) // Positions view 20 points above superview's bottom
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.bottomToSuper(offset: 20) // 视图将位于父视图底部上方20点处
+    /// ```
+    ///
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.bottomToSuper(offset: 20) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraints activate here
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.bottomToSuper(offset: 20) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活
+    /// ```
     @discardableResult
     func bottomToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1774,6 +3067,118 @@ public extension UIView {
             var holder = constraintHolder
             holder.pendingConstraints[.bottom] = config
             constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the bottom edge of the view to align with the specified vertical anchor.
+    /// SwiftlyUI: 设置视图底部与指定垂直锚点对齐
+    ///
+    /// - Parameters:
+    ///   - anchor: The vertical anchor to align to.
+    ///            要对齐的垂直锚点
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///            Note: Positive offset moves the view downward, negative moves upward
+    ///            注意：正偏移量使视图向下移动，负值使视图向上移动
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///   - If constraints have already been set, this will trigger an assertion failure.
+    ///     如果已经设置了约束，将会触发断言失败
+    ///
+    /// - Note:
+    ///   - This method is part of a fluent interface for constraint configuration.
+    ///     此方法是约束配置的流式接口的一部分
+    ///   - The constraint won't take effect until `activeConstraints()` is called.
+    ///     在调用 `activeConstraints()` 之前约束不会生效
+    ///
+    /// Example:
+    /// ```
+    /// view.bottomTo(container.bottomAnchor, offset: 20).activeConstraints()
+    /// // Positions view 20 points above container's bottom
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.bottomTo(container.bottomAnchor, offset: 20).activeConstraints()
+    /// // 视图将位于容器底部上方20点处
+    /// ```
+    @discardableResult
+    func bottomTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, YAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.bottom] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the bottom edge of the view to align with another view's bottom edge.
+    /// SwiftlyUI: 设置视图底部与另一视图的底部对齐
+    ///
+    /// - Parameters:
+    ///   - view: The target view to align with.
+    ///           要对齐的目标视图
+    ///   - isMargins: Whether to use the target view's layout margins. Defaults to false.
+    ///               是否使用目标视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///            Note: Positive offset moves the view downward, negative moves upward
+    ///            注意：正偏移量使视图向下移动，负值使视图向上移动
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - When `isMargins` is true, the layout will respect the target view's margins.
+    ///     当 `isMargins` 为 true 时，布局将遵循目标视图的边距
+    ///   - This method provides a more convenient way to set constraints between views.
+    ///     此方法提供了更便捷的方式来设置视图间的约束
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.bottomTo(superView, offset: 20) // Auto-activated, 20 points above superview's bottom
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.bottomTo(superView, offset: 20) // 自动激活，位于父视图底部上方20点处
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.bottomTo(view2, offset: 10).activeConstraints()
+    /// // Positions view1 10 points above view2's bottom
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.bottomTo(view2, offset: 10).activeConstraints()
+    /// // view1将位于view2底部上方10点处
+    /// ```
+    @discardableResult
+    func bottomTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                bottomAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: offset),
+                type: .bottom
+            )
+        }else {
+            bottomTo(isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
         }
         return self
     }
@@ -1816,38 +3221,6 @@ public extension UIView {
             var holder = constraintHolder
             holder.pendingConstraints[.bottom] = config
             constraintHolder = holder
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, YAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.bottom] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addAndActiveConstraint(
-                bottomAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: offset),
-                type: .bottom
-            )
-        }else {
-            bottomTo(isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
         }
         return self
     }
@@ -1920,7 +3293,56 @@ public extension UIView {
 
 // MARK: - Layout Right & trailing
 public extension UIView {
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the right edge of the view to align with its superview's right edge.
+    /// SwiftlyUI: 设置视图右侧与其父视图的右侧对齐
+    ///
+    /// - Parameters:
+    ///   - isMargins: Whether to use the superview's layout margins. Defaults to false.
+    ///               是否使用父视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///            Note: The offset is applied as a negative value (view right will be offset leftward)
+    ///            注意：偏移量会以负值应用（视图右侧将向左偏移）
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This is a SwiftlyUI convenience method specifically for superview alignment.
+    ///     这是SwiftlyUI专门用于父视图对齐的便捷方法
+    ///   - When `isMargins` is true, respects the superview's layoutMarginsGuide.
+    ///     当 `isMargins` 为 true 时，会遵循父视图的 layoutMarginsGuide
+    ///   - Unlike leading constraints, the offset is subtracted (negative) for trailing constraints.
+    ///     与左侧约束不同，右侧约束的偏移量是减去的（负值）
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.rightToSuper(offset: 20) // Positions view 20 points left of superview's right
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.rightToSuper(offset: 20) // 视图将位于父视图右侧左侧20点处
+    /// ```
+    ///
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.rightToSuper(offset: 20) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraints activate here
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.rightToSuper(offset: 20) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活
+    /// ```
     @discardableResult
     func rightToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1941,7 +3363,56 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// SwiftlyUI: Sets the right edge of the view to align with its superview's right edge.
+    /// SwiftlyUI: 设置视图右侧与其父视图的右侧对齐
+    ///
+    /// - Parameters:
+    ///   - isMargins: Whether to use the superview's layout margins. Defaults to false.
+    ///               是否使用父视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///            Note: The offset is applied as a negative value (view right will be offset leftward)
+    ///            注意：偏移量会以负值应用（视图右侧将向左偏移）
+    ///
+    /// - Important:
+    ///   - Constraints are automatically activated when the superview exists.
+    ///     当父视图存在时，约束会自动激活
+    ///   - If no superview exists when called, constraints will be pending until added to a superview.
+    ///     如果调用时不存在父视图，约束将保持等待状态直到被添加到父视图
+    ///
+    /// - Note:
+    ///   - This is a SwiftlyUI convenience method specifically for superview alignment.
+    ///     这是SwiftlyUI专门用于父视图对齐的便捷方法
+    ///   - When `isMargins` is true, respects the superview's layoutMarginsGuide.
+    ///     当 `isMargins` 为 true 时，会遵循父视图的 layoutMarginsGuide
+    ///   - Unlike leading constraints, the offset is subtracted (negative) for trailing constraints.
+    ///     与左侧约束不同，右侧约束的偏移量是减去的（负值）
+    ///
+    /// Example (with superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.rightToSuper(offset: 20) // Positions view 20 points left of superview's right
+    /// ```
+    /// 示例（存在父视图时）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.rightToSuper(offset: 20) // 视图将位于父视图右侧左侧20点处
+    /// ```
+    ///
+    /// Example (without superview):
+    /// ```
+    /// let view = UIView()
+    /// view.rightToSuper(offset: 20) // Will activate when added to superview
+    /// // Later...
+    /// parentView.addSubview(view) // Constraints activate here
+    /// ```
+    /// 示例（不存在父视图时）：
+    /// ```
+    /// let view = UIView()
+    /// view.rightToSuper(offset: 20) // 将在添加到父视图时激活
+    /// // 之后...
+    /// parentView.addSubview(view) // 约束在此处激活
+    /// ```
     @discardableResult
     func trailingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
@@ -1958,6 +3429,230 @@ public extension UIView {
             var holder = constraintHolder
             holder.pendingConstraints[.trailing] = config
             constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the right edge of the view to align with the specified horizontal anchor.
+    /// SwiftlyUI: 设置视图右侧与指定水平锚点对齐
+    ///
+    /// - Parameters:
+    ///   - anchor: The horizontal anchor to align to.
+    ///            要对齐的水平锚点
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///            Note: Positive offset moves the view rightward, negative moves leftward
+    ///            注意：正偏移量使视图向右移动，负值使视图向左移动
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///   - If constraints have already been set, this will trigger an assertion failure.
+    ///     如果已经设置了约束，将会触发断言失败
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is part of a fluent interface for constraint configuration.
+    ///     此SwiftlyUI方法是约束配置的流式接口的一部分
+    ///   - The constraint won't take effect until `activeConstraints()` is called.
+    ///     在调用 `activeConstraints()` 之前约束不会生效
+    ///
+    /// Example:
+    /// ```
+    /// view.rightTo(container.trailingAnchor, offset: 20).activeConstraints()
+    /// // Positions view 20 points left of container's trailing edge
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.rightTo(container.trailingAnchor, offset: 20).activeConstraints()
+    /// // 视图将位于容器尾部边缘左侧20点处
+    /// ```
+    @discardableResult
+    func rightTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.right] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the right edge of the view to align with another view's right edge.
+    /// SwiftlyUI: 设置视图右侧与另一视图的右侧对齐
+    ///
+    /// - Parameters:
+    ///   - view: The target view to align with.
+    ///           要对齐的目标视图
+    ///   - isMargins: Whether to use the target view's layout margins. Defaults to false.
+    ///               是否使用目标视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///            Note: Positive offset moves the view rightward, negative moves leftward
+    ///            注意：正偏移量使视图向右移动，负值使视图向左移动
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - When `isMargins` is true, the layout will respect the target view's margins.
+    ///     当 `isMargins` 为 true 时，布局将遵循目标视图的边距
+    ///   - This SwiftlyUI method provides a more convenient way to set constraints between views.
+    ///     此SwiftlyUI方法提供了更便捷的方式来设置视图间的约束
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.rightTo(superView, offset: 20) // Auto-activated, 20 points left of superview's right
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.rightTo(superView, offset: 20) // 自动激活，位于父视图右侧左侧20点处
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.rightTo(view2, offset: 10).activeConstraints()
+    /// // Positions view1 10 points left of view2's right edge
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.rightTo(view2, offset: 10).activeConstraints()
+    /// // view1将位于view2右侧边缘左侧10点处
+    /// ```
+    @discardableResult
+    func rightTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                rightAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
+                type: .right
+            )
+        }else {
+            rightTo(isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the right edge of the view to align with the specified horizontal anchor.
+    /// SwiftlyUI: 设置视图右侧与指定水平锚点对齐
+    ///
+    /// - Parameters:
+    ///   - anchor: The horizontal anchor to align to.
+    ///            要对齐的水平锚点
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///            Note: Positive offset moves the view rightward, negative moves leftward
+    ///            注意：正偏移量使视图向右移动，负值使视图向左移动
+    ///
+    /// - Important:
+    ///   - You must call `activeConstraints()` to activate the constraints after setting them.
+    ///     设置约束后必须调用 `activeConstraints()` 来激活约束
+    ///   - If constraints have already been set, this will trigger an assertion failure.
+    ///     如果已经设置了约束，将会触发断言失败
+    ///
+    /// - Note:
+    ///   - This SwiftlyUI method is part of a fluent interface for constraint configuration.
+    ///     此SwiftlyUI方法是约束配置的流式接口的一部分
+    ///   - The constraint won't take effect until `activeConstraints()` is called.
+    ///     在调用 `activeConstraints()` 之前约束不会生效
+    ///
+    /// Example:
+    /// ```
+    /// view.rightTo(container.trailingAnchor, offset: 20).activeConstraints()
+    /// // Positions view 20 points left of container's trailing edge
+    /// ```
+    /// 示例：
+    /// ```
+    /// view.rightTo(container.trailingAnchor, offset: 20).activeConstraints()
+    /// // 视图将位于容器尾部边缘左侧20点处
+    /// ```
+    @discardableResult
+    func trailingTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.trailing] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI: Sets the right edge of the view to align with another view's right edge.
+    /// SwiftlyUI: 设置视图右侧与另一视图的右侧对齐
+    ///
+    /// - Parameters:
+    ///   - view: The target view to align with.
+    ///           要对齐的目标视图
+    ///   - isMargins: Whether to use the target view's layout margins. Defaults to false.
+    ///               是否使用目标视图的布局边距，默认为false
+    ///   - offset: The constant offset from the anchor. Defaults to 0.
+    ///            与锚点的常量偏移量，默认为0
+    ///            Note: Positive offset moves the view rightward, negative moves leftward
+    ///            注意：正偏移量使视图向右移动，负值使视图向左移动
+    ///
+    /// - Important:
+    ///   - If the target view is the superview, constraints will be activated automatically.
+    ///     如果目标视图是父视图，约束将自动激活
+    ///   - For non-superview targets, you must call `activeConstraints()` to activate the constraints.
+    ///     对于非父视图目标，必须调用 `activeConstraints()` 来激活约束
+    ///
+    /// - Note:
+    ///   - When `isMargins` is true, the layout will respect the target view's margins.
+    ///     当 `isMargins` 为 true 时，布局将遵循目标视图的边距
+    ///   - This SwiftlyUI method provides a more convenient way to set constraints between views.
+    ///     此SwiftlyUI方法提供了更便捷的方式来设置视图间的约束
+    ///
+    /// Example (superview):
+    /// ```
+    /// superView.addSubView(view)
+    /// view.rightTo(superView, offset: 20) // Auto-activated, 20 points left of superview's right
+    /// ```
+    /// 示例（父视图）：
+    /// ```
+    /// superView.addSubView(view)
+    /// view.rightTo(superView, offset: 20) // 自动激活，位于父视图右侧左侧20点处
+    /// ```
+    /// Example (non-superview):
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.rightTo(view2, offset: 10).activeConstraints()
+    /// // Positions view1 10 points left of view2's right edge
+    /// ```
+    /// 示例（非父视图）：
+    /// ```
+    /// containerView.addSubView(view1)
+    /// containerView.addSubView(view2)
+    /// view1.rightTo(view2, offset: 10).activeConstraints()
+    /// // view1将位于view2右侧边缘左侧10点处
+    /// ```
+    @discardableResult
+    func trailingTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                trailingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
+                type: .trailing
+            )
+        }else {
+            trailingTo(isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
         }
         return self
     }
@@ -2042,70 +3737,6 @@ public extension UIView {
             var holder = constraintHolder
             holder.pendingConstraints[.right] = config
             constraintHolder = holder
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.right] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addAndActiveConstraint(
-                rightAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
-                type: .right
-            )
-        }else {
-            rightTo(isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.trailing] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addAndActiveConstraint(
-                trailingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
-                type: .trailing
-            )
-        }else {
-            trailingTo(isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
         }
         return self
     }
@@ -2384,6 +4015,14 @@ public extension UIView {
     @discardableResult
     func height(to view: UIView, multiplier: CGFloat = 1) -> Self {
         heightTo(view, multiplier: multiplier)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 heightTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use heightTo() method instead.")
+    @discardableResult
+    func height(to anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
+        heightTo(anchor, multiplier: multiplier)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
