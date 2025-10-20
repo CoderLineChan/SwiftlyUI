@@ -337,7 +337,7 @@ public extension UIView {
             subview.isUserInteractionEnabled = false
             subview.tag = backgroundViewTag
             insertSubview(subview, at: 0)
-            subview.fillSuper()
+            subview.fillToSuper()
         }
         return self
     }
@@ -347,9 +347,12 @@ public extension UIView {
     @discardableResult
     func background(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
         let subviews = content()
+        setCanActiveLayout(false, forViews: subviews)
         subviews.forEach { sub in
             insertSubview(sub, at: 0)
         }
+        setCanActiveLayout(true, forViews: subviews)
+        subviews.forEach({ $0.interiorActivateAllConstraints() })
         return self
     }
     
@@ -357,21 +360,22 @@ public extension UIView {
     /// 添加子视图，默认没有布局
     @discardableResult
     func overlay(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
-        let subviews = content()
-        subviews.forEach { sub in
-            addSubview(sub)
-        }
+        addContents(content: content)
         return self
     }
+    
     
     /// SwiftlyUI - 添加子视图
     /// 添加子视图，默认没有布局
     @discardableResult
-    func addSubViews(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
+    func addContents(@SwiftlyUIBuilder content: () -> [UIView]) -> Self {
         let subviews = content()
+        setCanActiveLayout(false, forViews: subviews)
         subviews.forEach { sub in
             addSubview(sub)
         }
+        setCanActiveLayout(true, forViews: subviews)
+        subviews.forEach({ $0.interiorActivateAllConstraints() })
         return self
     }
     
@@ -620,9 +624,6 @@ public final class ZStackView: UIView {
         }
         setCanActiveLayout(true, forViews: views)
         views.forEach({ $0.interiorActivateAllConstraints() })
-        views.forEach { view in
-            applyAlignmentConstraints(for: view)
-        }
     }
     
 }
@@ -792,37 +793,31 @@ public extension UIView {
         }
         constraintTypes = []
         if types.contains(.left) {
-            left(to: view, isMargins: isMargins, offset: offset)
+            leftTo(view, isMargins: isMargins, offset: offset)
         }else if types.contains(.leading) {
-            leading(to: view, isMargins: isMargins, offset: offset)
+            leadingTo(view, isMargins: isMargins, offset: offset)
         }
         
         if types.contains(.right) {
-            right(to: view, isMargins: isMargins, offset: offset)
+            rightTo(view, isMargins: isMargins, offset: offset)
         }else if types.contains(.trailing) {
-            trailing(to: view, isMargins: isMargins, offset: offset)
+            trailingTo(view, isMargins: isMargins, offset: offset)
         }
         
         if types.contains(.top) {
-            top(to: view, isMargins: isMargins, offset: offset)
+            topTo(view, isMargins: isMargins, offset: offset)
         }
         
         if types.contains(.bottom) {
-            bottom(to: view, isMargins: isMargins, offset: offset)
+            bottomTo(view, isMargins: isMargins, offset: offset)
         }
         if types.contains(.centerX) {
-            centerX(to: view, offset: offset)
+            centerXTo(view, offset: offset)
         }
         if types.contains(.centerY) {
-            centerY(to: view, offset: offset)
+            centerYTo(view, offset: offset)
         }
         return self
-    }
-    /// SwiftlyUI - 指定View约束
-    /// 这是旧接口，请使用 equalTo()方法代替
-    @discardableResult
-    func equal(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        return equalTo(view, isMargins: isMargins, offset: offset)
     }
     
     /// SwiftlyUI - 指定Y锚点约束
@@ -846,18 +841,12 @@ public extension UIView {
         }
         
         if types.contains(.bottom) {
-            bottom(to: yAnchor, offset: offset)
+            bottomTo(yAnchor, offset: offset)
         }
         if types.contains(.centerY) {
-            centerY(to: yAnchor, offset: offset)
+            centerYTo(yAnchor, offset: offset)
         }
         return self
-    }
-    /// SwiftlyUI - 指定Y锚点约束
-    /// 这是旧接口，请使用 equalTo()方法代替
-    @discardableResult
-    func equal(to yAnchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        return equalTo(yAnchor, offset: offset)
     }
     
     /// SwiftlyUI - 指定X锚点约束
@@ -877,26 +866,20 @@ public extension UIView {
         }
         constraintTypes = []
         if types.contains(.left) {
-            left(to: xAnchor, offset: offset)
+            leftTo(xAnchor, offset: offset)
         }else if types.contains(.leading) {
-            leading(to: xAnchor, offset: offset)
+            leadingTo(xAnchor, offset: offset)
         }
         
         if types.contains(.right) {
-            right(to: xAnchor, offset: offset)
+            rightTo(xAnchor, offset: offset)
         }else if types.contains(.trailing) {
-            trailing(to: xAnchor, offset: offset)
+            trailingTo(xAnchor, offset: offset)
         }
         if types.contains(.centerX) {
-            centerX(to: xAnchor, offset: offset)
+            centerXTo(xAnchor, offset: offset)
         }
         return self
-    }
-    /// SwiftlyUI - 指定X锚点约束
-    /// 这是旧接口，请使用 equalTo()方法代替
-    @discardableResult
-    func equal(to xAnchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        equalTo(xAnchor, offset: offset)
     }
     
 }
@@ -914,24 +897,6 @@ public extension UIView {
         topToSuper(isMargins: false, offset: edge.top)
         bottomToSuper(isMargins: false, offset: edge.bottom)
         return self
-    }
-    
-    /// SwiftlyUI - 填满父视图
-    /// - Parameters:
-    ///  - edge: 边距
-    /// 这是旧接口，请使用 fillToSuper()方法代替
-    @discardableResult
-    func fillSuper(edge: UIEdgeInsets = .zero) -> Self {
-        fillToSuper(edge: edge)
-    }
-    
-    /// SwiftlyUI - 填满父视图的Margins
-    /// - Parameters:
-    ///  - edge: 边距
-    /// 这是旧接口，请使用 fillToSuperMargins()方法代替
-    @discardableResult
-    func fillSuperMargins(edge: UIEdgeInsets = .zero) -> Self {
-        fillToSuperMargins(edge: edge)
     }
     
     /// SwiftlyUI - 填满父视图的Margins
@@ -952,18 +917,7 @@ public extension UIView {
     ///  - edge: 边距
     @discardableResult
     func fillToMargins(_ view: UIView, edge: UIEdgeInsets = .zero) -> Self {
-        fill(to: view, isMargins: true, edge: edge)
-        return self
-    }
-    
-    /// SwiftlyUI - 填满指定视图
-    /// 这是旧接口，请使用 fillToMargins()方法代替
-    /// - Parameters:
-    ///  - view: 指定视图
-    ///  - edge: 边距
-    @discardableResult
-    func fill(toMargins view: UIView, edge: UIEdgeInsets = .zero) -> Self {
-        fill(to: view, isMargins: true, edge: edge)
+        fillTo(view, isMargins: true, edge: edge)
         return self
     }
     
@@ -974,41 +928,12 @@ public extension UIView {
     ///  - edge: 边距
     @discardableResult
     func fillTo(_ view: UIView, isMargins: Bool = false, edge: UIEdgeInsets = .zero) -> Self {
-        leading(to: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: edge.left)
-        trailing(to: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: edge.right)
-        top(to: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: edge.top)
-        bottom(to: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: edge.bottom)
+        leadingTo(isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: edge.left)
+        trailingTo(isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: edge.right)
+        topTo(isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: edge.top)
+        bottomTo(isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: edge.bottom)
         return self
     }
-    /// SwiftlyUI - 填满指定视图
-    /// 这是旧接口，请使用 fillTo()方法代替
-    /// - Parameters:
-    ///  - view: 指定视图
-    ///  - isMargins: 是否相对于layoutMarginsGuide布局，默认false
-    @discardableResult
-    func fill(to view: UIView, isMargins: Bool = false, edge: UIEdgeInsets = .zero) -> Self {
-        fillTo(view, isMargins: isMargins, edge: edge)
-    }
-    
-//    /// SwiftlyUI - 四边小于等于父视图
-//    @discardableResult
-//    func lessThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-//        leadingLessThanOrEqualToSuper(isMargins: isMargins, offset: offset)
-//        trailingLessThanOrEqualToSuper(isMargins: isMargins, offset: offset)
-//        topLessThanOrEqualToSuper(isMargins: isMargins, offset: offset)
-//        bottomLessThanOrEqualToSuper(isMargins: isMargins, offset: offset)
-//        return self
-//    }
-//    
-//    /// SwiftlyUI - 四边大于等于父视图
-//    @discardableResult
-//    func greaterThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-//        leadingLessThanOrEqualToSuper(isMargins: isMargins, offset: -offset)
-//        trailingGreaterThanOrEqualToSuper(isMargins: isMargins, offset: -offset)
-//        topLessThanOrEqualToSuper(isMargins: isMargins, offset: -offset)
-//        bottomGreaterThanOrEqualToSuper(isMargins: isMargins, offset: -offset)
-//        return self
-//    }
     
     /// SwiftlyUI - 中心对齐到父视图
     @discardableResult
@@ -1018,11 +943,11 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: 0),
                 type: .centerY
             )
-            addNewConstraint(
+            addAndActiveConstraint(
                 centerXAnchor.constraint(equalTo: superview.centerXAnchor, constant: 0),
                 type: .centerX
             )
@@ -1045,11 +970,11 @@ public extension UIView {
             return self
         }
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
                 type: .centerY
             )
-            addNewConstraint(
+            addAndActiveConstraint(
                 centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
                 type: .centerX
             )
@@ -1063,12 +988,6 @@ public extension UIView {
         }
         return self
     }
-    /// SwiftlyUI - 中心对齐到指定视图
-    /// 这是旧接口，请使用 centerTo()方法代替
-    @discardableResult
-    func center(to view: UIView) -> Self {
-        centerTo(view)
-    }
     
     /// SwiftlyUI - 中心对齐到父视图
     /// - Parameters:
@@ -1080,7 +999,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 centerXAnchor.constraint(equalTo: superview.centerXAnchor, constant: offset),
                 type: .centerX
             )
@@ -1110,16 +1029,6 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到指定X轴锚点
-    /// 这是旧接口，请使用 centerXTo()方法代替
-    /// - Parameters:
-    /// - anchor: X轴锚点
-    /// - offset: 偏移量
-    @discardableResult
-    func centerX(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        centerXTo(anchor, offset: offset)
-    }
-    
     /// SwiftlyUI - 中心对齐到指定视图
     /// - Parameters:
     /// - view: 指定视图
@@ -1131,24 +1040,14 @@ public extension UIView {
             return self
         }
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: offset),
                 type: .centerX
             )
         }else {
-            centerX(to: view.layoutMarginsGuide.centerXAnchor, offset: offset)
+            centerXTo(view.layoutMarginsGuide.centerXAnchor, offset: offset)
         }
         return self
-    }
-    
-    /// SwiftlyUI - 中心对齐到指定视图
-    /// 这是旧接口，请使用 centerXTo()方法代替
-    /// - Parameters:
-    /// - view: 指定视图
-    /// - offset: 偏移量
-    @discardableResult
-    func centerX(to view: UIView, offset: CGFloat = 0) -> Self {
-        centerXTo(view, offset: offset)
     }
     
     /// SwiftlyUI - 中心对齐到父视图
@@ -1161,7 +1060,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: offset),
                 type: .centerY
             )
@@ -1191,16 +1090,6 @@ public extension UIView {
         return self
     }
     
-    /// SwiftlyUI - 中心对齐到指定Y轴锚点
-    /// 这是旧接口，请使用 centerYTo()方法代替
-    /// - Parameters:
-    /// - anchor: Y轴锚点
-    /// - offset: 偏移量
-    @discardableResult
-    func centerY(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        centerYTo(anchor, offset: offset)
-    }
-    
     /// SwiftlyUI - 中心对齐到指定视图
     /// - Parameters:
     /// - view: 指定视图
@@ -1212,24 +1101,14 @@ public extension UIView {
             return self
         }
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: offset),
                 type: .centerY
             )
         }else {
-            centerY(to: view.layoutMarginsGuide.centerYAnchor, offset: offset)
+            centerYTo(view.layoutMarginsGuide.centerYAnchor, offset: offset)
         }
         return self
-    }
-    
-    /// SwiftlyUI - 中心对齐到指定视图
-    /// 这是旧接口，请使用 centerYTo()方法代替
-    /// - Parameters:
-    /// - view: 指定视图
-    /// - offset: 偏移量
-    @discardableResult
-    func centerY(to view: UIView, offset: CGFloat = 0) -> Self {
-        centerYTo(view, offset: offset)
     }
     
 }
@@ -1284,7 +1163,7 @@ public extension UIView {
     @discardableResult
     func widthToSuper(multiplier: CGFloat = 1) -> Self {
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 widthAnchor.constraint(equalTo: superview.widthAnchor, multiplier: multiplier),
                 type: .widthToSuper
             )
@@ -1300,7 +1179,7 @@ public extension UIView {
     /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func width(_ value: CGFloat) -> Self {
-        addNewConstraint(
+        addAndActiveConstraint(
             widthAnchor.constraint(equalToConstant: value),
             type: .width
         )
@@ -1325,38 +1204,24 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 widthTo()方法代替
-    @discardableResult
-    func width(to anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
-        widthTo(anchor, multiplier: multiplier)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func widthTo(_ view: UIView, multiplier: CGFloat = 1) -> Self {
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: multiplier),
                 type: .width
             )
         }else {
-            width(to: view.layoutMarginsGuide.widthAnchor, multiplier: multiplier)
+            widthTo(view.layoutMarginsGuide.widthAnchor, multiplier: multiplier)
         }
         return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 widthTo()方法代替
-    @discardableResult
-    func width(to view: UIView, multiplier: CGFloat = 1) -> Self {
-        widthTo(view, multiplier: multiplier)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func heightToSuper(multiplier: CGFloat = 1) -> Self {
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 heightAnchor.constraint(equalTo: superview.heightAnchor, multiplier: multiplier),
                 type: .heightToSuper
             )
@@ -1372,7 +1237,7 @@ public extension UIView {
     /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
     func height(_ value: CGFloat) -> Self {
-        addNewConstraint(
+        addAndActiveConstraint(
             heightAnchor.constraint(equalToConstant: value),
             type: .height
         )
@@ -1407,7 +1272,7 @@ public extension UIView {
     @discardableResult
     func heightTo(_ view: UIView, multiplier: CGFloat = 1) -> Self {
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: multiplier),
                 type: .height
             )
@@ -1415,13 +1280,6 @@ public extension UIView {
             height(to: view.layoutMarginsGuide.heightAnchor, multiplier: multiplier)
         }
         return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 heightTo()方法代替
-    @discardableResult
-    func height(to view: UIView, multiplier: CGFloat = 1) -> Self {
-        heightTo(view, multiplier: multiplier)
     }
 }
 
@@ -1435,7 +1293,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 topAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.topAnchor : superview.topAnchor, constant: offset),
                 type: .top
             )
@@ -1476,7 +1334,7 @@ public extension UIView {
             return self
         }
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 topAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, constant: offset),
                 type: .top
             )
@@ -1484,19 +1342,6 @@ public extension UIView {
             top(to: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: offset)
         }
         return self
-    }
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 topTo()方法代替
-    @discardableResult
-    func top(to view: UIView, isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        topTo(view, isMargins: isMargins, offset: offset)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    @available(*, deprecated, message: "SwiftlyUI - Use topGreaterThanOrEqualTo instead.")
-    func top(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        return topGreaterThanOrEqualTo(view, isMargins: isMargins, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -1507,7 +1352,7 @@ public extension UIView {
             return self
         }
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 topAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, constant: offset),
                 type: .top
             )
@@ -1515,13 +1360,6 @@ public extension UIView {
             topGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: offset)
         }
         return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    @available(*, deprecated, message: "SwiftlyUI - Use topGreaterThanOrEqualTo instead.")
-    func top(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        return topGreaterThanOrEqualTo(anchor, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -1540,20 +1378,13 @@ public extension UIView {
     
     /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
-    @available(*, deprecated, message: "SwiftlyUI - Use topLessThanOrEqualTo instead.")
-    func top(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        return topLessThanOrEqualTo(view, isMargins: isMargins, offset: offset)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
     func topLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         if !constraintTypes.isEmpty {
             assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
             return self
         }
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 topAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, constant: offset),
                 type: .top
             )
@@ -1561,13 +1392,6 @@ public extension UIView {
             topLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.topAnchor : view.topAnchor, offset: offset)
         }
         return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    @available(*, deprecated, message: "SwiftlyUI - Use topLessThanOrEqualTo instead.")
-    func top(lessThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        return topLessThanOrEqualTo(anchor, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -1592,7 +1416,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 topAnchor.constraint(lessThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.topAnchor : superview.topAnchor, constant: offset),
                 type: .top
             )
@@ -1613,7 +1437,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 topAnchor.constraint(greaterThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.topAnchor : superview.topAnchor, constant: offset),
                 type: .top
             )
@@ -1638,7 +1462,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 leftAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.leftAnchor : superview.leftAnchor, constant: offset),
                 type: .left
             )
@@ -1659,7 +1483,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 leadingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.leadingAnchor : superview.leadingAnchor, constant: offset),
                 type: .leading
             )
@@ -1680,7 +1504,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 leftAnchor.constraint(greaterThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.leftAnchor : superview.leftAnchor, constant: offset),
                 type: .left
             )
@@ -1701,7 +1525,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 leadingAnchor.constraint(greaterThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.leadingAnchor : superview.leadingAnchor, constant: offset),
                 type: .leading
             )
@@ -1722,7 +1546,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 leftAnchor.constraint(lessThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.leftAnchor : superview.leftAnchor, constant: offset),
                 type: .left
             )
@@ -1743,7 +1567,7 @@ public extension UIView {
             return self
         }
         if let superview = superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 leadingAnchor.constraint(lessThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.leadingAnchor : superview.leadingAnchor, constant: offset),
                 type: .leading
             )
@@ -1769,12 +1593,6 @@ public extension UIView {
         constraintHolder = holder
         return self
     }
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 leftTo()方法代替
-    @discardableResult
-    func left(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        leftTo(anchor, offset: offset)
-    }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
     @discardableResult
@@ -1784,21 +1602,14 @@ public extension UIView {
             return self
         }
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 leftAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, constant: offset),
                 type: .left
             )
         }else {
-            left(to: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
+            leftTo(isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
         }
         return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 leftTo()方法代替
-    @discardableResult
-    func left(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        leftTo(view, isMargins: isMargins, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -1809,7 +1620,7 @@ public extension UIView {
             return self
         }
         if view == superview {
-            addNewConstraint(
+            addAndActiveConstraint(
                 leftAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, constant: offset),
                 type: .left
             )
@@ -1817,6 +1628,804 @@ public extension UIView {
             leftGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
         }
         return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func leftLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                leftAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, constant: offset),
+                type: .left
+            )
+        }else {
+            leftLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func leftLessThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .left, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.left] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func leadingTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.leading] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func leadingTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                leadingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
+                type: .leading
+            )
+        }else {
+            leadingTo(isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func leadingGreaterThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                leadingAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
+                type: .leading
+            )
+        }else {
+            leadingGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func leadingGreaterThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.leading] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func leadingLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                leadingAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
+                type: .leading
+            )
+        }else {
+            leadingLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func leadingLessThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.leading] = config
+        constraintHolder = holder
+        return self
+    }
+    
+}
+
+// MARK: - Layout Bottom
+public extension UIView {
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func bottomToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if let superview = superview {
+            addAndActiveConstraint(
+                bottomAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.bottomAnchor : superview.bottomAnchor, constant: -offset),
+                type: .bottom
+            )
+        } else {
+            let config = ConstraintConfig(type: .bottom, targetType: .super, offset: offset, isMargins: isMargins)
+            var holder = constraintHolder
+            holder.pendingConstraints[.bottom] = config
+            constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func bottomLessThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if let superview = superview {
+            addAndActiveConstraint(
+                bottomAnchor.constraint(lessThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.bottomAnchor : superview.bottomAnchor, constant: offset),
+                type: .bottom
+            )
+        } else {
+            let config = ConstraintConfig(type: .bottom, targetType: .super, offset: offset, relation: .lessThanOrEqual, isMargins: isMargins)
+            var holder = constraintHolder
+            holder.pendingConstraints[.bottom] = config
+            constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func bottomGreaterThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if let superview = superview {
+            addAndActiveConstraint(
+                bottomAnchor.constraint(greaterThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.bottomAnchor : superview.bottomAnchor, constant: offset),
+                type: .bottom
+            )
+        } else {
+            let config = ConstraintConfig(type: .bottom, targetType: .super, offset: offset, relation: .greaterThanOrEqual, isMargins: isMargins)
+            var holder = constraintHolder
+            holder.pendingConstraints[.bottom] = config
+            constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func bottomTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, YAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.bottom] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func bottomTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                bottomAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: offset),
+                type: .bottom
+            )
+        }else {
+            bottomTo(isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func bottomGreaterThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                bottomAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: offset),
+                type: .bottom
+            )
+        }else {
+            bottomGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func bottomGreaterThanOrEqualTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, relation: .greaterThanOrEqual, YAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.bottom] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func bottomLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                bottomAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: offset),
+                type: .bottom
+            )
+        }else {
+            bottomLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func bottomLessThanOrEqualTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, relation: .lessThanOrEqual, YAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.bottom] = config
+        constraintHolder = holder
+        return self
+    }
+    
+}
+
+// MARK: - Layout Right & trailing
+public extension UIView {
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func rightToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if let superview = superview {
+            addAndActiveConstraint(
+                rightAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.rightAnchor : superview.rightAnchor, constant: -offset),
+                type: .right
+            )
+        } else {
+            let config = ConstraintConfig(type: .right, targetType: .super, offset: offset, isMargins: isMargins)
+            var holder = constraintHolder
+            holder.pendingConstraints[.right] = config
+            constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func trailingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if let superview = superview {
+            addAndActiveConstraint(
+                trailingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: -offset),
+                type: .trailing
+            )
+        } else {
+            let config = ConstraintConfig(type: .trailing, targetType: .super, offset: offset, isMargins: isMargins)
+            var holder = constraintHolder
+            holder.pendingConstraints[.trailing] = config
+            constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func trailingLessThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if let superview = superview {
+            addAndActiveConstraint(
+                trailingAnchor.constraint(lessThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: -offset),
+                type: .trailing
+            )
+        } else {
+            let config = ConstraintConfig(type: .trailing, targetType: .super, offset: offset, relation: .lessThanOrEqual, isMargins: isMargins)
+            var holder = constraintHolder
+            holder.pendingConstraints[.trailing] = config
+            constraintHolder = holder
+        }
+        return self
+    }
+
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func rightLessThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if let superview = superview {
+            addAndActiveConstraint(
+                rightAnchor.constraint(lessThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.rightAnchor : superview.rightAnchor, constant: -offset),
+                type: .right
+            )
+        } else {
+            let config = ConstraintConfig(type: .right, targetType: .super, offset: offset, relation: .lessThanOrEqual, isMargins: isMargins)
+            var holder = constraintHolder
+            holder.pendingConstraints[.right] = config
+            constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func trailingGreaterThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if let superview = superview {
+            addAndActiveConstraint(
+                trailingAnchor.constraint(greaterThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: -offset),
+                type: .trailing
+            )
+        } else {
+            let config = ConstraintConfig(type: .trailing, targetType: .super, offset: offset, relation: .greaterThanOrEqual, isMargins: isMargins)
+            var holder = constraintHolder
+            holder.pendingConstraints[.trailing] = config
+            constraintHolder = holder
+        }
+        return self
+    }
+
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func rightGreaterThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if let superview = superview {
+            addAndActiveConstraint(
+                rightAnchor.constraint(greaterThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.rightAnchor : superview.rightAnchor, constant: -offset),
+                type: .right
+            )
+        } else {
+            let config = ConstraintConfig(type: .right, targetType: .super, offset: offset, relation: .greaterThanOrEqual, isMargins: isMargins)
+            var holder = constraintHolder
+            holder.pendingConstraints[.right] = config
+            constraintHolder = holder
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func rightTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.right] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func rightTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                rightAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
+                type: .right
+            )
+        }else {
+            rightTo(isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func trailingTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.trailing] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func trailingTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                trailingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
+                type: .trailing
+            )
+        }else {
+            trailingTo(isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func rightGreaterThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                rightAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
+                type: .right
+            )
+        }else {
+            rightGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func rightGreaterThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.right] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func rightLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                rightAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
+                type: .right
+            )
+        }else {
+            rightLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func rightLessThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.right] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func trailingGreaterThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                trailingAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
+                type: .trailing
+            )
+        }else {
+            trailingGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func trailingGreaterThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.trailing] = config
+        constraintHolder = holder
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func trailingLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        if view == superview {
+            addAndActiveConstraint(
+                trailingAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
+                type: .trailing
+            )
+        }else {
+            trailingLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
+        }
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    func trailingLessThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        if !constraintTypes.isEmpty {
+            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
+            return self
+        }
+        let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
+        var holder = constraintHolder
+        holder.pendingConstraints[.trailing] = config
+        constraintHolder = holder
+        return self
+    }
+}
+
+// MARK: - deprecated
+public extension UIView {
+    
+    
+    /// SwiftlyUI - 指定View约束
+    /// 这是旧接口，请使用 equalTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use equalTo() instead.")
+    @discardableResult
+    func equal(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        return equalTo(view, isMargins: isMargins, offset: offset)
+    }
+    /// SwiftlyUI - 指定Y锚点约束
+    /// 这是旧接口，请使用 equalTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use equalTo() instead.")
+    @discardableResult
+    func equal(to yAnchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        return equalTo(yAnchor, offset: offset)
+    }
+    
+    /// SwiftlyUI - 指定X锚点约束
+    /// 这是旧接口，请使用 equalTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use equalTo() instead.")
+    @discardableResult
+    func equal(to xAnchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        equalTo(xAnchor, offset: offset)
+    }
+    
+    /// SwiftlyUI - 填满父视图
+    /// - Parameters:
+    ///  - edge: 边距
+    /// 这是旧接口，请使用 fillToSuper()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use fillToSuper() instead.")
+    @discardableResult
+    func fillSuper(edge: UIEdgeInsets = .zero) -> Self {
+        fillToSuper(edge: edge)
+    }
+    
+    /// SwiftlyUI - 填满父视图的Margins
+    /// - Parameters:
+    ///  - edge: 边距
+    /// 这是旧接口，请使用 fillToSuperMargins()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use fillToSuperMargins() instead.")
+    @discardableResult
+    func fillSuperMargins(edge: UIEdgeInsets = .zero) -> Self {
+        fillToSuperMargins(edge: edge)
+    }
+    
+    /// SwiftlyUI - 填满指定视图
+    /// 这是旧接口，请使用 fillToMargins()方法代替
+    /// - Parameters:
+    ///  - view: 指定视图
+    ///  - edge: 边距
+    @available(*, deprecated, message: "SwiftlyUI - Use fillToMargins() instead.")
+    @discardableResult
+    func fill(toMargins view: UIView, edge: UIEdgeInsets = .zero) -> Self {
+        fill(to: view, isMargins: true, edge: edge)
+        return self
+    }
+    
+    /// SwiftlyUI - 填满指定视图
+    /// 这是旧接口，请使用 fillTo()方法代替
+    /// - Parameters:
+    ///  - view: 指定视图
+    ///  - isMargins: 是否相对于layoutMarginsGuide布局，默认false
+    @available(*, deprecated, message: "SwiftlyUI - Use fillTo() instead.")
+    @discardableResult
+    func fill(to view: UIView, isMargins: Bool = false, edge: UIEdgeInsets = .zero) -> Self {
+        fillTo(view, isMargins: isMargins, edge: edge)
+    }
+    
+    /// SwiftlyUI - 中心对齐到指定视图
+    /// 这是旧接口，请使用 centerTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use centerTo() instead.")
+    @discardableResult
+    func center(to view: UIView) -> Self {
+        centerTo(view)
+    }
+    
+    /// SwiftlyUI - 中心对齐到指定X轴锚点
+    /// 这是旧接口，请使用 centerXTo()方法代替
+    /// - Parameters:
+    /// - anchor: X轴锚点
+    /// - offset: 偏移量
+    @available(*, deprecated, message: "SwiftlyUI - Use centerXTo() instead.")
+    @discardableResult
+    func centerX(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        centerXTo(anchor, offset: offset)
+    }
+    
+    /// SwiftlyUI - 中心对齐到指定视图
+    /// 这是旧接口，请使用 centerXTo()方法代替
+    /// - Parameters:
+    /// - view: 指定视图
+    /// - offset: 偏移量
+    @available(*, deprecated, message: "SwiftlyUI - Use centerXTo() instead.")
+    @discardableResult
+    func centerX(to view: UIView, offset: CGFloat = 0) -> Self {
+        centerXTo(view, offset: offset)
+    }
+    
+    /// SwiftlyUI - 中心对齐到指定Y轴锚点
+    /// 这是旧接口，请使用 centerYTo()方法代替
+    /// - Parameters:
+    /// - anchor: Y轴锚点
+    /// - offset: 偏移量
+    @available(*, deprecated, message: "SwiftlyUI - Use centerYTo() instead.")
+    @discardableResult
+    func centerY(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        centerYTo(anchor, offset: offset)
+    }
+    
+    /// SwiftlyUI - 中心对齐到指定视图
+    /// 这是旧接口，请使用 centerYTo()方法代替
+    /// - Parameters:
+    /// - view: 指定视图
+    /// - offset: 偏移量
+    @available(*, deprecated, message: "SwiftlyUI - Use centerYTo() instead.")
+    @discardableResult
+    func centerY(to view: UIView, offset: CGFloat = 0) -> Self {
+        centerYTo(view, offset: offset)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 widthTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use widthTo() method instead.")
+    @discardableResult
+    func width(to anchor: NSLayoutDimension, multiplier: CGFloat = 1) -> Self {
+        widthTo(anchor, multiplier: multiplier)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 widthTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use widthTo() method instead.")
+    @discardableResult
+    func width(to view: UIView, multiplier: CGFloat = 1) -> Self {
+        widthTo(view, multiplier: multiplier)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 heightTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use heightTo() method instead.")
+    @discardableResult
+    func height(to view: UIView, multiplier: CGFloat = 1) -> Self {
+        heightTo(view, multiplier: multiplier)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 topTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use topTo() method instead.")
+    @discardableResult
+    func top(to view: UIView, isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        topTo(view, isMargins: isMargins, offset: offset)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    @available(*, deprecated, message: "SwiftlyUI - Use topGreaterThanOrEqualTo instead.")
+    func top(greaterThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        return topGreaterThanOrEqualTo(view, isMargins: isMargins, offset: offset)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    @available(*, deprecated, message: "SwiftlyUI - Use topGreaterThanOrEqualTo instead.")
+    func top(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        return topGreaterThanOrEqualTo(anchor, offset: offset)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    @available(*, deprecated, message: "SwiftlyUI - Use topLessThanOrEqualTo instead.")
+    func top(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        return topLessThanOrEqualTo(view, isMargins: isMargins, offset: offset)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    @discardableResult
+    @available(*, deprecated, message: "SwiftlyUI - Use topLessThanOrEqualTo instead.")
+    func top(lessThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
+        return topLessThanOrEqualTo(anchor, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -1849,21 +2458,27 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 leftTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use leftTo() method instead.")
     @discardableResult
-    func leftLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                leftAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, constant: offset),
-                type: .left
-            )
-        }else {
-            leftLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.leftAnchor : view.leftAnchor, offset: offset)
-        }
-        return self
+    func left(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        leftTo(view, isMargins: isMargins, offset: offset)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 leftTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use leftTo() method instead.")
+    @discardableResult
+    func left(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        leftTo(anchor, offset: offset)
+    }
+    
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 leftLessThanOrEqualTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use leftLessThanOrEqualTo instead.")
+    @discardableResult
+    func left(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        leftLessThanOrEqualTo(anchor, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -1875,91 +2490,13 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func leftLessThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .left, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.left] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 leftLessThanOrEqualTo()方法代替
-    @available(*, deprecated, message: "SwiftlyUI - Use leftLessThanOrEqualTo instead.")
-    @discardableResult
-    func left(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        leftLessThanOrEqualTo(anchor, offset: offset)
-    }
-    
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func leadingTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.leading] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 leadingTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use leadingTo instead.")
     @discardableResult
     func leading(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         leadingTo(anchor, offset: offset)
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func leadingTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                leadingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
-                type: .leading
-            )
-        }else {
-            leading(to: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 leadingTo()方法代替
-    @discardableResult
-    func leading(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        leadingTo(view, isMargins: isMargins, offset: offset)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func leadingGreaterThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                leadingAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
-                type: .leading
-            )
-        }else {
-            leadingGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
-        }
-        return self
-    }
     /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 leadingGreaterThanOrEqualTo()方法代替
     @available(*, deprecated, message: "SwiftlyUI - Use leadingGreaterThanOrEqualTo instead.")
@@ -1969,43 +2506,11 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 leadingTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use leadingTo instead.")
     @discardableResult
-    func leadingGreaterThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.leading] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    /// 这是旧接口，请使用 leadingGreaterThanOrEqualTo()方法代替
-    @available(*, deprecated, message: "SwiftlyUI - Use leadingGreaterThanOrEqualTo instead.")
-    @discardableResult
-    func leading(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        leadingGreaterThanOrEqualTo(anchor, offset: offset)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func leadingLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                leadingAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, constant: offset),
-                type: .leading
-            )
-        }else {
-            leadingLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.leadingAnchor : view.leadingAnchor, offset: offset)
-        }
-        return self
+    func leading(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
+        leadingTo(view, isMargins: isMargins, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -2017,17 +2522,11 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
+    /// 这是旧接口，请使用 leadingGreaterThanOrEqualTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use leadingGreaterThanOrEqualTo instead.")
     @discardableResult
-    func leadingLessThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .leading, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.leading] = config
-        constraintHolder = holder
-        return self
+    func leading(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
+        leadingGreaterThanOrEqualTo(anchor, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -2038,135 +2537,20 @@ public extension UIView {
         leadingLessThanOrEqualTo(anchor, offset: offset)
     }
     
-}
-
-// MARK: - Layout Bottom
-public extension UIView {
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if let superview = superview {
-            addNewConstraint(
-                bottomAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.bottomAnchor : superview.bottomAnchor, constant: -offset),
-                type: .bottom
-            )
-        } else {
-            let config = ConstraintConfig(type: .bottom, targetType: .super, offset: offset, isMargins: isMargins)
-            var holder = constraintHolder
-            holder.pendingConstraints[.bottom] = config
-            constraintHolder = holder
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomLessThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if let superview = superview {
-            addNewConstraint(
-                bottomAnchor.constraint(lessThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.bottomAnchor : superview.bottomAnchor, constant: offset),
-                type: .bottom
-            )
-        } else {
-            let config = ConstraintConfig(type: .bottom, targetType: .super, offset: offset, relation: .lessThanOrEqual, isMargins: isMargins)
-            var holder = constraintHolder
-            holder.pendingConstraints[.bottom] = config
-            constraintHolder = holder
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomGreaterThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if let superview = superview {
-            addNewConstraint(
-                bottomAnchor.constraint(greaterThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.bottomAnchor : superview.bottomAnchor, constant: offset),
-                type: .bottom
-            )
-        } else {
-            let config = ConstraintConfig(type: .bottom, targetType: .super, offset: offset, relation: .greaterThanOrEqual, isMargins: isMargins)
-            var holder = constraintHolder
-            holder.pendingConstraints[.bottom] = config
-            constraintHolder = holder
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, YAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.bottom] = config
-        constraintHolder = holder
-        return self
-    }
-    
     /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 bottomTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use bottomTo instead.")
     @discardableResult
     func bottom(to anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         bottomTo(anchor, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                bottomAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: offset),
-                type: .bottom
-            )
-        }else {
-            bottom(to: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 bottomTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use bottomTo instead.")
     @discardableResult
     func bottom(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         bottomTo(view, isMargins: isMargins, offset: offset)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomGreaterThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                bottomAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: offset),
-                type: .bottom
-            )
-        }else {
-            bottomGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
-        }
-        return self
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -2178,43 +2562,11 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomGreaterThanOrEqualTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, relation: .greaterThanOrEqual, YAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.bottom] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 bottomGreaterThanOrEqualTo()方法代替
     @available(*, deprecated, message: "SwiftlyUI - Use bottomGreaterThanOrEqualTo instead.")
     @discardableResult
     func bottom(greaterThanOrEqualTo anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
         bottomGreaterThanOrEqualTo(anchor, offset: offset)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                bottomAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, constant: offset),
-                type: .bottom
-            )
-        }else {
-            bottomLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.bottomAnchor : view.bottomAnchor, offset: offset)
-        }
-        return self
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -2226,20 +2578,6 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func bottomLessThanOrEqualTo(_ anchor: NSLayoutYAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .bottom, targetType: .other, offset: offset, relation: .lessThanOrEqual, YAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.bottom] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 bottomLessThanOrEqualTo()方法代替
     @available(*, deprecated, message: "SwiftlyUI - Use bottomLessThanOrEqualTo instead.")
     @discardableResult
@@ -2247,244 +2585,36 @@ public extension UIView {
         bottomLessThanOrEqualTo(anchor, offset: offset)
     }
     
-}
-
-// MARK: - Layout Right & trailing
-public extension UIView {
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if let superview = superview {
-            addNewConstraint(
-                rightAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.rightAnchor : superview.rightAnchor, constant: -offset),
-                type: .right
-            )
-        } else {
-            let config = ConstraintConfig(type: .right, targetType: .super, offset: offset, isMargins: isMargins)
-            var holder = constraintHolder
-            holder.pendingConstraints[.right] = config
-            constraintHolder = holder
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if let superview = superview {
-            addNewConstraint(
-                trailingAnchor.constraint(equalTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: -offset),
-                type: .trailing
-            )
-        } else {
-            let config = ConstraintConfig(type: .trailing, targetType: .super, offset: offset, isMargins: isMargins)
-            var holder = constraintHolder
-            holder.pendingConstraints[.trailing] = config
-            constraintHolder = holder
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingLessThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if let superview = superview {
-            addNewConstraint(
-                trailingAnchor.constraint(lessThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: -offset),
-                type: .trailing
-            )
-        } else {
-            let config = ConstraintConfig(type: .trailing, targetType: .super, offset: offset, relation: .lessThanOrEqual, isMargins: isMargins)
-            var holder = constraintHolder
-            holder.pendingConstraints[.trailing] = config
-            constraintHolder = holder
-        }
-        return self
-    }
-
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightLessThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if let superview = superview {
-            addNewConstraint(
-                rightAnchor.constraint(lessThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.rightAnchor : superview.rightAnchor, constant: -offset),
-                type: .right
-            )
-        } else {
-            let config = ConstraintConfig(type: .right, targetType: .super, offset: offset, relation: .lessThanOrEqual, isMargins: isMargins)
-            var holder = constraintHolder
-            holder.pendingConstraints[.right] = config
-            constraintHolder = holder
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingGreaterThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if let superview = superview {
-            addNewConstraint(
-                trailingAnchor.constraint(greaterThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.trailingAnchor : superview.trailingAnchor, constant: -offset),
-                type: .trailing
-            )
-        } else {
-            let config = ConstraintConfig(type: .trailing, targetType: .super, offset: offset, relation: .greaterThanOrEqual, isMargins: isMargins)
-            var holder = constraintHolder
-            holder.pendingConstraints[.trailing] = config
-            constraintHolder = holder
-        }
-        return self
-    }
-
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightGreaterThanOrEqualToSuper(isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if let superview = superview {
-            addNewConstraint(
-                rightAnchor.constraint(greaterThanOrEqualTo: isMargins ? superview.layoutMarginsGuide.rightAnchor : superview.rightAnchor, constant: -offset),
-                type: .right
-            )
-        } else {
-            let config = ConstraintConfig(type: .right, targetType: .super, offset: offset, relation: .greaterThanOrEqual, isMargins: isMargins)
-            var holder = constraintHolder
-            holder.pendingConstraints[.right] = config
-            constraintHolder = holder
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.right] = config
-        constraintHolder = holder
-        return self
-    }
-    
     /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 rightTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use rightTo() instead.")
     @discardableResult
     func right(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         rightTo(anchor, offset: offset)
     }
     
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                rightAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
-                type: .right
-            )
-        }else {
-            right(to: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
-        }
-        return self
-    }
-    
     /// SwiftlyUI 设置右边约束
     /// 这是旧接口，请使用 rightTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use rightTo() instead.")
     @discardableResult
     func right(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         rightTo(view, isMargins: isMargins, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.trailing] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 trailingTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use trailingTo() instead.")
     @discardableResult
     func trailing(to anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         trailingTo(anchor, offset: offset)
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                trailingAnchor.constraint(equalTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
-                type: .trailing
-            )
-        }else {
-            trailing(to: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 trailingTo()方法代替
+    @available(*, deprecated, message: "SwiftlyUI - Use trailingTo() instead.")
     @discardableResult
     func trailing(to view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         trailingTo(view, isMargins: isMargins, offset: offset)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightGreaterThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                rightAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
-                type: .right
-            )
-        }else {
-            rightGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
-        }
-        return self
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -2496,44 +2626,11 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightGreaterThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.right] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 rightGreaterThanOrEqualTo()方法代替
     @available(*, deprecated, message: "SwiftlyUI - Use rightGreaterThanOrEqualTo instead.")
     @discardableResult
     func right(greaterThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         rightGreaterThanOrEqualTo(anchor, offset: offset)
-    }
-    
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                rightAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, constant: -offset),
-                type: .right
-            )
-        }else {
-            rightLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.rightAnchor : view.rightAnchor, offset: offset)
-        }
-        return self
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -2545,43 +2642,11 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func rightLessThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .right, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.right] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 rightLessThanOrEqualTo()方法代替
     @available(*, deprecated, message: "SwiftlyUI - Use rightLessThanOrEqualTo instead.")
     @discardableResult
     func right(lessThanOrEqualTo anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
         rightLessThanOrEqualTo(anchor, offset: offset)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingGreaterThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                trailingAnchor.constraint(greaterThanOrEqualTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
-                type: .trailing
-            )
-        }else {
-            trailingGreaterThanOrEqualTo(isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
-        }
-        return self
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -2593,20 +2658,6 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingGreaterThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, relation: .greaterThanOrEqual, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.trailing] = config
-        constraintHolder = holder
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 trailingGreaterThanOrEqualTo()方法代替
     @available(*, deprecated, message: "SwiftlyUI - Use trailingGreaterThanOrEqualTo instead.")
     @discardableResult
@@ -2615,43 +2666,11 @@ public extension UIView {
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingLessThanOrEqualTo(_ view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        if view == superview {
-            addNewConstraint(
-                trailingAnchor.constraint(lessThanOrEqualTo: isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, constant: -offset),
-                type: .trailing
-            )
-        }else {
-            trailingLessThanOrEqualTo(isMargins ? view.layoutMarginsGuide.trailingAnchor : view.trailingAnchor, offset: offset)
-        }
-        return self
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
     /// 这是旧接口，请使用 trailingLessThanOrEqualTo()方法代替
     @available(*, deprecated, message: "SwiftlyUI - Use trailingLessThanOrEqualTo instead.")
     @discardableResult
     func trailing(lessThanOrEqualTo view: UIView,isMargins: Bool = false, offset: CGFloat = 0) -> Self {
         trailingLessThanOrEqualTo(view, isMargins: isMargins, offset: offset)
-    }
-    
-    /// SwiftlyUI extension for `UIView`. Set Layout
-    @discardableResult
-    func trailingLessThanOrEqualTo(_ anchor: NSLayoutXAxisAnchor, offset: CGFloat = 0) -> Self {
-        if !constraintTypes.isEmpty {
-            assertionFailure("SwiftlyUI - Please use .equal() method to set constraints.")
-            return self
-        }
-        let config = ConstraintConfig(type: .trailing, targetType: .other, offset: offset, relation: .lessThanOrEqual, XAxisAnchor: anchor)
-        var holder = constraintHolder
-        holder.pendingConstraints[.trailing] = config
-        constraintHolder = holder
-        return self
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -2887,6 +2906,14 @@ extension UIView {
         }
     }
     
+    func addAndActiveConstraint(_ constraint: NSLayoutConstraint, type: ConstraintType) {
+        translatesAutoresizingMaskIntoConstraints = false
+        removeConstraint(type: type)
+        NSLayoutConstraint.activate([constraint])
+        var holder = constraintHolder
+        holder.constraints[type] = constraint
+        constraintHolder = holder
+    }
     
     func addNewConstraint(_ constraint: NSLayoutConstraint, type: ConstraintType) {
         translatesAutoresizingMaskIntoConstraints = false
@@ -3270,9 +3297,6 @@ extension UIView {
     
     @objc private func swizzled_didAddSubview(_ view: UIView) {
         swizzled_didAddSubview(view)
-        subviews.forEach { subview in
-            subview.interiorActivateAllConstraints()
-        }
     }
     
     @objc private func swizzled_didMoveToSuperview() {
@@ -3284,9 +3308,6 @@ extension UIView {
     
     @objc func swizzled_viewLayoutSubviews() {
         swizzled_viewLayoutSubviews()
-        if canActiveLayout {
-            interiorActivateAllConstraints()
-        }
         if let cornerInfo = cornerInfo, bounds != .zero {
             roundCorners(cornerInfo.radius, corners: cornerInfo.corners)
             self.cornerInfo = nil
@@ -3309,21 +3330,21 @@ extension UIView {
         if maxValue != nil { removeConstraint(type: types.max) }
         
         if let value = value {
-            addNewConstraint(
+            addAndActiveConstraint(
                 dimension.constraint(equalToConstant: value),
                 type: types.equal
             )
         }
         
         if let minValue = minValue {
-            addNewConstraint(
+            addAndActiveConstraint(
                 dimension.constraint(greaterThanOrEqualToConstant: minValue),
                 type: types.min
             )
         }
         
         if let maxValue = maxValue {
-            addNewConstraint(
+            addAndActiveConstraint(
                 dimension.constraint(lessThanOrEqualToConstant: maxValue),
                 type: types.max
             )
