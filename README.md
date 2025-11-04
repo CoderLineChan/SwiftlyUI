@@ -243,6 +243,10 @@ let view = UIView()
     .width(to: view, multiplier: 1.2)
 
 superView.addSubview(view)
+
+//需要注意：已经添加父控件后再布局的操作需要额外激活约束
+view.leftToSuper()
+view.activeConstraints()//激活约束
 ```
 
 ### UIControl & UIButton Multi-state Enhancement
