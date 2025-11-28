@@ -477,6 +477,11 @@ public extension UITextField {
             action()
         }
     }
+    /// SwiftlyUI extension for `UITextField`.
+    /// 触发通知
+    func sendNotifications(for notificationName: NSNotification.Name) {
+        NotificationCenter.default.post(name: notificationName, object: self)
+    }
 }
 
 // MARK: - private
@@ -535,7 +540,7 @@ fileprivate extension UITextField {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.isUserInteractionEnabled = false
         addSubview(label)
-        label.fillSuperMargins(edge: paddingInsets)
+        label.fillToSuperMargins(edge: paddingInsets)
         placeholderLabel = label
         textChangeObserver()
         updatePlaceholderVisibility()

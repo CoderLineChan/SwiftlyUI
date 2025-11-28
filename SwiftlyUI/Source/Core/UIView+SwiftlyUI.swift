@@ -4337,11 +4337,20 @@ public extension UIView {
     func removeConstraint(_ constraintType: ConstraintType) {
         if let constraint = constraintHolder.constraints[constraintType] {
             constraint.isActive = false
+            NSLayoutConstraint.deactivate([constraint])
             constraintHolder.constraints.removeValue(forKey: constraintType)
         }
         if constraintHolder.pendingConstraints[constraintType] != nil {
             constraintHolder.pendingConstraints.removeValue(forKey: constraintType)
         }
+    }
+    /// SwiftlyUI extension for `UIView`. Set Layout
+    /// remove All constraints
+    func removeAllConstraints() {
+        let constraints = constraintHolder.constraints.map({ $0.value })
+        NSLayoutConstraint.deactivate(constraints)
+        constraintHolder.constraints.removeAll()
+        constraintHolder.pendingConstraints.removeAll()
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
