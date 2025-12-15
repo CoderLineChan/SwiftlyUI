@@ -1666,6 +1666,12 @@ public extension UIView {
                 maxValue: maxHeight,
                 dimension: heightAnchor,
                 types: (.height, .minHeight, .maxHeight))
+            if let width {
+                self.width = width
+            }
+            if let height {
+                self.height = height
+            }
             return self
         }
     
@@ -1714,6 +1720,7 @@ public extension UIView {
             maxValue: nil,
             dimension: heightAnchor,
             types: (.height, .minHeight, .maxHeight))
+        self.size = size
         return self
     }
     
@@ -1810,6 +1817,7 @@ public extension UIView {
             widthAnchor.constraint(equalToConstant: value),
             type: .width
         )
+        self.width = value
         return self
     }
     
@@ -2042,6 +2050,7 @@ public extension UIView {
             heightAnchor.constraint(equalToConstant: value),
             type: .height
         )
+        self.height = height
         return self
     }
     
