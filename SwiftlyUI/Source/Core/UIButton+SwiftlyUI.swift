@@ -54,7 +54,7 @@ public extension UIButton {
     
     /// SwiftlyUI extension for `UIButton`.
     @discardableResult
-    func backgroundImage(_ color: UIColor?, state: UIControl.State = .normal) -> Self {
+    func backgroundImage(color: UIColor?, state: UIControl.State = .normal) -> Self {
         self.setBackgroundImage(color?.image(), for: state)
         return self
     }
