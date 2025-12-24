@@ -84,7 +84,7 @@ let zView = ZStackView {// == UIView
     UIView()
         .frame(width: 300, height: 200)
         .backgroundColor(.red.opacity(0.5))
-        .fillSuperMargins()
+        .fillToSuperMargins()
     
     VStackView(spacing: 10) {
         HStackView(spacing: 10) {
@@ -117,7 +117,7 @@ let zView = ZStackView {// == UIView
 }
     .backgroundColor(.blue.opacity(0.5))
     .padding(10)
-    .center(to: view)
+    .centerTo(view)
 
 view.addSubview(zView)
 ```
@@ -183,7 +183,7 @@ let view = UIView()
             .centerToSuper()
         //... 可以添加任意UIView
     }
-    .addSubViews {//添加子试图方式
+    .addContents {//添加子试图方式
         UIView()//可以是分割线
             .backgroundColor(.lightGray)
             .height(0.5)
@@ -233,12 +233,12 @@ let view = UIView()
     .frame(height: 100)//the same as .height()
     .frame(minWidth: 50)
     .frame(maxWidth: 200)
-    .left(to: superView.leftAnchor, offset: 30)//添加父控件前
-    .top(to: superView, offset: 30)//Before adding superView
-    .fill(to: superView)
-    .fill(to: brother, UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
-    .leading(to: superView)//Before adding superView
-    .bottom(to: superView)//添加父控件前
+    .leftTo(superView.leftAnchor, offset: 30)//添加父控件前
+    .topTo(superView, offset: 30)//Before adding superView
+    .fillTo(superView)
+    .fillTo(brother, UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+    .leadingTo(superView)//Before adding superView
+    .bottomTo(superView)//添加父控件前
     .width(20)//the same as .frame(width: 20)
     .width(to: view, multiplier: 1.2)
 
