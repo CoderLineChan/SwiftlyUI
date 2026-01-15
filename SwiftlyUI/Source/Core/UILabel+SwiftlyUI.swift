@@ -42,6 +42,15 @@ public extension UILabel {
     }
     
     /// SwiftlyUI extension for `UILabel`.
+    @available(iOS 15, *)
+    convenience init(_ attributedString: AttributedString?) {
+        self.init()
+        if let attributedString {
+            self.attributedText = NSAttributedString(attributedString)
+        }
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
     @discardableResult
     func font(_ font: UIFont) -> Self {
         self.font = font
@@ -78,7 +87,7 @@ public extension UILabel {
     
     /// SwiftlyUI extension for `UILabel`.
     @discardableResult
-    func attributedText(_ text: NSAttributedString) -> Self {
+    func attributedText(_ text: NSAttributedString?) -> Self {
         self.attributedText = text
         return self
     }
@@ -86,8 +95,12 @@ public extension UILabel {
     /// SwiftlyUI extension for `UILabel`.
     @available(iOS 15, *)
     @discardableResult
-    func attributedString(_ string: AttributedString) -> Self {
-        self.attributedText = NSAttributedString(string)
+    func attributedString(_ string: AttributedString?) -> Self {
+        if let string = string {
+            self.attributedText = NSAttributedString(string)
+        }else {
+            self.attributedText = nil
+        }
         return self
     }
     
