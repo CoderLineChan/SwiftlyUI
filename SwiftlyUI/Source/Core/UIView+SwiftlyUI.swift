@@ -560,6 +560,27 @@ public extension UIView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIView`.
+    @discardableResult
+    func insetsLayoutMarginsFromSafeArea(_ isSafeArea: Bool) -> Self {
+        self.insetsLayoutMarginsFromSafeArea = isSafeArea
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`.
+    @discardableResult
+    func preservesSuperviewLayoutMargins(_ isMargins: Bool) -> Self {
+        self.preservesSuperviewLayoutMargins = isMargins
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIView`.
+    @discardableResult
+    func directionalLayoutMargins(_ insets: NSDirectionalEdgeInsets) -> Self {
+        self.directionalLayoutMargins = insets
+        return self
+    }
+    
 #if compiler(>=5.7)
     /// SwiftlyUI extension for `UIView`.
     @available(iOS 16.0, *)
