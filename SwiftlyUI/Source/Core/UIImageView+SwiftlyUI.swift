@@ -115,6 +115,27 @@ public extension UIImageView {
         return self
     }
     
+    /// SwiftlyUI extension for `UIImageView`.
+    @discardableResult
+    func animating(_ animating: Bool) -> Self {
+        if animating {
+            startAnimating()
+        } else {
+            stopAnimating()
+        }
+        return self
+    }
+    
+#if compiler(>=5.3)
+    /// SwiftlyUI extension for `UIImageView`.
+    @available(iOS 11.0, tvOS 11.0, *)
+    @discardableResult
+    func adjustsImageSizeForAccessibilityContentSizeCategory(_ adjusts: Bool) -> Self {
+        self.adjustsImageSizeForAccessibilityContentSizeCategory = adjusts
+        return self
+    }
+#endif
+    
 #if swift(>=5.9)
     /// SwiftlyUI extension for `UIImageView`.
     @available(iOS 17.0, tvOS 17.0, *)

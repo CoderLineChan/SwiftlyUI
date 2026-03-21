@@ -51,6 +51,14 @@ public extension UISwitch {
         self.isOn = on
         return self
     }
+    
+    /// SwiftlyUI extension for `UISwitch`.
+    @discardableResult
+    func on(_ on: Bool, animated: Bool = false) -> Self {
+        self.setOn(on, animated: animated)
+        return self
+    }
+    
    
 }
 

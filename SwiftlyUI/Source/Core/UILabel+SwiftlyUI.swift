@@ -127,6 +127,69 @@ public extension UILabel {
     
     /// SwiftlyUI extension for `UILabel`.
     @discardableResult
+    func lineBreakMode(_ mode: NSLineBreakMode) -> Self {
+        self.lineBreakMode = mode
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func highlightedTextColor(_ color: UIColor?) -> Self {
+        self.highlightedTextColor = color
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func shadowColor(_ color: UIColor?) -> Self {
+        self.shadowColor = color
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func shadowOffset(_ offset: CGSize) -> Self {
+        self.shadowOffset = offset
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func baselineAdjustment(_ adjustment: UIBaselineAdjustment) -> Self {
+        self.baselineAdjustment = adjustment
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func preferredMaxLayoutWidth(_ width: CGFloat) -> Self {
+        self.preferredMaxLayoutWidth = width
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func allowsDefaultTighteningForTruncation(_ allows: Bool) -> Self {
+        self.allowsDefaultTighteningForTruncation = allows
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func enabled(_ enabled: Bool) -> Self {
+        self.isEnabled = enabled
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func highlighted(_ highlighted: Bool) -> Self {
+        self.isHighlighted = highlighted
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
     func sizeToFitWidth() -> Self {
         self.adjustsFontSizeToFitWidth = true
         return self
@@ -144,6 +207,40 @@ public extension UILabel {
         self.minimumScaleFactor = factor
         return self
     }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func adjustsFontForContentSizeCategory(_ adjusts: Bool) -> Self {
+        self.adjustsFontForContentSizeCategory = adjusts
+        return self
+    }
+    
+#if compiler(>=5.0)
+    /// SwiftlyUI extension for `UILabel`.
+    @available(iOS 14.0, *)
+    @discardableResult
+    func lineBreakStrategy(_ strategy: NSParagraphStyle.LineBreakStrategy) -> Self {
+        self.lineBreakStrategy = strategy
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UILabel`.
+    @available(iOS 14.0, *)
+    @discardableResult
+    func showsExpansionTextWhenTruncated(_ shows: Bool) -> Self {
+        self.showsExpansionTextWhenTruncated = shows
+        return self
+    }
+#endif
+    
+#if os(tvOS)
+    /// SwiftlyUI extension for `UILabel`.
+    @discardableResult
+    func enablesMarqueeWhenAncestorFocused(_ enabled: Bool) -> Self {
+        self.enablesMarqueeWhenAncestorFocused = enabled
+        return self
+    }
+#endif
     
     /// SwiftlyUI extension for `UILabel`.
     @discardableResult

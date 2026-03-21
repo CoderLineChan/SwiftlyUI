@@ -211,6 +211,21 @@ public extension UIScrollView {
         self.refreshControl = control
         return self
     }
+    
+    /// SwiftlyUI extension for `UIScrollView`.
+    @discardableResult
+    func contentOffset(_ offset: CGPoint, animated: Bool) -> Self {
+        setContentOffset(offset, animated: animated)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIScrollView`.
+    @discardableResult
+    func zoomScale(_ scale: CGFloat, animated: Bool) -> Self {
+        setZoomScale(scale, animated: animated)
+        return self
+    }
+    
 #if compiler(>=5.9)
     /// SwiftlyUI extension for `UIScrollView`.
     @available(iOS 17.4, *)

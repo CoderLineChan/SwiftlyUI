@@ -57,6 +57,34 @@ public extension UIStepper {
         self.wraps = wraps
         return self
     }
+    
+    /// SwiftlyUI extension for `UIStepper`.
+    @discardableResult
+    func backgroundImage(_ image: UIImage?, state: UIControl.State = .normal) -> Self {
+        self.setBackgroundImage(image, for: state)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIStepper`.
+    @discardableResult
+    func dividerImage(_ image: UIImage?, leftSegmentState: UIControl.State, rightSegmentState: UIControl.State) -> Self {
+        self.setDividerImage(image, forLeftSegmentState: leftSegmentState, rightSegmentState: rightSegmentState)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIStepper`.
+    @discardableResult
+    func incrementImage(_ image: UIImage?, state: UIControl.State = .normal) -> Self {
+        self.setIncrementImage(image, for: state)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIStepper`.
+    @discardableResult
+    func decrementImage(_ image: UIImage?, state: UIControl.State = .normal) -> Self {
+        self.setDecrementImage(image, for: state)
+        return self
+    }
 }
 
 #endif

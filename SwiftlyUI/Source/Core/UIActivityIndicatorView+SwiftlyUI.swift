@@ -42,6 +42,7 @@ public extension UIActivityIndicatorView {
         self.hidesWhenStopped = hides
         return self
     }
+    
 }
 
 

@@ -106,6 +106,35 @@ public extension UIPageControl {
         return self
     }
 #endif
+    
+    /// SwiftlyUI extension for `UIPageControl`.
+    @discardableResult
+    func currentPage(_ page: Int, animated: Bool) -> Self {
+        self.currentPage = page
+        if animated {
+            self.updateCurrentPageDisplay()
+        }
+        return self
+    }
+    
+#if compiler(>=5.3)
+    /// SwiftlyUI extension for `UIPageControl`.
+    @available(iOS 14.0, *)
+    @discardableResult
+    func indicatorImage(_ image: UIImage?, forPage page: Int) -> Self {
+        self.setIndicatorImage(image, forPage: page)
+        return self
+    }
+#endif
+#if compiler(>=5.7)
+    /// SwiftlyUI extension for `UIPageControl`.
+    @available(iOS 16.0, *)
+    @discardableResult
+    func currentPageIndicatorImage(_ image: UIImage?, forPage page: Int) -> Self {
+        self.setCurrentPageIndicatorImage(image, forPage: page)
+        return self
+    }
+#endif
 }
 
 

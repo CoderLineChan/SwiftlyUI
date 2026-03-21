@@ -16,6 +16,17 @@ public extension UIRefreshControl {
         self.attributedTitle = title
         return self
     }
+    
+    /// SwiftlyUI extension for `UIRefreshControl`.
+    @discardableResult
+    func refreshing(_ refreshing: Bool) -> Self {
+        if refreshing {
+            beginRefreshing()
+        } else {
+            endRefreshing()
+        }
+        return self
+    }
 }
 
 

@@ -79,6 +79,13 @@ public extension UIDatePicker {
         self.preferredDatePickerStyle = style
         return self
     }
+    
+    /// SwiftlyUI extension for `UIDatePicker`.
+    @discardableResult
+    func date(_ date: Date, animated: Bool) -> Self {
+        self.setDate(date, animated: animated)
+        return self
+    }
 #if compiler(>=5.5)
     /// SwiftlyUI extension for `UIDatePicker`.
     @available(iOS 15.0, *)

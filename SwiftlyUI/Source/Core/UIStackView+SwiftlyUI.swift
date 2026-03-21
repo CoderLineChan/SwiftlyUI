@@ -184,6 +184,14 @@ public extension UIStackView {
         content().forEach { addArrangedSubview($0) }
         return self
     }
+    
+    /// SwiftlyUI extension for `UIStackView`.
+    @discardableResult
+    func customSpacing(_ spacing: CGFloat, after arrangedSubview: UIView) -> Self {
+        setCustomSpacing(spacing, after: arrangedSubview)
+        return self
+    }
+    
 }
 
 // MARK: - separator

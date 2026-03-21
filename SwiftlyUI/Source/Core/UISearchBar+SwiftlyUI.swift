@@ -170,6 +170,104 @@ public extension UISearchBar {
         return self
     }
     
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func keyboardType(_ type: UIKeyboardType) -> Self {
+        self.keyboardType = type
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func keyboardAppearance(_ appearance: UIKeyboardAppearance) -> Self {
+        self.keyboardAppearance = appearance
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func returnKeyType(_ type: UIReturnKeyType) -> Self {
+        self.returnKeyType = type
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func enablesReturnKeyAutomatically(_ enables: Bool) -> Self {
+        self.enablesReturnKeyAutomatically = enables
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func autocapitalizationType(_ type: UITextAutocapitalizationType) -> Self {
+        self.autocapitalizationType = type
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func autocorrectionType(_ type: UITextAutocorrectionType) -> Self {
+        self.autocorrectionType = type
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func spellCheckingType(_ type: UITextSpellCheckingType) -> Self {
+        self.spellCheckingType = type
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func smartQuotesType(_ type: UITextSmartQuotesType) -> Self {
+        self.smartQuotesType = type
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func smartDashesType(_ type: UITextSmartDashesType) -> Self {
+        self.smartDashesType = type
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func smartInsertDeleteType(_ type: UITextSmartInsertDeleteType) -> Self {
+        self.smartInsertDeleteType = type
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func textContentType(_ type: UITextContentType?) -> Self {
+        self.searchTextField.textContentType = type
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func image(_ image: UIImage?, for icon: UISearchBar.Icon, state: UIControl.State = .normal) -> Self {
+        self.setImage(image, for: icon, state: state)
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func positionAdjustment(_ adjustment: UIOffset, for icon: UISearchBar.Icon) -> Self {
+        self.setPositionAdjustment(adjustment, for: icon)
+        return self
+    }
+    
+    /// SwiftlyUI - extension for `UISearchBar`.
+    @discardableResult
+    func scopeBarButtonTitleTextAttributes(_ attributes: [NSAttributedString.Key: Any]?, for state: UIControl.State) -> Self {
+        self.setScopeBarButtonTitleTextAttributes(attributes, for: state)
+        return self
+    }
+    
 #if compiler(>=5.7)
     /// SwiftlyUI - extension for `UISearchBar`.
     @available(iOS 16.4, *)

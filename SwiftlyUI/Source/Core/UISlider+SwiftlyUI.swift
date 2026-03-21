@@ -73,6 +73,34 @@ public extension UISlider {
         return self
     }
     
+    /// SwiftlyUI extension for `UISlider`.
+    @discardableResult
+    func value(_ value: Float, animated: Bool) -> Self {
+        self.setValue(value, animated: animated)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UISlider`.
+    @discardableResult
+    func thumbImage(_ image: UIImage?, state: UIControl.State = .normal) -> Self {
+        self.setThumbImage(image, for: state)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UISlider`.
+    @discardableResult
+    func minimumTrackImage(_ image: UIImage?, state: UIControl.State = .normal) -> Self {
+        self.setMinimumTrackImage(image, for: state)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UISlider`.
+    @discardableResult
+    func maximumTrackImage(_ image: UIImage?, state: UIControl.State = .normal) -> Self {
+        self.setMaximumTrackImage(image, for: state)
+        return self
+    }
+    
 }
 
 

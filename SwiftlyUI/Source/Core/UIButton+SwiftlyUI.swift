@@ -86,6 +86,62 @@ public extension UIButton {
         self.setTitleColor(color, for: state)
         return self
     }
+    
+    /// SwiftlyUI extension for `UIButton`.
+    @discardableResult
+    func attributedTitle(_ title: NSAttributedString?, state: UIControl.State = .normal) -> Self {
+        self.setAttributedTitle(title, for: state)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIButton`.
+    @discardableResult
+    func contentEdgeInsets(_ insets: UIEdgeInsets) -> Self {
+        self.contentEdgeInsets = insets
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIButton`.
+    @discardableResult
+    func titleEdgeInsets(_ insets: UIEdgeInsets) -> Self {
+        self.titleEdgeInsets = insets
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIButton`.
+    @discardableResult
+    func imageEdgeInsets(_ insets: UIEdgeInsets) -> Self {
+        self.imageEdgeInsets = insets
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIButton`.
+    @discardableResult
+    func reversesTitleShadowWhenHighlighted(_ reverses: Bool) -> Self {
+        self.reversesTitleShadowWhenHighlighted = reverses
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIButton`.
+    @discardableResult
+    func adjustsImageWhenHighlighted(_ adjusts: Bool) -> Self {
+        self.adjustsImageWhenHighlighted = adjusts
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIButton`.
+    @discardableResult
+    func adjustsImageWhenDisabled(_ adjusts: Bool) -> Self {
+        self.adjustsImageWhenDisabled = adjusts
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIButton`.
+    @discardableResult
+    func showsTouchWhenHighlighted(_ shows: Bool) -> Self {
+        self.showsTouchWhenHighlighted = shows
+        return self
+    }
 }
 
 

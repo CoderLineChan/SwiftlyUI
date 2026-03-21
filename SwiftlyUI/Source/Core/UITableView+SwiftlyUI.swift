@@ -332,6 +332,48 @@ public extension UITableView {
         self.remembersLastFocusedIndexPath = remembers
         return self
     }
+    
+    /// SwiftlyUI extension for `UITableView`.
+    @discardableResult
+    func selectRow(_ indexPath: IndexPath?, animated: Bool = false, scrollPosition: UITableView.ScrollPosition = .none) -> Self {
+        selectRow(at: indexPath, animated: animated, scrollPosition: scrollPosition)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITableView`.
+    @discardableResult
+    func deselectRow(_ indexPath: IndexPath, animated: Bool = false) -> Self {
+        deselectRow(at: indexPath, animated: animated)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITableView`.
+    @discardableResult
+    func scrollToRow(_ indexPath: IndexPath, at scrollPosition: UITableView.ScrollPosition, animated: Bool = false) -> Self {
+        scrollToRow(at: indexPath, at: scrollPosition, animated: animated)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITableView`.
+    @discardableResult
+    func reloadRows(_ indexPaths: [IndexPath], with animation: UITableView.RowAnimation) -> Self {
+        reloadRows(at: indexPaths, with: animation)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITableView`.
+    @discardableResult
+    func editing(_ isEditing: Bool, animated: Bool) -> Self {
+        setEditing(isEditing, animated: animated)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UITableView`.
+    @discardableResult
+    func dragInteractionEnabled(_ enabled: Bool) -> Self {
+        self.dragInteractionEnabled = enabled
+        return self
+    }
 #if compiler(>=5.3)
     /// SwiftlyUI  extension for `UITableView`.
     @available(iOS 14.0, *)

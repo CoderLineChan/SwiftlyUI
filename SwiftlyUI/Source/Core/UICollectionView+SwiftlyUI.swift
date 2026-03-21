@@ -246,7 +246,47 @@ public extension UICollectionView {
         return self
     }
     
+    /// SwiftlyUI extension for `UICollectionView`.
+    @discardableResult
+    func selectItem(_ indexPath: IndexPath?, animated: Bool = false, scrollPosition: UICollectionView.ScrollPosition = []) -> Self {
+        selectItem(at: indexPath, animated: animated, scrollPosition: scrollPosition)
+        return self
+    }
     
+    /// SwiftlyUI extension for `UICollectionView`.
+    @discardableResult
+    func deselectItem(_ indexPath: IndexPath, animated: Bool = false) -> Self {
+        deselectItem(at: indexPath, animated: animated)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UICollectionView`.
+    @discardableResult
+    func scrollToItem(_ indexPath: IndexPath, at scrollPosition: UICollectionView.ScrollPosition, animated: Bool = false) -> Self {
+        scrollToItem(at: indexPath, at: scrollPosition, animated: animated)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UICollectionView`.
+    @discardableResult
+    func insertItems(_ indexPaths: [IndexPath]) -> Self {
+        insertItems(at: indexPaths)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UICollectionView`.
+    @discardableResult
+    func deleteItems(_ indexPaths: [IndexPath]) -> Self {
+        deleteItems(at: indexPaths)
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UICollectionView`.
+    @discardableResult
+    func reloadItems(_ indexPaths: [IndexPath]) -> Self {
+        reloadItems(at: indexPaths)
+        return self
+    }
     
 }
 
