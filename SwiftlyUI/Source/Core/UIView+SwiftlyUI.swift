@@ -4364,7 +4364,8 @@ public extension UIView {
     
     /// SwiftlyUI extension for `UIView`. Set Layout
     /// removes the constraint for the specified type
-    func removeConstraint(_ constraintType: ConstraintType) {
+    @discardableResult
+    func removeConstraint(_ constraintType: ConstraintType) -> Self {
         if let constraint = constraintHolder.constraints[constraintType] {
             constraint.isActive = false
             NSLayoutConstraint.deactivate([constraint])
@@ -4373,14 +4374,17 @@ public extension UIView {
         if constraintHolder.pendingConstraints[constraintType] != nil {
             constraintHolder.pendingConstraints.removeValue(forKey: constraintType)
         }
+        return self
     }
     /// SwiftlyUI extension for `UIView`. Set Layout
     /// remove All constraints
-    func removeAllConstraints() {
+    @discardableResult
+    func removeAllConstraints() -> Self {
         let constraints = constraintHolder.constraints.map({ $0.value })
         NSLayoutConstraint.deactivate(constraints)
         constraintHolder.constraints.removeAll()
         constraintHolder.pendingConstraints.removeAll()
+        return self
     }
     
     /// SwiftlyUI extension for `UIView`. Set Layout
@@ -5164,6 +5168,23 @@ public extension UIView {
         handleGestureDependencies(for: type, gesture: handler.gesture)
         return self
     }
+
+    /// SwiftlyUI extension for `UIView`. Gesture
+    /// 通过指定状态过滤回调，例如长按只在 `.began` 时触发一次。
+    @discardableResult
+    func onGesture(_ type: GestureType, when state: UIGestureRecognizer.State, action: @escaping (UIGestureRecognizer) -> Void) -> Self {
+        return onGesture(type, when: [state], action: action)
+    }
+
+    /// SwiftlyUI extension for `UIView`. Gesture
+    /// 通过多个状态过滤回调。
+    @discardableResult
+    func onGesture(_ type: GestureType, when states: Set<UIGestureRecognizer.State>, action: @escaping (UIGestureRecognizer) -> Void) -> Self {
+        return onGesture(type) { gesture in
+            guard states.contains(gesture.state) else { return }
+            action(gesture)
+        }
+    }
     
     
     /// SwiftlyUI extension for `UIView`. Gesture
@@ -5172,6 +5193,22 @@ public extension UIView {
     @discardableResult
     func onGesture(_ type: GestureType, action: @escaping () -> Void) -> Self {
         return onGesture(type) { _ in
+            action()
+        }
+    }
+
+    /// SwiftlyUI extension for `UIView`. Gesture
+    /// 通过指定状态过滤无参回调。
+    @discardableResult
+    func onGesture(_ type: GestureType, when state: UIGestureRecognizer.State, action: @escaping () -> Void) -> Self {
+        return onGesture(type, when: [state], action: action)
+    }
+
+    /// SwiftlyUI extension for `UIView`. Gesture
+    /// 通过多个状态过滤无参回调。
+    @discardableResult
+    func onGesture(_ type: GestureType, when states: Set<UIGestureRecognizer.State>, action: @escaping () -> Void) -> Self {
+        return onGesture(type, when: states) { _ in
             action()
         }
     }
@@ -5431,7 +5468,7 @@ private extension UIView {
             return gesture
         }
     }
-    
+
     private func handleGestureDependencies(for type: GestureType, gesture: UIGestureRecognizer) {
         switch type {
         case .doubleTap:
