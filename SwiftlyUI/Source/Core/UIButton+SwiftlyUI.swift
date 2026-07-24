@@ -26,6 +26,13 @@ public extension UIButton {
     
     /// SwiftlyUI extension for `UIButton`.
     @discardableResult
+    func lineBreakMode(_ mode: NSLineBreakMode) -> Self {
+        self.titleLabel?.lineBreakMode = mode
+        return self
+    }
+    
+    /// SwiftlyUI extension for `UIButton`.
+    @discardableResult
     func imageName(_ imageName: String, state: UIControl.State = .normal) -> Self {
         self.setImage(UIImage(named: imageName), for: state)
         return self
